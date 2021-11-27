@@ -2,7 +2,6 @@ import Schema from '@Constants/Schema';
 import mongoose from 'mongoose'
 
 const AttributeTypes = {
-    _id: mongoose.Schema.Types.ObjectId,
     name: String
 }
 

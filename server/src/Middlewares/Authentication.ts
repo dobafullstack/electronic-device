@@ -33,13 +33,13 @@ export default (req: Request, res: Response, next: NextFunction) => {
         return next();
     } catch (error: any) {
         Logger.error(error);
-        return {
-            code: 500,
+        res.status(401).json({
+            code: 401,
             result: null,
             error: {
-                message: error.message
-            }
-        }
+                message: error.message,
+            },
+        });
     }
 
     

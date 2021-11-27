@@ -29,4 +29,7 @@ export default {
     BILL: {
         BASE_URL: '/bill',
     },
+    ATTRIBUTE: {
+        BASE_URL: "/attribute"
+    }
 };
