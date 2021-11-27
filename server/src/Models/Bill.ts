@@ -32,26 +32,15 @@ const BillSchema = new mongoose.Schema(
             ],
             default: [],
         },
+        total: {
+            type: Number,
+            default: 0
+        },
         createdAt: Date,
         updatedAt: Date
     },
     { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } }
 );
-
-// BillSchema.pre('save', function(next){
-//     let total = 0;
-//     try {
-//         this.products.forEach((product) => {
-//             total += product.productId.price;
-//         });
-
-//         this.total = total;
-//         next();
-//     } catch (error: any) {
-//         Logger.error(error);
-//         next();
-//     }
-// })
 
 const Bill = mongoose.model<BilLDocument>(Schema.BILL, BillSchema);
 

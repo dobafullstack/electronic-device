@@ -4,6 +4,7 @@ import DeliveryType from '@Types/DeliveryType';
 import PaymentType from '@Types/PaymentType';
 import ProductSchemaType from '@Types/ProductSchemaType';
 import mongoose from 'mongoose';
+import Product from './Product';
 
 export interface OrderDocument extends mongoose.Document {
     _id: mongoose.Schema.Types.ObjectId;
@@ -32,7 +33,7 @@ const OrderSchema = new mongoose.Schema(
                         ref: Schema.PRODUCT,
                         required: true,
                     },
-                    count: Number
+                    count: Number,
                 },
             ],
             default: [],
@@ -53,6 +54,7 @@ const OrderSchema = new mongoose.Schema(
             status: {
                 type: String,
                 required: true,
+                default: 'pending',
             },
             method: {
                 type: String,
@@ -73,27 +75,15 @@ const OrderSchema = new mongoose.Schema(
             type: String,
             default: '',
         },
-        total: Number,
+        total: {
+            type: Number,
+            default: 0,
+        },
         createdAt: Date,
         updatedAt: Date,
     },
     { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } }
 );
-
-// OrderSchema.pre('save', function (next) {
-//     let total = 0;
-//     try {
-//         this.products.forEach((product) => {
-//             total += product.productId.price;
-//         });
-
-//         this.total = total;
-//         next();
-//     } catch (error: any) {
-//         Logger.error(error);
-//         next();
-//     }
-// });
 
 const Order = mongoose.model<OrderDocument>(Schema.ORDER, OrderSchema);
 

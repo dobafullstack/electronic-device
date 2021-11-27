@@ -41,4 +41,18 @@ export default {
         UPDATE: 'Update product type',
         DELETE: 'Delete product type',
     },
+    ORDER: {
+        CREATE: 'Create order',
+        GET_LIST: 'Get list orders',
+        GET_DETAIL: 'Get detail order',
+        UPDATE: 'Update order',
+        DELETE: 'Delete order',
+    },
+    BILL: {
+        CREATE: 'Create bill',
+        GET_LIST: 'Get list bills',
+        GET_DETAIL: 'Get detail bill',
+        UPDATE: 'Update bill',
+        DELETE: 'Delete bill',
+    },
 };
