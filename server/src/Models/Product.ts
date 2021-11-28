@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 export interface ProductDocument extends mongoose.Document {
     _id: mongoose.Schema.Types.ObjectId;
     category_detail_id: string;
-    product_type_id: string;
     name: string;
     price: number;
     images: Array<string>;
@@ -16,10 +15,6 @@ export interface ProductDocument extends mongoose.Document {
 const ProductSchema = new mongoose.Schema(
     {
         category_detail_id: {
-            type: String,
-            required: true,
-        },
-        product_type_id: {
             type: String,
             required: true,
         },

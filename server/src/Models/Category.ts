@@ -5,6 +5,7 @@ import _ from 'lodash';
 export interface CategoryDocument extends mongoose.Document {
     _id: mongoose.Schema.Types.ObjectId;
     name: string;
+    product_type_id: string;
     childCate: CategoryDocument[];
     createdAt: Date;
     updatedAt: Date;
@@ -14,8 +15,10 @@ const CategorySchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: true,
-            unique: true,
+        },
+        product_type_id: {
+            type: String,
+            ref: Schema.PRODUCT_TYPE,
         },
         childCate: [],
         createdAt: Date,
@@ -26,7 +29,20 @@ const CategorySchema = new mongoose.Schema(
 
 CategorySchema.add({
     childCate: {
-        type: [new mongoose.Schema(CategorySchema, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } })],
+        type: [
+            new mongoose.Schema(
+                {
+                    name: {
+                        type: String,
+                    },
+                    childCate: Array,
+                    createdAt: Date,
+                    updatedAt: Date,
+                },
+                { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } }
+            ),
+        ],
+        required: false,
         default: [],
     },
 });
