@@ -27,7 +27,7 @@ export default class RoleController {
             res.status(result.code).json(result);
         } catch (error: any) {
             Logger.error(error);
-            res.status(500).json(GetErrorResult(error, Result.ROLE.CREATE));
+            res.status(500).json(GetErrorResult(error, Result.ROLE.GET_LIST));
         }
     }
     public static async GetDetailRoleController(req: Request, res: Response) {
@@ -37,7 +37,7 @@ export default class RoleController {
             res.status(result.code).json(result);
         } catch (error: any) {
             Logger.error(error);
-            res.status(500).json(GetErrorResult(error, Result.ROLE.CREATE));
+            res.status(500).json(GetErrorResult(error, Result.ROLE.GET_DETAIL));
         }
     }
     public static async UpdateRoleController(req: Request, res: Response) {
@@ -47,7 +47,7 @@ export default class RoleController {
             res.status(result.code).json(result);
         } catch (error: any) {
             Logger.error(error);
-            res.status(500).json(GetErrorResult(error, Result.ROLE.CREATE));
+            res.status(500).json(GetErrorResult(error, Result.ROLE.UPDATE));
         }
     }
     public static async DeleteRoleController(req: Request, res: Response) {
@@ -57,7 +57,7 @@ export default class RoleController {
             res.status(result.code).json(result);
         } catch (error: any) {
             Logger.error(error);
-            res.status(500).json(GetErrorResult(error, Result.ROLE.CREATE));
+            res.status(500).json(GetErrorResult(error, Result.ROLE.DELETE));
         }
     }
 }

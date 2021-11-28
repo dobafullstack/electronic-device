@@ -50,7 +50,7 @@ export default class AuthController {
         const token = req.headers['authorization']?.split(' ')[1];
 
         delete req.body.email;
-        delete req.body.name;
+        delete req.body.username;
         delete req.body.role_id;
         delete req.body.password;
 

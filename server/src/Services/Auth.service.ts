@@ -22,7 +22,7 @@ export default class AuthService {
             return GetActionResult(400, null, { message: 'Invalid account or password' }, Result.AUTH.LOGIN);
         }
 
-        const accessToken = await jwt.sign({ _id: existingUser._id }, process.env.SECRET_JWT as string, { expiresIn: '30s' });
+        const accessToken = await jwt.sign({ _id: existingUser._id }, process.env.SECRET_JWT as string, { expiresIn: '1 day' });
 
         return GetActionResult(200, { accessToken }, null);
     }
