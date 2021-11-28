@@ -27,7 +27,7 @@ export default class AttributeController {
     }
     public static async GetDetailAttributeController(req: Request, res: Response) {
         try {
-            const result = await AttributeService.GetDetailAttributeService(req.params.productId);
+            const result = await AttributeService.GetDetailAttributeService(req.params.attributeId);
 
             res.status(result.code).json(result);
         } catch (error: any) {
@@ -37,7 +37,7 @@ export default class AttributeController {
     }
     public static async UpdateAttributeController(req: Request, res: Response) {
         try {
-            const result = await AttributeService.UpdateAttributeService(req.params.productId, req.body);
+            const result = await AttributeService.UpdateAttributeService(req.params.attributeId, req.body);
 
             res.status(result.code).json(result);
         } catch (error: any) {
@@ -47,7 +47,7 @@ export default class AttributeController {
     }
     public static async DeleteAttributeController(req: Request, res: Response) {
         try {
-            const result = await AttributeService.DeleteAttributeService(req.params.productId);
+            const result = await AttributeService.DeleteAttributeService(req.params.attributeId);
 
             res.status(result.code).json(result);
         } catch (error: any) {

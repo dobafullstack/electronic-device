@@ -8,8 +8,8 @@ const router = Router();
 
 router.post(Path.APP.BASE_URL, Authentication, Authorization, AttributeController.CreateAttributeController);
 router.get(Path.APP.BASE_URL, AttributeController.GetListAttributesController);
-router.get(Path.APP.PARAMS.replace('id', 'productId'), AttributeController.GetDetailAttributeController);
-router.put(Path.APP.PARAMS.replace('id', 'productId'), Authentication, Authorization, AttributeController.UpdateAttributeController);
-router.delete(Path.APP.PARAMS.replace('id', 'productId'), Authentication, Authorization, AttributeController.DeleteAttributeController);
+router.get(Path.APP.PARAMS.replace('id', 'attributeId'), AttributeController.GetDetailAttributeController);
+router.put(Path.APP.PARAMS.replace('id', 'attributeId'), Authentication, Authorization, AttributeController.UpdateAttributeController);
+router.delete(Path.APP.PARAMS.replace('id', 'attributeId'), Authentication, Authorization, AttributeController.DeleteAttributeController);
 
 export default router;

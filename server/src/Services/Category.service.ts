@@ -21,6 +21,63 @@ export default class CategoryService {
 
         return result;
     }
+    public static async AddChildService(categoryId: string, categoryDetailId: string, body: any): Promise<ApiResponse> {
+        const existingCategory: any = await Category.findById(categoryId);
+
+        if (!existingCategory) return GetActionResult(400, null, { message: 'Can not find any category' }, Result.CATEGORY.CHILD.ADD);
+
+        const newChild = new Category(body);
+
+        newChild.createdAt = new Date();
+        newChild.updatedAt = new Date();
+
+        existingCategory.AddCategoryDetail(existingCategory, categoryDetailId, newChild);
+
+        const result = await existingCategory
+            .save()
+            .then(() => GetActionResult(200, null, null, Result.CATEGORY.CHILD.ADD))
+            .catch((err: any) => {
+                Logger.error(err);
+                return GetActionResult(400, null, err, Result.CATEGORY.CHILD.ADD);
+            });
+
+        return result;
+    }
+    public static async DeleteChildService(categoryId: string, categoryDetailId: string): Promise<ApiResponse> {
+        const existingCategory: any = await Category.findById(categoryId);
+
+        if (!existingCategory) return GetActionResult(400, null, { message: 'Can not find any category' }, Result.CATEGORY.CHILD.DELETE);
+
+        existingCategory.DeleteCategoryDetail(existingCategory, categoryDetailId);
+
+        const result = await existingCategory
+            .save()
+            .then(() => GetActionResult(200, null, null, Result.CATEGORY.CHILD.DELETE))
+            .catch((err: any) => {
+                Logger.error(err);
+                return GetActionResult(400, null, err, Result.CATEGORY.CHILD.DELETE);
+            });
+
+        return result;
+    }
+    public static async UpdateChildService(categoryId: string, categoryDetailId: string, body: any): Promise<ApiResponse> {
+        const existingCategory: any = await Category.findById(categoryId);
+
+        if (!existingCategory) return GetActionResult(400, null, { message: 'Can not find any category' }, Result.CATEGORY.CHILD.UPDATE);
+
+        existingCategory.UpdateCategoryDetail(existingCategory, categoryDetailId, body);
+
+        const result = await existingCategory
+            .save()
+            .then(() => GetActionResult(200, null, null, Result.CATEGORY.CHILD.UPDATE))
+            .catch((err: any) => {
+                Logger.error(err);
+                return GetActionResult(400, null, err, Result.CATEGORY.CHILD.UPDATE);
+            });
+
+        return result;
+    }
+
     public static async GetListCategoriesService(): Promise<ApiResponse> {
         const categories = await Category.find();
 

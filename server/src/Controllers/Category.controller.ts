@@ -16,6 +16,36 @@ export default class CategoryController {
             res.status(500).json(GetErrorResult(error, Result.CATEGORY.CREATE));
         }
     }
+    public static async AddCategoryDetailController(req: Request, res: Response) {
+        try {
+            const result = await CategoryService.AddChildService(req.params.categoryId, req.params.categoryDetailId, req.body);
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+            res.status(500).json(GetErrorResult(error, Result.CATEGORY.CHILD.ADD));
+        }
+    }
+    public static async DeleteCategoryDetailController(req: Request, res: Response) {
+        try {
+            const result = await CategoryService.DeleteChildService(req.params.categoryId, req.params.categoryDetailId)
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+            res.status(500).json(GetErrorResult(error, Result.CATEGORY.CHILD.ADD));
+        }
+    }
+    public static async UpdateCategoryDetailController(req: Request, res: Response) {
+        try {
+            const result = await CategoryService.UpdateChildService(req.params.categoryId, req.params.categoryDetailId, req.body);
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+            res.status(500).json(GetErrorResult(error, Result.CATEGORY.CHILD.ADD));
+        }
+    }
     public static async GetListCategoriesController(req: Request, res: Response) {
         try {
             const result = await CategoryService.GetListCategoriesService();

@@ -15,6 +15,11 @@ export default {
     },
     CATEGORY: {
         CREATE: 'Create category',
+        CHILD: {
+            ADD: 'Add child',
+            UPDATE: 'Update child',
+            DELETE: 'Delete child'
+        },
         GET_LIST: 'Get list categories',
         GET_DETAIL: 'Get detail category',
         UPDATE: 'Update category',

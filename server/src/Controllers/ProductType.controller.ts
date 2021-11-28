@@ -27,7 +27,7 @@ export default class ProductTypeController {
     }
     public static async GetDetailProductTypeController(req: Request, res: Response) {
         try {
-            const result = await ProductTypeService.GetDetailProductTypeService(req.params.productId);
+            const result = await ProductTypeService.GetDetailProductTypeService(req.params.productTypeId);
 
             res.status(result.code).json(result);
         } catch (error: any) {
@@ -37,7 +37,7 @@ export default class ProductTypeController {
     }
     public static async UpdateProductTypeController(req: Request, res: Response) {
         try {
-            const result = await ProductTypeService.UpdateProductTypeService(req.params.productId, req.body);
+            const result = await ProductTypeService.UpdateProductTypeService(req.params.productTypeId, req.body);
 
             res.status(result.code).json(result);
         } catch (error: any) {
@@ -47,7 +47,7 @@ export default class ProductTypeController {
     }
     public static async DeleteProductTypeController(req: Request, res: Response) {
         try {
-            const result = await ProductTypeService.DeleteProductTypeService(req.params.productId);
+            const result = await ProductTypeService.DeleteProductTypeService(req.params.productTypeId);
 
             res.status(result.code).json(result);
         } catch (error: any) {

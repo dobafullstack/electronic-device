@@ -1,5 +1,5 @@
 type CreateProductInput = {
-    category_id: string;
+    category_detail_id: string;
     product_type_id: string;
     name: string;
     price: number;

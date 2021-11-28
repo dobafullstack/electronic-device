@@ -11,19 +11,18 @@ export default class OrderService {
     public static async CreateOrderService(body: CreateOrderInput): Promise<ApiResponse> {
         let total = 0;
 
-        const products = body.products.map(async product => ({
+        const products = body.products.map(async (product) => ({
             product: await Product.findById(product.productId),
-            count: product.count
-        }))
+            count: product.count,
+        }));
 
         for (let i = 0; i < products.length; i++) {
-            total += ((await products[i]).product?.price as number) * (await products[i]).count
-            
+            total += ((await products[i]).product?.price as number) * (await products[i]).count;
         }
 
         const result = await Order.create({
             ...body,
-            total
+            total,
         })
             .then(() => GetActionResult(201, null, null, Result.ORDER.CREATE))
             .catch((err: any) => {
@@ -37,6 +36,11 @@ export default class OrderService {
         const result = await Order.find();
 
         return GetActionResult(200, result, null);
+    }
+    public static async GetMyOrdersService(userId: string): Promise<ApiResponse> {
+        const orders = await Order.find({ userId });
+
+        return GetActionResult(200, orders, null);
     }
     public static async GetDetailOrderService(orderId: string): Promise<ApiResponse> {
         const existingOrder = await Order.findById(orderId);
@@ -52,10 +56,13 @@ export default class OrderService {
 
         _.extend(existingOrder, body);
 
-        const result = await existingOrder.save().then(() => GetActionResult(200, null, null, Result.ORDER.UPDATE)).catch((err: any) => {
-            Logger.error(err);
-            return GetActionResult(400, null, {message: err.message}, Result.ORDER.UPDATE);
-        })
+        const result = await existingOrder
+            .save()
+            .then(() => GetActionResult(200, null, null, Result.ORDER.UPDATE))
+            .catch((err: any) => {
+                Logger.error(err);
+                return GetActionResult(400, null, { message: err.message }, Result.ORDER.UPDATE);
+            });
 
         return result;
     }
@@ -70,7 +77,7 @@ export default class OrderService {
                 Logger.error(err);
                 return GetActionResult(400, null, { message: err.message }, Result.ORDER.DELETE);
             });
-        
+
         return result;
     }
 }

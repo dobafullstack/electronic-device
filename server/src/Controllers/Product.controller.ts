@@ -35,6 +35,36 @@ export default class ProductController {
             res.status(500).json(GetErrorResult(error, Result.PRODUCT.GET_DETAIL));
         }
     }
+    public static async GetProductsByCategoryDetailIdController(req: Request, res: Response) {
+        try {
+            const result = await ProductService.GetProductsByCategoryDetailIdService(req.params.categoryDetailId);
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+            res.status(500).json(GetErrorResult(error, Result.PRODUCT.GET_LIST));
+        }
+    }
+    public static async GetProductsByCategoryIdController(req: Request, res: Response) {
+        try {
+            const result = await ProductService.GetProductsByCategoryIdService(req.params.categoryId);
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+            res.status(500).json(GetErrorResult(error, Result.PRODUCT.GET_LIST));
+        }
+    }
+    public static async GetProductsProductNameController(req: Request, res: Response) {
+        try {
+            const result = await ProductService.GetProductsByProductNameService(req.params.productName);
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+            res.status(500).json(GetErrorResult(error, Result.PRODUCT.GET_LIST));
+        }
+    }
     public static async UpdateProductController(req: Request, res: Response) {
         try {
             const result = await ProductService.UpdateProductService(req.params.productId, req.body);

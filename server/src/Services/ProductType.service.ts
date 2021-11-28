@@ -23,13 +23,13 @@ export default class ProductTypeService {
     }
 
     public static async GetListProductTypesService(): Promise<ApiResponse> {
-        const productTypes = await ProductType.find();
+        const productTypes = await ProductType.find().populate('attributes');
 
         return GetActionResult(200, productTypes, null);
     }
 
     public static async GetDetailProductTypeService(productTypeId: string): Promise<ApiResponse> {
-        const existingProductType = await ProductType.findById(productTypeId);
+        const existingProductType = await ProductType.findById(productTypeId).populate('attributes');
 
         if (!existingProductType) return GetActionResult(400, null, { message: 'Can not find any product type' }, Result.PRODUCT_TYPE.GET_DETAIL);
 
@@ -57,13 +57,13 @@ export default class ProductTypeService {
     public static async DeleteProductTypeService(productTypeId: string): Promise<ApiResponse> {
         const existingProductType = await ProductType.findById(productTypeId);
 
-        if (!existingProductType) return GetActionResult(400, null, { message: 'Can not find any product type' }, Result.PRODUCT_TYPE.GET_DETAIL);
+        if (!existingProductType) return GetActionResult(400, null, { message: 'Can not find any product type' }, Result.PRODUCT_TYPE.DELETE);
 
         const result = await ProductType.findByIdAndDelete(productTypeId)
-            .then(() => GetActionResult(200, null, null, Result.PRODUCT_TYPE.UPDATE))
+            .then(() => GetActionResult(200, null, null, Result.PRODUCT_TYPE.DELETE))
             .catch((err: any) => {
                 Logger.error(err);
-                return GetActionResult(400, null, err, Result.PRODUCT_TYPE.UPDATE);
+                return GetActionResult(400, null, err, Result.PRODUCT_TYPE.DELETE);
             });
 
         return result;

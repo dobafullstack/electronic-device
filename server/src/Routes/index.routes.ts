@@ -25,7 +25,7 @@ const router = (app: Express) => {
     app.use(Path.PRODUCT_TYPE.BASE_URL, ProductTypeRoute); //ProductType
     app.use(Path.PRODUCT.BASE_URL, ProductRoute); //Product
     app.use(Path.ORDER.BASE_URL, OrderRoute); //Order
-    app.use(Path.BILL.BASE_URL, BillRoute); //Bill
+    app.use(Path.BILL.BASE_URL, Authentication, BillRoute); //Bill
 };
 
 export default router;
