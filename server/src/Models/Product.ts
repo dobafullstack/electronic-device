@@ -8,6 +8,18 @@ export interface ProductDocument extends mongoose.Document {
     price: number;
     images: Array<string>;
     count: number;
+    camera?: string;
+    memory?: string;
+    ram?: string;
+    special_feature?: string;
+    pin?: string;
+    os?: string;
+    design?: string;
+    screen?: string;
+    height?: string;
+    color?: string;
+    type?: string;
+    brand?: string;
     createAt: Date;
     updatedAt: Date;
 }
@@ -35,6 +47,18 @@ const ProductSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        camera: String,
+        memory: String,
+        ram: String,
+        special_feature: String,
+        pin: String,
+        os: String,
+        design: String,
+        screen: String,
+        height: String,
+        color: String,
+        type: String,
+        brand: String,
         createdAt: Date,
         updatedAt: Date,
     },
