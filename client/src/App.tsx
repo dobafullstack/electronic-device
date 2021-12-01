@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from './components/Header/Header';
-import { Counter } from './features/counter/Counter';
 import './App.css';
 import MobileHeader from './components/Header/MobileHeader';
 import MiniCart from './components/Cart/MiniCart';
