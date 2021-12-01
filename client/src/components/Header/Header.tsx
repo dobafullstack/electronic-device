@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../../assets/images/logo/logo.png';
+import { Link } from 'react-router-dom';
 
 function Header() {
     return (
@@ -66,7 +67,7 @@ function Header() {
                         <div className="row align-items-center">
                             <div className="col-xl-3 col-lg-2">
                             <div className="logo">
-                                <a href="index.html"><img src={logo} alt="logo" style={{width: 80, height: 'auto'}} /></a>
+                                <Link to="/"><img src={logo} alt="logo" style={{width: 80, height: 'auto'}} /></Link>
                             </div>
                             </div>
                             <div className="col-xl-6 col-lg-7">
@@ -125,7 +126,7 @@ function Header() {
                                     <li><a href="#">PAGES </a>
                                     <ul className="sub-menu-style">
                                         <li><a href="about-us.html">about us </a></li>
-                                        <li><a href="cart.html">cart page</a></li>
+                                        <li><Link to="/cart">cart page</Link></li>
                                         <li><a href="checkout.html">checkout </a></li>
                                         <li><a href="my-account.html">my account</a></li>
                                         <li><a href="wishlist.html">wishlist </a></li>
@@ -169,9 +170,9 @@ function Header() {
                                 <a href="wishlist.html"><i className="icon-heart" /><span className="pro-count black">03</span></a>
                                 </div>
                                 <div className="same-style-2 same-style-2-font-inc header-cart">
-                                <a className="cart-active" href="#">
+                                <Link to="/cart">
                                     <i className="icon-basket-loaded" /><span className="pro-count black">02</span>
-                                </a>
+                                </Link>
                                 </div>
                             </div>
                             </div>

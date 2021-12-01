@@ -4,28 +4,24 @@ import { Counter } from './features/counter/Counter';
 import './App.css';
 import MobileHeader from './components/Header/MobileHeader';
 import MiniCart from './components/Cart/MiniCart';
-import Slider from './components/Slider/Slider';
-import ProductArea from './components/ProductArea/ProductArea';
-import Banner from './components/Banner/Banner';
-import BlogArea from './components/BlogArea/BlogArea';
-import BrandArea from './components/BrandArea/BrandArea';
 import Footer from './components/Footer/Footer';
-import Modal from './components/Modal/Modal';
+import HomePage from './pages/HomePage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import CartPage from './pages/CartPage';
 
 function App() {
   return (
     <div className="main-wrapper">
-      <Header />
-      <MobileHeader />
-      <MiniCart />
-      <Slider />
-      <ProductArea head="Best-seller products" />
-      <Banner />
-      <ProductArea head="New Arrival" bottomBordered />
-      <BlogArea />
-      <BrandArea />
-      <Footer />
-      <Modal />
+      <Router>
+        <Header />
+        <MobileHeader />
+        <MiniCart />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/cart" element={<CartPage />} />
+        </Routes>
+        <Footer />
+      </Router>
     </div>
   );
 }
