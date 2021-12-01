@@ -1,28 +1,26 @@
-import Error from "@Types/Error"
-import ApiResponse from "@Types/ResponseType"
-
-
+import Error from '@Types/Error';
+import ApiResponse from '@Types/ResponseType';
 
 export default (code: number, result: any, error: Error | null, value: string = ''): ApiResponse => {
-    if (value === ''){
+    if (value === '') {
         return {
             code,
             result,
-            error: null
-        }
-    }else{
-        if (code >= 400){
+            error: null,
+        };
+    } else {
+        if (code >= 400) {
             return {
                 code,
                 result: `${value} failed`,
-                error
-            }
-        }else{
+                error,
+            };
+        } else {
             return {
                 code,
                 result: `${value} success`,
-                error: null
-            }
+                error: null,
+            };
         }
     }
-}
+};

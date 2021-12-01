@@ -23,8 +23,8 @@ export default class ProductService {
         return result;
     }
 
-    public static async GetListProductsService(): Promise<ApiResponse> {
-        const products = await Product.find();
+    public static async GetListProductsService(limit: number): Promise<ApiResponse> {
+        const products = await Product.find().limit(limit);
 
         return GetActionResult(200, products, null);
     }
@@ -37,14 +37,14 @@ export default class ProductService {
         return GetActionResult(200, existingProduct, null);
     }
 
-    public static async GetProductsByCategoryDetailIdService(categoryDetailId: string): Promise<ApiResponse> {
-        const products = await Product.find({ category_detail_id: categoryDetailId });
+    public static async GetProductsByCategoryDetailIdService(categoryDetailId: string, limit: number): Promise<ApiResponse> {
+        const products = await Product.find({ category_detail_id: categoryDetailId }).limit(limit);
 
         return GetActionResult(200, products, null);
     }
 
-    public static async GetProductsByCategoryIdService(categoryId: string): Promise<ApiResponse> {
-        const category = await Category.findById(categoryId);
+    public static async GetProductsByCategoryIdService(categoryId: string, limit: number): Promise<ApiResponse> {
+        const category = await Category.findById(categoryId).limit(limit);
 
         if (!category) return GetActionResult(400, null, { message: 'Can not find any category' }, Result.PRODUCT.GET_LIST);
 
@@ -52,7 +52,7 @@ export default class ProductService {
 
         const products = await Product.find({
             category_detail_id: { $in: ids.map((id) => id.toString()) },
-        });
+        }).limit(limit);
 
         return GetActionResult(200, products, null);
     }
@@ -63,7 +63,7 @@ export default class ProductService {
         const products = await Product.find({
             name: { $regex: productName, $options: 'i' },
             // name: productName,
-        });
+        })
 
         return GetActionResult(200, products, null);
     }

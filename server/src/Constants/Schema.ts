@@ -5,6 +5,6 @@ export default {
     ROLE: 'Role',
     BILL: 'Bill',
     ORDER: 'Order',
-    PRODUCT_TYPE: "ProductType",
-    ATTRIBUTE: "Attribute"
-}
+    PRODUCT_TYPE: 'ProductType',
+    ATTRIBUTE: 'Attribute',
+};
