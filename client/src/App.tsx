@@ -8,6 +8,7 @@ import Footer from './components/Footer/Footer';
 import HomePage from './pages/HomePage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CartPage from './pages/CartPage';
+import ShopPage from './pages/ShopPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/shop" element={<ShopPage />} />
         </Routes>
         <Footer />
       </Router>

@@ -30,22 +30,22 @@ function ProductArea({head, bottomBordered}: ProductAreaProps) {
                     <div className="tab-content jump">
                         <div id="product-1" className="tab-pane active">
                             <div className="row">
-                                <Product />
-                                <Product />
-                                <Product />
-                                <Product />
-                                <Product />
-                                <Product />
-                                <Product />
-                                <Product />
+                                <Product listLayout={false} />
+                                <Product listLayout={false} />
+                                <Product listLayout={false} />
+                                <Product listLayout={false} />
+                                <Product listLayout={false} />
+                                <Product listLayout={false} />
+                                <Product listLayout={false} />
                             </div>
                         </div>
                         <div id="product-2" className="tab-pane">
                             <div className="row">
-                                <Product />
-                                <Product />
-                                <Product />
-                                <Product />
+                            <Product listLayout={false} />
+                            <Product listLayout={false} />
+                            <Product listLayout={false} />
+                            <Product listLayout={false} />
+                            <Product listLayout={false} />
                             </div>
                         </div>
                     </div>

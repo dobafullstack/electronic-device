@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 interface BreadcrumbProps {
     prev: string,
@@ -12,7 +13,7 @@ function Breadcrumb({ prev, current }: BreadcrumbProps) {
                 <div className="breadcrumb-content text-center">
                     <ul>
                         <li>
-                            <a href="index.html">{prev}</a>
+                            <Link to={`/`}>{prev}</Link>
                         </li>
                         <li className="active">{current}</li>
                     </ul>

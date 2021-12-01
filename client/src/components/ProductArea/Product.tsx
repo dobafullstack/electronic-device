@@ -1,6 +1,8 @@
 import React from 'react'
-
-function Product() {
+interface ProductProps {
+    listLayout: boolean
+}
+const GridLayout = () => {
     return (
         <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
             <div className="single-product-wrap mb-35">
@@ -51,6 +53,56 @@ function Product() {
                 </div>
             </div>
         </div>
+    )
+}
+
+const ListLayout = () => {
+    return (
+        <div className="shop-list-wrap mb-30">
+            <div className="row">
+                <div className="col-xl-4 col-lg-5 col-md-6 col-sm-6">
+                    <div className="product-list-img">
+                        <a href="product-details.html">
+                            <img src="assets/images/product/product-13.jpg" alt="Product Style" />
+                        </a>
+                        <div className="product-list-quickview">
+                            <button title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal"><i className="icon-size-fullscreen icons" /></button>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-xl-8 col-lg-7 col-md-6 col-sm-6">
+                    <div className="shop-list-content">
+                        <h3><a href="product-details.html">Basic Joggin Shorts</a></h3>
+                        <div className="pro-list-price">
+                            <span className="new-price">$35.45</span>
+                            <span className="old-price">$45.80</span>
+                        </div>
+                        <div className="product-list-rating-wrap">
+                            <div className="product-list-rating">
+                                <i className="icon_star" />
+                                <i className="icon_star" />
+                                <i className="icon_star" />
+                                <i className="icon_star gray" />
+                                <i className="icon_star gray" />
+                            </div>
+                            <span>(3)</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipic it, sed do eiusmod tempor labor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                        <div className="product-list-action">
+                            <button title="Add To Cart"><i className="icon-basket-loaded" /></button>
+                            <button title="Wishlist"><i className="icon-heart" /></button>
+                            <button title="Compare"><i className="icon-refresh" /></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function Product({listLayout}: ProductProps) {
+    return (
+        listLayout ? <ListLayout /> : <GridLayout />        
     )
 }
 
