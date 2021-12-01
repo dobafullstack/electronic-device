@@ -16,8 +16,9 @@ export default class ProductController {
         }
     }
     public static async GetListProductsController(req: Request, res: Response) {
+        const limit: number = req.query.limit ? parseInt(req.query.limit as string) : 0;
         try {
-            const result = await ProductService.GetListProductsService();
+            const result = await ProductService.GetListProductsService(limit);
 
             res.status(result.code).json(result);
         } catch (error: any) {
@@ -36,8 +37,9 @@ export default class ProductController {
         }
     }
     public static async GetProductsByCategoryDetailIdController(req: Request, res: Response) {
+        const limit: number = req.query.limit ? parseInt(req.query.limit as string) : 0;
         try {
-            const result = await ProductService.GetProductsByCategoryDetailIdService(req.params.categoryDetailId);
+            const result = await ProductService.GetProductsByCategoryDetailIdService(req.params.categoryDetailId, limit);
 
             res.status(result.code).json(result);
         } catch (error: any) {
@@ -46,8 +48,10 @@ export default class ProductController {
         }
     }
     public static async GetProductsByCategoryIdController(req: Request, res: Response) {
+        const limit: number = req.query.limit ? parseInt(req.query.limit as string) : 0;
+
         try {
-            const result = await ProductService.GetProductsByCategoryIdService(req.params.categoryId);
+            const result = await ProductService.GetProductsByCategoryIdService(req.params.categoryId, limit);
 
             res.status(result.code).json(result);
         } catch (error: any) {
@@ -56,6 +60,8 @@ export default class ProductController {
         }
     }
     public static async GetProductsProductNameController(req: Request, res: Response) {
+        const limit: number = req.query.limit ? parseInt(req.query.limit as string) : 0;
+
         try {
             const result = await ProductService.GetProductsByProductNameService(req.params.productName);
 
