@@ -8,7 +8,7 @@ function Footer() {
                     <div className="col-lg-6 col-md-6">
                         <div className="contact-info-wrap">
                             <div className="footer-logo">
-                                <a href="#"><img src="assets/images/logo/logo.png" alt="logo" style={{width: 200, height: 'auto'}} /></a>
+                                <a href="#"><img src="/assets/images/logo/logo.png" alt="logo" style={{width: 200, height: 'auto'}} /></a>
                             </div>
                             <div className="single-contact-info">
                                 <span>Our Location</span>

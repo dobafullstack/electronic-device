@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import VNDCurrency from "../../configs/VNDCurrency";
 import ProductModel from "../../models/Product";
 interface ProductProps {
-    listLayout: boolean;
+    listLayout?: boolean;
     product?: ProductModel;
 }
 
@@ -19,12 +20,12 @@ const GridLayout = ({product}: LayoutProps) => {
         <div className='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12'>
             <div className='single-product-wrap mb-35'>
                 <div className='product-img product-img-zoom mb-15'>
-                    <a href='product-details.html'>
+                    <Link to={`/product/${product?._id}`}>
                         <img
                             src={images[0]}
                             alt=''
                         />
-                    </a>
+                    </Link>
                     <div className='product-action-2 tooltip-style-2'>
                         <button title='Wishlist'>
                             <i className='icon-heart' />
@@ -52,7 +53,7 @@ const GridLayout = ({product}: LayoutProps) => {
                         <span>(2)</span>
                     </div>
                     <h3>
-                        <a href='product-details.html'>{name}</a>
+                        <Link to={`/product/${product?._id}`}>{name}</Link>
                     </h3>
                     <div className='product-price-2'>
                         <span>{VNDCurrency(price)}</span>
@@ -70,10 +71,10 @@ const GridLayout = ({product}: LayoutProps) => {
                         <span>(2)</span>
                     </div>
                     <h3>
-                        <a href='product-details.html'>Laptop new model</a>
+                        <Link to={`/product/${product?._id}`}>{name}</Link>
                     </h3>
                     <div className='product-price-2'>
-                        <span>$20.50</span>
+                        <span>{VNDCurrency(price)}</span>
                     </div>
                     <div className='pro-add-to-cart'>
                         <button title='Add to Cart'>Add To Cart</button>

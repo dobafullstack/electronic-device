@@ -1,6 +1,19 @@
 import React from 'react'
 import logo from '../../assets/images/logo/logo.png';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
+
+var searchToggle = $('.search-toggle');
+    searchToggle.on('click', function(e){
+        e.preventDefault();
+        if($(this).hasClass('open')){
+           $(this).removeClass('open');
+           $(this).siblings('.search-wrap-1').removeClass('open');
+        }else{
+           $(this).addClass('open');
+           $(this).siblings('.search-wrap-1').addClass('open');
+        }
+    })
 
 function Header() {
     return (
@@ -147,8 +160,8 @@ function Header() {
                                 </a>
                                 <div className="search-wrap-1">
                                     <form action="#">
-                                    <input placeholder="Search products…" type="text" />
-                                    <button className="button-search"><i className="icon-magnifier" /></button>
+                                        <input placeholder="Search products…" type="text" />
+                                        <button className="button-search"><i className="icon-magnifier" /></button>
                                     </form>
                                 </div>
                                 </div>

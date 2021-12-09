@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Breadcrumb from '../components/Common/Breadcrumb'
 import Product from '../components/ProductArea/Product'
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { getAllProductsAction } from "../app/actions/product.action";
+import $ from 'jquery'
 
 function ShopPage() {
+    const dispatch = useAppDispatch();
+    const products = useAppSelector((state) => state.product.products);
+    useEffect(() => {
+        dispatch(getAllProductsAction());
+    }, [])
     return (
         <>
             <Breadcrumb prev="home" current="shop" />
@@ -41,17 +49,12 @@ function ShopPage() {
                                 <div className="tab-content jump">
                                     <div id="shop-1" className="tab-pane active">
                                         <div className="row">
-                                            <Product listLayout={false} />
-                                            <Product listLayout={false} />
-                                            <Product listLayout={false} />
-                                            <Product listLayout={false} />
-                                            <Product listLayout={false} />
-                                            <Product listLayout={false} />
-                                            <Product listLayout={false} />
-                                            <Product listLayout={false} />
-                                            <Product listLayout={false} />
-                                            <Product listLayout={false} />
-                                            <Product listLayout={false} />
+                                            {products.map((product) => (
+                                                <Product
+                                                    product={product}
+                                                    key={product._id}
+                                                />
+                                            ))}
                                         </div>
                                     </div>
                                     <div id="shop-2" className="tab-pane">

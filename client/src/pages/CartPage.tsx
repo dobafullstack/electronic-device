@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import CartItem from '../components/Cart/CartItem'
 import Breadcrumb from '../components/Common/Breadcrumb'
 
@@ -116,7 +117,7 @@ function CartPage() {
                                     </ul>
                                 </div>
                                 <h4 className="grand-totall-title">Grand Total <span>$260.00</span></h4>
-                                <a href="#">Proceed to Checkout</a>
+                                <Link to="/checkout">Proceed to Checkout</Link>
                                 </div>
                             </div>
                             </div>

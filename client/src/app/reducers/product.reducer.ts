@@ -3,12 +3,16 @@ import ProductModel from "../../models/Product";
 
 type InitialType = {
     bestSeller: ProductModel[],
-    newArrival: ProductModel[]
+    newArrival: ProductModel[],
+    product: ProductModel[],
+    products: ProductModel[],
 }
 
 const initialState: InitialType = {
     bestSeller: [],
-    newArrival: []
+    newArrival: [],
+    product: [],
+    products: [],
 };
 
 const ProductSlice = createSlice({
@@ -39,6 +43,15 @@ const ProductSlice = createSlice({
                 state.newArrival.push(item)
             );
         },
+        getProductById(state, { payload }) {
+            state.product.push(payload);
+        },
+        getAllProducts(state, { payload }) {
+            state.products.splice(0, state.products.length);
+            payload.forEach((item: ProductModel) =>
+                state.products.push(item)
+            );
+        }
     },
 });
 
@@ -49,4 +62,6 @@ export const {
     getNewArrivalByCategoryId,
     getAllBestSeller,
     getAllNewArrival,
+    getProductById,
+    getAllProducts,
 } = ProductSlice.actions;
