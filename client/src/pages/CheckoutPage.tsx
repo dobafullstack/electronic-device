@@ -1,7 +1,22 @@
 import React from 'react'
 import Breadcrumb from '../components/Common/Breadcrumb'
+import axios from 'axios'
+
+interface CommonProps{
+    selectedId: string,
+    onSelect: (id: string) => void,
+    data: any,
+}
+
+const getLocation = async () => {
+    const {data}  = await axios.get('https://api-vietnam-city.herokuapp.com/')
+    return data;
+}
+
 
 function CheckoutPage() {
+    const location = getLocation();
+    console.log(location);
     return (
         <>
             <Breadcrumb prev="home" current="checkout" />
@@ -83,14 +98,6 @@ function CheckoutPage() {
                                         <div className="col-lg-12">
                                             <div className="billing-select mb-20">
                                                 <label>Country <abbr className="required" title="required">*</abbr></label>
-                                                <select>
-                                                    <option>Select a country</option>
-                                                    <option>Azerbaijan</option>
-                                                    <option>Bahamas</option>
-                                                    <option>Bahrain</option>
-                                                    <option>Bangladesh</option>
-                                                    <option>Barbados</option>
-                                                </select>
                                             </div>
                                         </div>
                                         <div className="col-lg-12">
