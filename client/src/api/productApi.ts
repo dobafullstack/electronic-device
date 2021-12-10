@@ -24,6 +24,9 @@ const productApi = {
         return await axiosClient.get(
             `/product/category-detail/${categoryDetailId}?limit=8`
         );
+    },
+    getProductById: async (productId: string): Promise<ResponseType<ProductModel>> => {
+        return await axiosClient.get(`/product/${productId}`);
     }
 }
 

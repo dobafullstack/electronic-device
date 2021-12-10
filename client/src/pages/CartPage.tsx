@@ -1,16 +1,57 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { clearCart } from '../app/reducers/cart.reducer';
-import CartItem from '../components/Cart/CartItem'
-import Breadcrumb from '../components/Common/Breadcrumb'
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axiosClient from "../api/axiosClient";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { clearCart } from "../app/reducers/cart.reducer";
+import CartItem from "../components/Cart/CartItem";
+import Breadcrumb from "../components/Common/Breadcrumb";
+import VNDCurrency from "../configs/VNDCurrency";
+import { CITY_API } from "../constant";
+import City from "../models/City";
 
 function CartPage() {
     const dispatch = useAppDispatch();
-    const cart = useAppSelector(state => state.cart)
+    const cart = useAppSelector((state) => state.cart);
+    const [cities, setCities] = useState<City[]>([]);
+    const [selectedCity, setSelectedCity] = useState<string>("Hà Nội");
+    const [selectedDistrict, setSelectedDistrict] =
+        useState<string>("Quận Ba Đình");
+    const [address, setAddress] = useState("");
+    const navigate = useNavigate();
+    // const [selectedShipping, setSelectedShipping] = useState<'standard' | 'express'>('standard');
 
-    if (cart.products.length === 0) return <div><p style={{textAlign: 'center', fontSize: 40}}>You do not buy anything</p></div>
+    useEffect(() => {
+        const fetchCity = async () => {
+            const data: City[] = await axiosClient.get(`${CITY_API}`);
+            console.log(data);
+            setCities(data);
+        };
 
+        fetchCity();
+    }, []);
+
+    const handleCheckout = () => {
+        if (address === "") {
+            toast.error("Address can not null");
+            return;
+        }
+
+        navigate("/checkout", {
+            state: {
+                address: `${address}, ${selectedDistrict}, ${selectedCity}`,
+            },
+        });
+    };
+
+    if (cart.products.length === 0)
+        return (
+            <div>
+                <p style={{ textAlign: "center", fontSize: 40 }}>
+                    You do not buy anything
+                </p>
+            </div>
+        );
     return (
         <>
             <Breadcrumb prev='Home' current='Cart' />
@@ -43,13 +84,19 @@ function CartPage() {
                                     <div className='col-lg-12'>
                                         <div className='cart-shiping-update-wrapper'>
                                             <div className='cart-shiping-update'>
-                                                <Link to="/">
+                                                <Link to='/'>
                                                     Continue Shopping
                                                 </Link>
                                             </div>
                                             <div className='cart-clear'>
                                                 {/* <button>Update Cart</button> */}
-                                                <a href='javascript:;' onClick={() => dispatch(clearCart())}>Clear Cart</a>
+                                                <a
+                                                    href='javascript:;'
+                                                    onClick={() =>
+                                                        dispatch(clearCart())
+                                                    }>
+                                                    Clear Cart
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -70,50 +117,79 @@ function CartPage() {
                                             </p>
                                             <div className='tax-select-wrapper'>
                                                 <div className='tax-select'>
-                                                    <label>* Country</label>
-                                                    <select className='email s-email s-wid'>
-                                                        <option>
-                                                            Bangladesh
-                                                        </option>
-                                                        <option>Albania</option>
-                                                        <option>
-                                                            Åland Islands
-                                                        </option>
-                                                        <option>
-                                                            Afghanistan
-                                                        </option>
-                                                        <option>Belgium</option>
+                                                    <label>* City</label>
+                                                    <select
+                                                        className='email s-email s-wid'
+                                                        onChange={(e) =>
+                                                            setSelectedCity(
+                                                                e.target.value
+                                                            )
+                                                        }>
+                                                        {cities.map(
+                                                            (city: any) => (
+                                                                <option
+                                                                    key={
+                                                                        city.key
+                                                                    }
+                                                                    value={
+                                                                        city.name
+                                                                    }>
+                                                                    {city.name}
+                                                                </option>
+                                                            )
+                                                        )}
                                                     </select>
                                                 </div>
                                                 <div className='tax-select'>
-                                                    <label>
-                                                        * Region / State
-                                                    </label>
-                                                    <select className='email s-email s-wid'>
-                                                        <option>
-                                                            Bangladesh
-                                                        </option>
-                                                        <option>Albania</option>
-                                                        <option>
-                                                            Åland Islands
-                                                        </option>
-                                                        <option>
-                                                            Afghanistan
-                                                        </option>
-                                                        <option>Belgium</option>
+                                                    <label>* District</label>
+                                                    <select
+                                                        className='email s-email s-wid'
+                                                        onChange={(e) =>
+                                                            setSelectedDistrict(
+                                                                e.target.value
+                                                            )
+                                                        }>
+                                                        {cities.length > 0 &&
+                                                            cities
+                                                                .filter(
+                                                                    (city) =>
+                                                                        city.name ===
+                                                                        selectedCity
+                                                                )[0]
+                                                                .district.map(
+                                                                    (dis) => (
+                                                                        <option
+                                                                            key={
+                                                                                dis.key
+                                                                            }
+                                                                            value={
+                                                                                dis.name
+                                                                            }>
+                                                                            {
+                                                                                dis.name
+                                                                            }
+                                                                        </option>
+                                                                    )
+                                                                )}
                                                     </select>
                                                 </div>
                                                 <div className='tax-select'>
-                                                    <label>
-                                                        * Zip/Postal Code
-                                                    </label>
-                                                    <input type='text' />
+                                                    <label>* Address</label>
+                                                    <input
+                                                        type='text'
+                                                        placeholder='Address'
+                                                        onChange={(e) =>
+                                                            setAddress(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    />
                                                 </div>
-                                                <button
+                                                {/* <button
                                                     className='cart-btn-2'
                                                     type='submit'>
                                                     Get A Quote
-                                                </button>
+                                                </button> */}
                                             </div>
                                         </div>
                                     </div>
@@ -153,25 +229,48 @@ function CartPage() {
                                             </h4>
                                         </div>
                                         <h5>
-                                            Total products <span>$260.00</span>
+                                            Total products{" "}
+                                            <span>
+                                                {VNDCurrency(cart.total)}
+                                            </span>
                                         </h5>
                                         <div className='total-shipping'>
                                             <h5>Total shipping</h5>
                                             <ul>
-                                                <li>
-                                                    <input type='checkbox' />{" "}
-                                                    Standard <span>$20.00</span>
+                                                {/* <li>
+                                                    <input
+                                                        type='radio'
+                                                        name='shipping'
+                                                        checked={selectedShipping === 'standard'}
+                                                        onClick={() => setSelectedShipping('standard')}
+                                                    />
+                                                    Standard <span>{VNDCurrency(10000)}</span>
                                                 </li>
                                                 <li>
-                                                    <input type='checkbox' />{" "}
-                                                    Express <span>$30.00</span>
+                                                    <input
+                                                        type='radio'
+                                                        name='shipping'
+                                                        checked={selectedShipping === 'express'}
+                                                        onClick={() => setSelectedShipping('express')}
+                                                    />
+                                                    Express <span>{VNDCurrency(20000)}</span>
+                                                </li> */}
+                                                <li>
+                                                    <p>Free Shipping</p>
                                                 </li>
                                             </ul>
                                         </div>
                                         <h4 className='grand-totall-title'>
-                                            Grand Total <span>$260.00</span>
+                                            Grand Total{" "}
+                                            <span>
+                                                {VNDCurrency(cart.total)}
+                                            </span>
                                         </h4>
-                                        <a href='#'>Proceed to Checkout</a>
+                                        <a
+                                            href='javascript:void;'
+                                            onClick={() => handleCheckout()}>
+                                            Proceed to Checkout
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -183,4 +282,4 @@ function CartPage() {
     );
 }
 
-export default CartPage
+export default CartPage;

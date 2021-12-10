@@ -1,8 +1,24 @@
 import React from 'react'
 import logo from '../../assets/images/logo/logo.png';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
+import { useAppSelector } from '../../app/hooks';
+
+var searchToggle = $('.search-toggle');
+    searchToggle.on('click', function(e){
+        e.preventDefault();
+        if($(this).hasClass('open')){
+           $(this).removeClass('open');
+           $(this).siblings('.search-wrap-1').removeClass('open');
+        }else{
+           $(this).addClass('open');
+           $(this).siblings('.search-wrap-1').addClass('open');
+        }
+    })
 
 function Header() {
+    const cart = useAppSelector(state => state.cart)
+
     return (
             <header className="header-area">
                 <div className="header-large-device section-padding-2">
@@ -147,8 +163,8 @@ function Header() {
                                 </a>
                                 <div className="search-wrap-1">
                                     <form action="#">
-                                    <input placeholder="Search products…" type="text" />
-                                    <button className="button-search"><i className="icon-magnifier" /></button>
+                                        <input placeholder="Search products…" type="text" />
+                                        <button className="button-search"><i className="icon-magnifier" /></button>
                                     </form>
                                 </div>
                                 </div>
@@ -160,7 +176,7 @@ function Header() {
                                 </div>
                                 <div className="same-style-2 same-style-2-font-inc header-cart">
                                 <Link to="/cart">
-                                    <i className="icon-basket-loaded" /><span className="pro-count black">02</span>
+                                    <i className="icon-basket-loaded" /><span className="pro-count black">{cart.products.length}</span>
                                 </Link>
                                 </div>
                             </div>

@@ -99,13 +99,11 @@ function ProductArea({
                             {isBestSeller
                                 ? bestSeller.map((product) => (
                                       <Product
-                                          listLayout={false}
                                           product={product}
                                       />
                                   ))
                                 : newArrival.map((product) => (
                                       <Product
-                                          listLayout={false}
                                           product={product}
                                       />
                                   ))}
@@ -119,16 +117,14 @@ function ProductArea({
                                 {isBestSeller
                                     ? bestSeller.map((product) => (
                                           <Product
-                                              listLayout={false}
                                               product={product}
                                           />
                                       ))
                                     : newArrival.map((product) => (
                                           <Product
-                                              listLayout={false}
                                               product={product}
                                           />
-                                      ))}
+                                    ))}
                             </div>
                         </div>
                     ))}
