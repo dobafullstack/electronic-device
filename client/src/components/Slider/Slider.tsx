@@ -31,7 +31,7 @@ function Slider() {
             className={slideIndex === index + 1 ? "slide active-anim" : "slide"}
           >
             <img
-              src={process.env.PUBLIC_URL + `/assets/images/banner/banner-${index + 1}.jpg`}
+              src={obj.image}
               alt=""
             />
           </div>

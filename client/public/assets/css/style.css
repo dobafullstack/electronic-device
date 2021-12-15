@@ -48,6 +48,10 @@
   }
 }
 
+main{
+  min-height: calc(100vh - 142px - 148px - 485px);
+}
+
 .row {
   margin-right: calc(var(--bs-gutter-x) * -.6);
   margin-left: calc(var(--bs-gutter-x) * -.6);

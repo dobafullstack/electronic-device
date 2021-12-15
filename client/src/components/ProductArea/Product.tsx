@@ -1,4 +1,6 @@
 import React from "react";
+import { useAppDispatch } from "../../app/hooks";
+import { addToCart } from "../../app/reducers/cart.reducer";
 import { Link } from "react-router-dom";
 import VNDCurrency from "../../configs/VNDCurrency";
 import ProductModel from "../../models/Product";
@@ -12,6 +14,7 @@ interface LayoutProps {
 }
 
 const GridLayout = ({product}: LayoutProps) => {
+    const dispatch = useAppDispatch();
     const name = product?.name || '';
     const price = product?.price || 0;
     const images = product?.images || ["assets/images/product/product-13.jpg"];
@@ -77,7 +80,7 @@ const GridLayout = ({product}: LayoutProps) => {
                         <span>{VNDCurrency(price)}</span>
                     </div>
                     <div className='pro-add-to-cart'>
-                        <button title='Add to Cart'>Add To Cart</button>
+                        <button title='Add to Cart' onClick={() => dispatch(addToCart(product as ProductModel))}>Add To Cart</button>
                     </div>
                 </div>
             </div>
@@ -85,7 +88,9 @@ const GridLayout = ({product}: LayoutProps) => {
     );
 };
 
-const ListLayout = () => {
+const ListLayout = ({ product }: LayoutProps) => {
+    const dispatch = useAppDispatch();
+
     return (
         <div className='shop-list-wrap mb-30'>
             <div className='row'>
@@ -135,7 +140,11 @@ const ListLayout = () => {
                             exercitation ullamco laboris nisi ut aliquip.
                         </p>
                         <div className='product-list-action'>
-                            <button title='Add To Cart'>
+                            <button
+                                title='Add To Cart'
+                                onClick={() =>
+                                    dispatch(addToCart(product as ProductModel))
+                                }>
                                 <i className='icon-basket-loaded' />
                             </button>
                             <button title='Wishlist'>
@@ -153,7 +162,7 @@ const ListLayout = () => {
 };
 
 function Product({ listLayout, product }: ProductProps) {
-    return listLayout ? <ListLayout /> : <GridLayout product={product} />;
+    return listLayout ? <ListLayout product={product}/> : <GridLayout product={product} />;
 }
 
 export default Product;

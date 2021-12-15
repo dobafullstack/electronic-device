@@ -1,17 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import ProductModel from "../../models/Product";
 
 type InitialType = {
     bestSeller: ProductModel[],
     newArrival: ProductModel[],
-    product: ProductModel[],
+    product: ProductModel,
     products: ProductModel[],
 }
 
 const initialState: InitialType = {
     bestSeller: [],
     newArrival: [],
-    product: [],
+    product: {
+        _id: '',
+        name: '',
+        images: [],
+        price: 0,
+        category_detail_id: '',
+        count: 0,
+        ram: '',
+        memory: '',
+        pin: '',
+        screen: '',
+        updatedAt: '',
+        createdAt: '',
+
+    },
     products: [],
 };
 
@@ -43,8 +57,8 @@ const ProductSlice = createSlice({
                 state.newArrival.push(item)
             );
         },
-        getProductById(state, { payload }) {
-            state.product.push(payload);
+        getProductById(state, { payload }: PayloadAction<ProductModel>) {
+            state.product = payload
         },
         getAllProducts(state, { payload }) {
             state.products.splice(0, state.products.length);
