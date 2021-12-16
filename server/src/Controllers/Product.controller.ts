@@ -51,7 +51,7 @@ export default class ProductController {
         const limit: number = req.query.limit ? parseInt(req.query.limit as string) : 0;
 
         try {
-            const result = await ProductService.GetProductsByCategoryIdService(req.params.categoryId, limit);
+            const result = await ProductService.GetProductsByCategoryIdService(req.params.categoryId, limit, req.query);
 
             res.status(result.code).json(result);
         } catch (error: any) {
