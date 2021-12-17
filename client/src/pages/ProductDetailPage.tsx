@@ -27,7 +27,7 @@ function ProductDetailPage() {
                                 <div className='pro-dec-big-img-slider'>
                                     <div className='easyzoom-style'>
                                         <div className='easyzoom easyzoom--overlay'>
-                                            <a href='../assets/images/product-details/b-large-1.jpg'>
+                                            <a href={product.images[0]}>
                                                 <img
                                                     src={product.images[0]}
                                                     alt=''
@@ -137,15 +137,13 @@ function ProductDetailPage() {
                                     <ul>
                                         <li>
                                             <span>Categories:</span>{" "}
-                                            <a href='#'>Woman,</a>{" "}
-                                            <a href='#'>Dress,</a>{" "}
-                                            <a href='#'>T-Shirt</a>
+                                            <a href='#'>Laptop</a>
                                         </li>
                                         <li>
                                             <span>Tag: </span>{" "}
-                                            <a href='#'>Fashion,</a>{" "}
-                                            <a href='#'>Mentone</a> ,{" "}
-                                            <a href='#'>Texas</a>
+                                            <a href='#'>Acer</a>{", "}
+                                            <a href='#'>Laptop</a>{", "}
+                                            <a href='#'>Gaming</a>
                                         </li>
                                     </ul>
                                 </div>

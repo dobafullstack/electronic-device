@@ -24,8 +24,8 @@ function CartItem({ cart }: CartItemProps) {
                     <img
                         src={cart.product.images[0]}
                         alt=''
-                        width={98}
-                        height={112}
+                        width={110}
+                        height='auto'
                     />
                 </a>
             </td>

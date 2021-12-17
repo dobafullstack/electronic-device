@@ -62,14 +62,14 @@ function Header() {
                                 </div>
                                 </div>
                                 <div className="same-style same-style-mrg-3 currency-wrap">
-                                <a className="currency-dropdown-active" href="#"> USD <i className="icon-arrow-down" /></a>
-                                <div className="currency-dropdown">
-                                    <ul>
-                                    <li><a href="#">USD</a></li>
-                                    <li><a href="#">EUR</a></li>
-                                    <li><a href="#">BDT</a></li>
-                                    </ul>
-                                </div>
+                                    <a className="currency-dropdown-active" href="#"> USD <i className="icon-arrow-down" /></a>
+                                    <div className="currency-dropdown">
+                                        <ul>
+                                        <li><a href="#">USD</a></li>
+                                        <li><a href="#">EUR</a></li>
+                                        <li><a href="#">BDT</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             </div>
@@ -93,62 +93,9 @@ function Header() {
                                     <li>
                                         <Link className="active" to="/">HOME </Link>
                                     </li>
-                                    <li><Link to="/shop">SHOP </Link>
-                                    <ul className="mega-menu-style mega-menu-mrg-2">
-                                        <li>
-                                        <ul>
-                                            <li>
-                                            <a className="dropdown-title" href="#">Shop Layout</a>
-                                            <ul>
-                                                <li><a href="shop.html">standard style</a></li>
-                                                <li><a href="shop-list.html">shop list style</a></li>
-                                                <li><a href="shop-fullwide.html">shop fullwide</a></li>
-                                                <li><a href="shop-no-sidebar.html">grid no sidebar</a></li>
-                                                <li><a href="shop-list-no-sidebar.html">list no sidebar</a></li>
-                                                <li><a href="shop-right-sidebar.html">shop right sidebar</a></li>
-                                                <li><a href="store-location.html">store location</a></li>
-                                            </ul>
-                                            </li>
-                                            <li>
-                                            <a className="dropdown-title" href="#">Products Layout</a>
-                                            <ul>
-                                                <li><a href="product-details.html">tab style 1</a></li>
-                                                <li><a href="product-details-2.html">tab style 2</a></li>
-                                                <li><a href="product-details-sticky.html">sticky style</a></li>
-                                                <li><a href="product-details-gallery.html">gallery style </a></li>
-                                                <li><a href="product-details-affiliate.html">affiliate style</a></li>
-                                                <li><a href="product-details-group.html">group style</a></li>
-                                                <li><a href="product-details-fixed-img.html">fixed image style </a></li>
-                                            </ul>
-                                            </li>
-                                            <li>
-                                            <a href="shop.html"><img src="assets/images/banner/banner-12.png" alt="" /></a>
-                                            </li>
-                                        </ul>
-                                        </li>
-                                    </ul>
-                                    </li>
-                                    <li><a href="#">PAGES </a>
-                                    <ul className="sub-menu-style">
-                                        <li><a href="about-us.html">about us </a></li>
-                                        <li><Link to="/cart">cart page</Link></li>
-                                        <li><a href="checkout.html">checkout </a></li>
-                                        <li><a href="my-account.html">my account</a></li>
-                                        <li><a href="wishlist.html">wishlist </a></li>
-                                        <li><a href="compare.html">compare </a></li>
-                                        <li><a href="contact.html">contact us </a></li>
-                                        <li><a href="order-tracking.html">order tracking</a></li>
-                                        <li><a href="login-register.html">login / register </a></li>
-                                    </ul>
-                                    </li>
-                                    <li><a href="blog.html">BLOG </a>
-                                    <ul className="sub-menu-style">
-                                        <li><a href="blog.html">blog standard </a></li>
-                                        <li><a href="blog-no-sidebar.html">blog no sidebar </a></li>
-                                        <li><a href="blog-right-sidebar.html">blog right sidebar</a></li>
-                                        <li><a href="blog-details.html">blog details</a></li>
-                                    </ul>
-                                    </li>
+                                    <li><Link to="/shop">SHOP </Link></li>
+                                    <li><a href="#">PAGES </a></li>
+                                    <li><a href="blog.html">BLOG </a></li>
                                     <li><a href="contact.html">CONTACT </a></li>
                                 </ul>
                                 </nav>
@@ -169,10 +116,10 @@ function Header() {
                                 </div>
                                 </div>
                                 <div className="same-style-2 same-style-2-font-inc">
-                                <a href="login-register.html"><i className="icon-user" /></a>
+                                <Link to="auth"><i className="icon-user" /></Link>
                                 </div>
                                 <div className="same-style-2 same-style-2-font-inc">
-                                <a href="wishlist.html"><i className="icon-heart" /><span className="pro-count black">03</span></a>
+                                <Link to="/wishlist"><i className="icon-heart" /><span className="pro-count black">03</span></Link>
                                 </div>
                                 <div className="same-style-2 same-style-2-font-inc header-cart">
                                 <Link to="/cart">

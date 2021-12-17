@@ -3,6 +3,7 @@ import Breadcrumb from '../components/Common/Breadcrumb'
 import Product from '../components/ProductArea/Product'
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { getAllProductsAction } from "../app/actions/product.action";
+import '../assets/scss/Category.scss'
 import $ from 'jquery'
 
 function ShopPage() {
@@ -105,6 +106,7 @@ function ShopPage() {
                                             <li><a href="shop.html">Accessories </a></li>
                                         </ul>
                                     </div>
+                                    <div className="category-showlist"></div>
                                 </div>
                                 <div className="sidebar-widget shop-sidebar-border mb-40 pt-40">
                                     <h4 className="sidebar-widget-title">Price Filter </h4>

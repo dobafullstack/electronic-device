@@ -13,6 +13,9 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import AuthenticationPage from './pages/AuthenticationPage';
+import WishlistPage from './pages/WishlistPage';
+import ProfilePage from './pages/ProfilePage';
 
 
 function App() {
@@ -31,6 +34,9 @@ function App() {
                       element={<ProductDetailPage />}
                   />
                   <Route path='/checkout' element={<CheckoutPage />} />
+                  <Route path='/auth' element={<AuthenticationPage />} />
+                  <Route path='/wishlist' element={<WishlistPage />} />
+                  <Route path='/profile' element={<ProfilePage />} />
               </Routes>
               <Footer />
           </Router>

@@ -46,10 +46,8 @@ function CartPage() {
 
     if (cart.products.length === 0)
         return (
-            <div>
-                <p style={{ textAlign: "center", fontSize: 40 }}>
-                    You do not buy anything
-                </p>
+            <div className="container">
+                <h2>No items in cart</h2>
             </div>
         );
     return (

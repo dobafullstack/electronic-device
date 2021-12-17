@@ -151,7 +151,7 @@ function CheckoutPage() {
                                         <div className='col-lg-12'>
                                             <div className='billing-info mb-20'>
                                                 <label>
-                                                    Town / City{" "}
+                                                    Address{" "}
                                                     <abbr
                                                         className='required'
                                                         title='required'>
@@ -159,19 +159,6 @@ function CheckoutPage() {
                                                     </abbr>
                                                 </label>
                                                 <input type='text' value={state.address} />
-                                            </div>
-                                        </div>
-                                        <div className='col-lg-12 col-md-12'>
-                                            <div className='billing-info mb-20'>
-                                                <label>
-                                                    State / County{" "}
-                                                    <abbr
-                                                        className='required'
-                                                        title='required'>
-                                                        *
-                                                    </abbr>
-                                                </label>
-                                                <input type='text' />
                                             </div>
                                         </div>
                                         <div className='col-lg-12 col-md-12'>
