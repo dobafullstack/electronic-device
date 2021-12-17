@@ -1,6 +1,7 @@
 import Schema from '@Constants/Schema';
 import mongoose from 'mongoose';
 import _ from 'lodash';
+import Attribute from './Attribute';
 
 export interface CategoryDocument extends mongoose.Document {
     _id: mongoose.Schema.Types.ObjectId;
@@ -11,38 +12,26 @@ export interface CategoryDocument extends mongoose.Document {
     updatedAt: Date;
 }
 
-const CategorySchema = new mongoose.Schema(
-    {
-        name: {
-            type: String,
-        },
-        product_type_id: {
-            type: String,
-            ref: Schema.PRODUCT_TYPE,
-        },
-        childCate: [],
-        createdAt: Date,
-        updatedAt: Date,
+const CategoryField = {
+    name: {
+        type: String,
     },
-    { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } }
-);
+    childCate: [],
+    createdAt: Date,
+    updatedAt: Date,
+};
+
+const CategorySchema = new mongoose.Schema(CategoryField, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
 
 CategorySchema.add({
     childCate: {
-        type: [
-            new mongoose.Schema(
-                {
-                    name: {
-                        type: String,
-                    },
-                    childCate: Array,
-                    createdAt: Date,
-                    updatedAt: Date,
-                },
-                { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } }
-            ),
-        ],
+        type: [new mongoose.Schema(CategoryField)],
         required: false,
+        default: [],
+    },
+    attributes: {
+        type: Array,
+        ref: Schema.ATTRIBUTE,
         default: [],
     },
 });

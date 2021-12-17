@@ -80,26 +80,12 @@ export default class CategoryService {
     }
 
     public static async GetListCategoriesService(): Promise<ApiResponse> {
-        const categories = await Category.find().populate({
-            path: 'product_type_id',
-            model: Schema.PRODUCT_TYPE,
-            populate: {
-                path: 'attributes',
-                model: Schema.ATTRIBUTE
-            }
-        });
+        const categories = await Category.find().populate('attributes');
 
         return GetActionResult(200, categories, null);
     }
     public static async GetDetailCategoryService(categoryId: string): Promise<ApiResponse> {
-        const existingCategory = await Category.findById(categoryId).populate({
-            path: 'product_type_id',
-            model: Schema.PRODUCT_TYPE,
-            populate: {
-                path: 'attributes',
-                model: Schema.ATTRIBUTE,
-            },
-        });
+        const existingCategory = await Category.findById(categoryId).populate('attributes');
 
         if (!existingCategory) return GetActionResult(400, null, { message: 'Can not find any category' }, Result.CATEGORY.GET_DETAIL);
 

@@ -43,14 +43,15 @@ export default class ProductService {
         return GetActionResult(200, products, null);
     }
 
-    public static async GetProductsByCategoryIdService(categoryId: string, limit: number): Promise<ApiResponse> {
-        const category = await Category.findById(categoryId).limit(limit);
+    public static async GetProductsByCategoryIdService(categoryId: string, limit: number, query: any): Promise<ApiResponse> {
+        const category = await Category.findById(categoryId);
 
         if (!category) return GetActionResult(400, null, { message: 'Can not find any category' }, Result.PRODUCT.GET_LIST);
 
         let ids = category.childCate.map((categoryDetail) => categoryDetail._id);
 
         const products = await Product.find({
+            ...query,
             category_detail_id: { $in: ids.map((id) => id.toString()) },
         }).limit(limit);
 

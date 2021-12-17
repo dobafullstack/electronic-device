@@ -24,7 +24,6 @@ const AttributeSchema = new mongoose.Schema(
         unit: {
             type: String,
             required: true,
-            unique: true,
         },
         types: [new mongoose.Schema(AttributeTypes)],
         createdAt: Date,

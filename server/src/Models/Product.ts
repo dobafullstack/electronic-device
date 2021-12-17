@@ -8,18 +8,17 @@ export interface ProductDocument extends mongoose.Document {
     price: number;
     images: Array<string>;
     count: number;
-    camera?: string;
-    memory?: string;
+    size: string;
+    frequency?: string;
+    display_resolution?: string;
+    laptop_type?: string;
     ram?: string;
-    special_feature?: string;
-    pin?: string;
-    os?: string;
-    design?: string;
-    screen?: string;
-    height?: string;
-    color?: string;
-    type?: string;
-    brand?: string;
+    mouse_demand?: string;
+    mouse_pad_type?: string;
+    keyboard_switch?: string;
+    connect?: string;
+    key_cap?: string;
+    mouse_pad_size?: string;
     createAt: Date;
     updatedAt: Date;
 }
@@ -47,18 +46,17 @@ const ProductSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
-        camera: String,
-        memory: String,
+        size: String,
+        frequency: String,
+        display_resolution: String,
+        laptop_type: String,
         ram: String,
-        special_feature: String,
-        pin: String,
-        os: String,
-        design: String,
-        screen: String,
-        height: String,
-        color: String,
-        type: String,
-        brand: String,
+        mouse_demand: String,
+        mouse_pad_type: String,
+        keyboard_switch: String,
+        connect: String,
+        key_cap: String,
+        mouse_pad_size: String,
         createdAt: Date,
         updatedAt: Date,
     },
