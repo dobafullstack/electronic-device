@@ -18,6 +18,8 @@ export const localeOptions = [
   { id: 'enrtl', name: 'English - RTL', direction: 'rtl' },
 ];
 
+export const baseUrl = 'https://electronic-device.herokuapp.com';
+
 export const firebaseConfig = {
   apiKey: 'AIzaSyBBksq-Asxq2M4Ot-75X19IyrEYJqNBPcg',
   authDomain: 'gogo-react-login.firebaseapp.com',

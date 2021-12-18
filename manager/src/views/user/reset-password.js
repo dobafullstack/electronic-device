@@ -5,7 +5,6 @@ import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
 import { Colxx } from 'components/common/CustomBootstrap';
 import IntlMessages from 'helpers/IntlMessages';
-import { resetPassword } from 'redux/actions';
 import { NotificationManager } from 'components/common/react-notifications';
 
 const validateNewPassword = (values) => {
@@ -168,5 +167,5 @@ const mapStateToProps = ({ authUser }) => {
 };
 
 export default connect(mapStateToProps, {
-  resetPasswordAction: resetPassword,
+  resetPasswordAction: () => null,
 })(ResetPassword);

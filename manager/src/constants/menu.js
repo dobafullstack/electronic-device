@@ -80,17 +80,17 @@ const data = [
           {
             icon: 'simple-icon-user',
             label: 'pages.auth.users',
-            to: `${adminRoot}/pages/product/data-list`,
+            to: `${adminRoot}/pages/auth/users`,
           },
           {
             icon: 'simple-icon-user-following',
             label: 'pages.auth.roles',
-            to: `${adminRoot}/pages/product/data-list`,
+            to: `${adminRoot}/pages/auth/users`,
           },
         ],
       },
     ],
-  }
+  },
   // {
   //   id: 'applications',
   //   icon: 'iconsminds-air-balloon-1',

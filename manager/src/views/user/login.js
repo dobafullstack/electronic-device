@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Card, CardTitle, Label, FormGroup, Button } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
-
-import { Formik, Form, Field } from 'formik';
-import { NotificationManager } from 'components/common/react-notifications';
-
+// import { NotificationManager } from 'components/common/react-notifications';
 import { Colxx } from 'components/common/CustomBootstrap';
+import { NotificationManager } from 'components/common/react-notifications';
+import { Field, Form, Formik } from 'formik';
 import IntlMessages from 'helpers/IntlMessages';
-import { loginUser } from 'redux/actions';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { Button, Card, CardTitle, FormGroup, Label, Row } from 'reactstrap';
+import { loginAction } from 'redux/actions';
 
 const validatePassword = (value) => {
   let error;
@@ -20,35 +19,44 @@ const validatePassword = (value) => {
   return error;
 };
 
-const validateEmail = (value) => {
-  let error;
-  if (!value) {
-    error = 'Please enter your email address';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-    error = 'Invalid email address';
-  }
-  return error;
-};
+// const validateEmail = (value) => {
+//   let error;
+//   if (!value) {
+//     error = 'Please enter your email address';
+//   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+//     error = 'Invalid email address';
+//   }
+//   return error;
+// };
 
-const Login = ({ history, loading, error, loginUserAction }) => {
-  const [email] = useState('demo@gogo.com');
-  const [password] = useState('gogo123');
+const Login = ({ history }) => {
+  const [usernameOrEmail] = useState('admin');
+  const [password] = useState('admin123');
+  const dispatch = useDispatch();
+  const { error, loading } = useSelector((state) => state.authUser);
 
   useEffect(() => {
-    if (error) {
-      NotificationManager.warning(error, 'Login Error', 3000, null, null, '');
+    if (error.message !== '') {
+      NotificationManager.warning(
+        error.message,
+        'Login Error',
+        3000,
+        null,
+        null,
+        ''
+      );
     }
   }, [error]);
 
   const onUserLogin = (values) => {
-    if (!loading) {
-      if (values.email !== '' && values.password !== '') {
-        loginUserAction(values, history);
-      }
+    console.log(values);
+
+    if (values.usernameOrEmail !== '' && values.password !== '') {
+      dispatch(loginAction(values.usernameOrEmail, values.password, history));
     }
   };
 
-  const initialValues = { email, password };
+  const initialValues = { usernameOrEmail, password };
 
   return (
     <Row className="h-100">
@@ -81,11 +89,7 @@ const Login = ({ history, loading, error, loginUserAction }) => {
                     <Label>
                       <IntlMessages id="user.email" />
                     </Label>
-                    <Field
-                      className="form-control"
-                      name="email"
-                      validate={validateEmail}
-                    />
+                    <Field className="form-control" name="usernameOrEmail" />
                     {errors.email && touched.email && (
                       <div className="invalid-feedback d-block">
                         {errors.email}
@@ -118,6 +122,7 @@ const Login = ({ history, loading, error, loginUserAction }) => {
                         loading ? 'show-spinner' : ''
                       }`}
                       size="lg"
+                      type="submit"
                     >
                       <span className="spinner d-inline-block">
                         <span className="bounce1" />
@@ -132,17 +137,16 @@ const Login = ({ history, loading, error, loginUserAction }) => {
                 </Form>
               )}
             </Formik>
+            <div>
+              <p>
+                Do not have any account?{' '}
+                <NavLink to="/user/register">Sign Up</NavLink>
+              </p>
+            </div>
           </div>
         </Card>
       </Colxx>
     </Row>
   );
 };
-const mapStateToProps = ({ authUser }) => {
-  const { loading, error } = authUser;
-  return { loading, error };
-};
-
-export default connect(mapStateToProps, {
-  loginUserAction: loginUser,
-})(Login);
+export default Login;

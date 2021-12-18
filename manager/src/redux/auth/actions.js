@@ -1,72 +1,59 @@
-import {
-  LOGIN_USER,
-  LOGIN_USER_SUCCESS,
-  LOGOUT_USER,
-  REGISTER_USER,
-  REGISTER_USER_SUCCESS,
-  LOGIN_USER_ERROR,
-  REGISTER_USER_ERROR,
-  FORGOT_PASSWORD,
-  FORGOT_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_ERROR,
-  RESET_PASSWORD,
-  RESET_PASSWORD_SUCCESS,
-  RESET_PASSWORD_ERROR,
-} from '../contants';
+import authApi from 'api/authApi';
+import { setCurrentUser } from 'helpers/Utils';
+import { loginError, loginRequired, loginSuccess } from './reducer';
 
-export const loginUser = (user, history) => ({
-  type: LOGIN_USER,
-  payload: { user, history },
-});
-export const loginUserSuccess = (user) => ({
-  type: LOGIN_USER_SUCCESS,
-  payload: user,
-});
-export const loginUserError = (message) => ({
-  type: LOGIN_USER_ERROR,
-  payload: { message },
-});
+export const loginAction =
+  (usernameOrEmail, password, history) => async (dispatch) => {
+    try {
+      dispatch(loginRequired());
+      const { result, error, code } = await authApi.login(
+        usernameOrEmail,
+        password
+      );
 
-export const forgotPassword = (forgotUserMail, history) => ({
-  type: FORGOT_PASSWORD,
-  payload: { forgotUserMail, history },
-});
-export const forgotPasswordSuccess = (forgotUserMail) => ({
-  type: FORGOT_PASSWORD_SUCCESS,
-  payload: forgotUserMail,
-});
-export const forgotPasswordError = (message) => ({
-  type: FORGOT_PASSWORD_ERROR,
-  payload: { message },
-});
+      if (code !== 200 || error !== null) {
+        dispatch(loginError(error));
+        return;
+      }
 
-export const resetPassword = ({ resetPasswordCode, newPassword, history }) => ({
-  type: RESET_PASSWORD,
-  payload: { resetPasswordCode, newPassword, history },
-});
-export const resetPasswordSuccess = (newPassword) => ({
-  type: RESET_PASSWORD_SUCCESS,
-  payload: newPassword,
-});
-export const resetPasswordError = (message) => ({
-  type: RESET_PASSWORD_ERROR,
-  payload: { message },
-});
+      const {
+        result: getUserResult,
+        error: getUserError,
+        code: getUserCode,
+      } = await authApi.getUser(result.accessToken);
 
-export const registerUser = (user, history) => ({
-  type: REGISTER_USER,
-  payload: { user, history },
-});
-export const registerUserSuccess = (user) => ({
-  type: REGISTER_USER_SUCCESS,
-  payload: user,
-});
-export const registerUserError = (message) => ({
-  type: REGISTER_USER_ERROR,
-  payload: { message },
-});
+      if (getUserCode !== 200 || getUserError !== null) {
+        dispatch(loginError(error));
+        return;
+      }
 
-export const logoutUser = (history) => ({
-  type: LOGOUT_USER,
-  payload: { history },
-});
+      if (
+        getUserResult.role_id.name === 'admin' ||
+        getUserResult.role_id.name === 'staff'
+      ) {
+        localStorage.setItem('access_token', result.accessToken);
+        dispatch(loginSuccess(getUserResult));
+        setCurrentUser(getUserResult);
+        history.replace('/');
+      } else {
+        dispatch(loginError({ message: 'You do not have permission' }));
+      }
+    } catch (error) {
+      console.log(error.response.data);
+      if (error.response.data) {
+        dispatch(
+          loginError({
+            message: error.response.data.error.message,
+          })
+        );
+      } else {
+        dispatch(
+          loginError({
+            message: error.message,
+          })
+        );
+      }
+    }
+  };
+
+export const registerAction = () => () => {};

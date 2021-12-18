@@ -13,7 +13,7 @@ import {
 } from 'reactstrap';
 
 import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import IntlMessages from 'helpers/IntlMessages';
 import {
@@ -29,9 +29,10 @@ import { getDirection, setDirection } from 'helpers/Utils';
 import {
   setContainerClassnames,
   clickOnMobileMenu,
-  logoutUser,
   changeLocale,
 } from 'redux/actions';
+
+import { logout } from 'redux/auth/reducer';
 
 import TopnavEasyAccess from './Topnav.EasyAccess';
 import TopnavNotifications from './Topnav.Notifications';
@@ -46,11 +47,11 @@ const TopNav = ({
   locale,
   setContainerClassnamesAction,
   clickOnMobileMenuAction,
-  logoutUserAction,
   changeLocaleAction,
 }) => {
   const [isInFullScreen, setIsInFullScreen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const dispatch = useDispatch();
 
   const search = () => {
     history.push(`${searchPath}?key=${searchKeyword}`);
@@ -176,7 +177,7 @@ const TopNav = ({
   };
 
   const handleLogout = () => {
-    logoutUserAction(history);
+    dispatch(logout({ history }));
   };
 
   const menuButtonClick = (e, _clickCount, _conClassnames) => {
@@ -335,7 +336,6 @@ export default injectIntl(
   connect(mapStateToProps, {
     setContainerClassnamesAction: setContainerClassnames,
     clickOnMobileMenuAction: clickOnMobileMenu,
-    logoutUserAction: logoutUser,
     changeLocaleAction: changeLocale,
   })(TopNav)
 );

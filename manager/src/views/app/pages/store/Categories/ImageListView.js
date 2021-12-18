@@ -19,7 +19,7 @@ const ImageListView = ({ product, isSelect, collect, onCheckItem }) => {
     <Colxx sm="6" lg="4" xl="3" className="mb-3" key={product.id}>
       <ContextMenuTrigger id="menu_id" data={product.id} collect={collect}>
         <Card
-          onClick={(event) => onCheckItem(event, product.id)}
+          onClick={(event) => onCheckItem(event, product._id)}
           className={classnames({
             active: isSelect,
           })}
@@ -49,7 +49,7 @@ const ImageListView = ({ product, isSelect, collect, onCheckItem }) => {
                 />
               </Colxx>
               <Colxx xxs="10" className="mb-3">
-                <CardSubtitle>{product.title}</CardSubtitle>
+                <CardSubtitle>{product.name}</CardSubtitle>
                 <CardText className="text-muted text-small mb-0 font-weight-light">
                   {product.date}
                 </CardText>

@@ -39,6 +39,7 @@ const ListPageHeading = ({
   pageSizes,
   toggleModal,
   heading,
+  onReload,
 }) => {
   const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
   const [displayOptionsIsOpen, setDisplayOptionsIsOpen] = useState(false);
@@ -85,6 +86,7 @@ const ListPageHeading = ({
                   }
                 />
               </div>
+
               <DropdownToggle
                 caret
                 color="primary"
@@ -175,6 +177,14 @@ const ListPageHeading = ({
                   onKeyPress={(e) => onSearchKey(e)}
                 />
               </div>
+              <button
+                onClick={onReload}
+                type="button"
+                className="btn d-flex justify-content-center align-items-center"
+                style={{ height: 25 }}
+              >
+                <i className="simple-icon-reload" />
+              </button>
             </div>
             <div className="float-md-right pt-1">
               <span className="text-muted text-small mr-1">

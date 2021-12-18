@@ -22,7 +22,7 @@ export default function AttributePage({ match }) {
           render={(props) => <ListAttribute {...props} />}
         />
         <Route
-          path={`${match.url}/detail`}
+          path={`${match.url}/:attributeId`}
           render={(props) => <DetailAttribute {...props} />}
         />
         <Redirect to="/error" />

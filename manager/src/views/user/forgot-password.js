@@ -5,7 +5,6 @@ import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
 import { Colxx } from 'components/common/CustomBootstrap';
 import IntlMessages from 'helpers/IntlMessages';
-import { forgotPassword } from 'redux/actions';
 import { NotificationManager } from 'components/common/react-notifications';
 
 const validateEmail = (value) => {
@@ -137,5 +136,5 @@ const mapStateToProps = ({ authUser }) => {
 };
 
 export default connect(mapStateToProps, {
-  forgotPasswordAction: forgotPassword,
+  forgotPasswordAction: () => null,
 })(ForgotPassword);

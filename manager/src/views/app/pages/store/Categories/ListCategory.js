@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import axios from 'axios';
-
-import { servicePath } from 'constants/defaultValues';
-
-import ListPageHeading from 'containers/pages/ListPageHeading';
-import AddNewModal from 'containers/pages/AddNewModal';
-import ListPageListing from 'containers/pages/ListPageListing';
+import { getTotalPage } from 'helpers/Utils';
 import useMousetrap from 'hooks/use-mousetrap';
+import categoryApi from 'api/categoryApi';
+import ListPageHeading from 'containers/pages/ListPageHeading';
+import { NotificationManager } from 'components/common/react-notifications';
+import AddNewModal from './AddNewModal';
+import ListPageListing from './ListPageListing';
+import ModelEditCategory from './ModelEditCategory';
 
 const getIndex = (value, arr, prop) => {
   for (let i = 0; i < arr.length; i += 1) {
@@ -18,20 +18,12 @@ const getIndex = (value, arr, prop) => {
   return -1;
 };
 
-const apiUrl = `${servicePath}/cakes/paging`;
-
 const orderOptions = [
   { column: 'title', label: 'Product Name' },
   { column: 'category', label: 'Category' },
   { column: 'status', label: 'Status' },
 ];
 const pageSizes = [4, 8, 12, 20];
-
-const categories = [
-  { label: 'Cakes', value: 'Cakes', key: 0 },
-  { label: 'Cupcakes', value: 'Cupcakes', key: 1 },
-  { label: 'Desserts', value: 'Desserts', key: 2 },
-];
 
 const ListCategory = ({ match }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -50,34 +42,41 @@ const ListCategory = ({ match }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [items, setItems] = useState([]);
   const [lastChecked, setLastChecked] = useState(null);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  async function fetchData() {
+    categoryApi
+      .getAllCategories(selectedPageSize)
+      .then((res) => {
+        return res;
+      })
+      .then((data) => {
+        setTotalPage(getTotalPage(data.result, selectedPageSize));
+        setItems(
+          data.result
+            .slice(
+              (currentPage - 1) * selectedPageSize,
+              selectedPageSize * currentPage
+            )
+            .filter((x) => x.name.toLowerCase().includes(search))
+        );
+        setSelectedItems([]);
+        setTotalItemCount(data.result.length);
+        setIsLoaded(true);
+      });
+  }
 
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedPageSize, selectedOrderOption]);
 
   useEffect(() => {
-    async function fetchData() {
-      axios
-        .get(
-          `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
-        )
-        .then((res) => {
-          return res.data;
-        })
-        .then((data) => {
-          setTotalPage(data.totalPage);
-          setItems(
-            data.data.map((x) => {
-              return { ...x, img: x.img.replace('img/', 'img/products/') };
-            })
-          );
-          setSelectedItems([]);
-          setTotalItemCount(data.totalItem);
-          setIsLoaded(true);
-        });
-    }
     fetchData();
-  }, [selectedPageSize, currentPage, selectedOrderOption, search]);
+  }, [selectedPageSize, currentPage, selectedOrderOption, search, fetchData]);
+
+  const onReload = () => {
+    fetchData();
+  };
 
   const onCheckItem = (event, id) => {
     if (
@@ -127,9 +126,46 @@ const ListCategory = ({ match }) => {
     return false;
   };
 
+  const onDeleteCategory = async () => {
+    try {
+      const { result, error } = await categoryApi.deleteCategory(
+        selectedItems[0]
+      );
+
+      if (error === null) {
+        NotificationManager.success(
+          result,
+          'Delete category',
+          3000,
+          null,
+          null,
+          ''
+        );
+      }
+    } catch (error) {
+      if (error.response.data) {
+        NotificationManager.warning(
+          error.response.data.error.message,
+          'Delte category',
+          3000,
+          null,
+          null,
+          ''
+        );
+      }
+    }
+  };
+
   const onContextMenuClick = (e, data) => {
-    console.log('onContextMenuClick - selected items', selectedItems);
-    console.log('onContextMenuClick - action : ', data.action);
+    if (selectedItems.length === 1) {
+      if (data.action === 'edit') {
+        setIsOpenModal(!isOpenModal);
+      }
+      if (data.action === 'delete') {
+        onDeleteCategory();
+        setItems(items.filter((x) => x._id !== selectedItems[0]));
+      }
+    }
   };
 
   const onContextMenu = (e, data) => {
@@ -162,6 +198,7 @@ const ListCategory = ({ match }) => {
           heading="menu.list-categories" /* title */
           displayMode={displayMode} /* grid or list or thumb */
           changeDisplayMode={setDisplayMode}
+          onReload={onReload}
           handleChangeSelectAll={handleChangeSelectAll}
           changeOrderBy={(column) => {
             setSelectedOrderOption(
@@ -189,7 +226,6 @@ const ListCategory = ({ match }) => {
         <AddNewModal
           modalOpen={modalOpen}
           toggleModal={() => setModalOpen(!modalOpen)}
-          categories={categories}
         />
         <ListPageListing
           items={items}
@@ -202,6 +238,13 @@ const ListCategory = ({ match }) => {
           onContextMenu={onContextMenu}
           onChangePage={setCurrentPage}
         />
+        {selectedItems.length > 0 && (
+          <ModelEditCategory
+            isOpenModal={isOpenModal}
+            setIsOpenModal={setIsOpenModal}
+            item={selectedItems[0]}
+          />
+        )}
       </div>
     </>
   );

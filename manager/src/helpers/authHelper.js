@@ -1,41 +1,12 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { isAuthGuardActive } from 'constants/defaultValues';
-import { getCurrentUser } from './Utils';
+import { useSelector } from 'react-redux';
 
-const ProtectedRoute = ({
-  component: Component,
-  roles = undefined,
-  ...rest
-}) => {
+const ProtectedRoute = ({ component: Component, ...rest }) => {
+  const currentUser = useSelector((state) => state.authUser.currentUser);
+
   const setComponent = (props) => {
-    if (isAuthGuardActive) {
-      const currentUser = getCurrentUser();
-      if (currentUser) {
-        if (roles) {
-          if (roles.includes(currentUser.role)) {
-            return <Component {...props} />;
-          }
-          return (
-            <Redirect
-              to={{
-                pathname: '/unauthorized',
-                state: { from: props.location },
-              }}
-            />
-          );
-        }
-        return <Component {...props} />;
-      }
-      return (
-        <Redirect
-          to={{
-            pathname: '/user/login',
-            state: { from: props.location },
-          }}
-        />
-      );
-    }
+    if (currentUser === null) return <Redirect to="/user/login" />;
     return <Component {...props} />;
   };
 

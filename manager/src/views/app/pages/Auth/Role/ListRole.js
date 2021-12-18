@@ -33,9 +33,9 @@ const categories = [
   { label: 'Desserts', value: 'Desserts', key: 2 },
 ];
 
-const ThumbListPages = ({ match }) => {
+const ListRole = ({ match }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [displayMode, setDisplayMode] = useState('thumblist');
+  const [displayMode, setDisplayMode] = useState('list');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPageSize, setSelectedPageSize] = useState(8);
   const [selectedOrderOption, setSelectedOrderOption] = useState({
@@ -128,7 +128,6 @@ const ThumbListPages = ({ match }) => {
   };
 
   const onContextMenuClick = (e, data) => {
-    // params : (e,data,target)
     console.log('onContextMenuClick - selected items', selectedItems);
     console.log('onContextMenuClick - action : ', data.action);
   };
@@ -160,15 +159,15 @@ const ThumbListPages = ({ match }) => {
     <>
       <div className="disable-text-selection">
         <ListPageHeading
-          heading="menu.thumb-list"
-          displayMode={displayMode}
+          heading="menu.list-attributes" /* title */
+          displayMode={displayMode} /* grid or list or thumb */
           changeDisplayMode={setDisplayMode}
           handleChangeSelectAll={handleChangeSelectAll}
           changeOrderBy={(column) => {
             setSelectedOrderOption(
               orderOptions.find((x) => x.column === column)
             );
-          }}
+          }} /* sorting */
           changePageSize={setSelectedPageSize}
           selectedPageSize={selectedPageSize}
           totalItemCount={totalItemCount}
@@ -208,4 +207,4 @@ const ThumbListPages = ({ match }) => {
   );
 };
 
-export default ThumbListPages;
+export default ListRole;

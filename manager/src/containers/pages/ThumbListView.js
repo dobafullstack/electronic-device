@@ -15,7 +15,7 @@ const ThumbListView = ({ product, isSelect, collect, onCheckItem }) => {
             active: isSelect,
           })}
         >
-          <NavLink to={`?p=${product.id}`} className="d-flex">
+          <NavLink to={`${product.id}`} className="d-flex">
             <img
               alt={product.title}
               src={product.img}

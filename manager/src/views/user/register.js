@@ -1,26 +1,25 @@
+import { Colxx } from 'components/common/CustomBootstrap';
+import { adminRoot } from 'constants/defaultValues';
+import IntlMessages from 'helpers/IntlMessages';
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
-  Row,
+  Button,
   Card,
   CardTitle,
   Form,
   FormGroup,
-  Label,
   Input,
-  Button,
+  Label,
+  Row,
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { registerUser } from 'redux/actions';
-
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx } from 'components/common/CustomBootstrap';
-import { adminRoot } from 'constants/defaultValues';
 
 const Register = ({ history }) => {
-  const [email] = useState('demo@gogo.com');
-  const [password] = useState('gogo123');
-  const [name] = useState('Sarah Kortney');
+  const [email] = useState('');
+  const [password] = useState('');
+  const [name] = useState('');
+  const [phone] = useState('');
+  const [username] = useState('');
 
   const onUserRegister = () => {
     if (email !== '' && password !== '') {
@@ -61,6 +60,13 @@ const Register = ({ history }) => {
 
               <FormGroup className="form-group has-float-label  mb-4">
                 <Label>
+                  <IntlMessages id="Username" />
+                </Label>
+                <Input type="username" defaultValue={username} />
+              </FormGroup>
+
+              <FormGroup className="form-group has-float-label  mb-4">
+                <Label>
                   <IntlMessages id="user.email" />
                 </Label>
                 <Input type="email" defaultValue={email} />
@@ -73,7 +79,20 @@ const Register = ({ history }) => {
                 <Input type="password" />
               </FormGroup>
 
-              <div className="d-flex justify-content-end align-items-center">
+              <FormGroup className="form-group has-float-label  mb-4">
+                <Label>
+                  <IntlMessages id="Phone" defaultValue={phone} />
+                </Label>
+                <Input type="tel" />
+              </FormGroup>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <p>
+                    Already have an account?{' '}
+                    <NavLink to="/user/login">Sign in</NavLink>
+                  </p>
+                </div>
                 <Button
                   color="primary"
                   className="btn-shadow"
@@ -90,8 +109,5 @@ const Register = ({ history }) => {
     </Row>
   );
 };
-const mapStateToProps = () => {};
 
-export default connect(mapStateToProps, {
-  registerUserAction: registerUser,
-})(Register);
+export default Register;
