@@ -17,6 +17,7 @@ import { Colxx, Separator } from 'components/common/CustomBootstrap';
 import IntlMessages from 'helpers/IntlMessages';
 
 import { DataListIcon, ThumbListIcon, ImageListIcon } from 'components/svg';
+import { useLocation } from 'react-router-dom';
 import Breadcrumb from '../navs/Breadcrumb';
 
 const ListPageHeading = ({
@@ -44,6 +45,7 @@ const ListPageHeading = ({
   const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
   const [displayOptionsIsOpen, setDisplayOptionsIsOpen] = useState(false);
   const { messages } = intl;
+  const location = useLocation();
 
   return (
     <Row>
@@ -119,35 +121,38 @@ const ListPageHeading = ({
             className="d-md-block"
             id="displayOptions"
           >
-            <span className="mr-3 d-inline-block float-md-left">
-              <a
-                href="#/"
-                className={`mr-2 view-icon ${
-                  displayMode === 'list' ? 'active' : ''
-                }`}
-                onClick={() => changeDisplayMode('list')}
-              >
-                <DataListIcon />
-              </a>
-              <a
-                href="#/"
-                className={`mr-2 view-icon ${
-                  displayMode === 'thumblist' ? 'active' : ''
-                }`}
-                onClick={() => changeDisplayMode('thumblist')}
-              >
-                <ThumbListIcon />
-              </a>
-              <a
-                href="#/"
-                className={`mr-2 view-icon ${
-                  displayMode === 'imagelist' ? 'active' : ''
-                }`}
-                onClick={() => changeDisplayMode('imagelist')}
-              >
-                <ImageListIcon />
-              </a>
-            </span>
+            {location.pathname.includes('product') && (
+              <span className="mr-3 d-inline-block float-md-left">
+                <a
+                  href="#/"
+                  className={`mr-2 view-icon ${
+                    displayMode === 'list' ? 'active' : ''
+                  }`}
+                  onClick={() => changeDisplayMode('list')}
+                >
+                  <DataListIcon />
+                </a>
+
+                <a
+                  href="#/"
+                  className={`mr-2 view-icon ${
+                    displayMode === 'thumblist' ? 'active' : ''
+                  }`}
+                  onClick={() => changeDisplayMode('thumblist')}
+                >
+                  <ThumbListIcon />
+                </a>
+                <a
+                  href="#/"
+                  className={`mr-2 view-icon ${
+                    displayMode === 'imagelist' ? 'active' : ''
+                  }`}
+                  onClick={() => changeDisplayMode('imagelist')}
+                >
+                  <ImageListIcon />
+                </a>
+              </span>
+            )}
 
             <div className="d-block d-md-inline-block pt-1">
               <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">

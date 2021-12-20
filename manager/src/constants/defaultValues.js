@@ -61,3 +61,5 @@ export const colors = [
   'yellowgranola',
   'greysteel',
 ];
+
+export const SECRET_JWT = 'dobadov3333';

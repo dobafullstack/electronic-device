@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row } from 'reactstrap';
 import ContextMenuContainer from 'containers/pages/ContextMenuContainer';
+import { useLocation } from 'react-router-dom';
 import Pagination from './Pagination';
 import DataListView from './DataListView';
 import ImageListView from './ImageListView';
@@ -21,30 +22,36 @@ const ListPageListing = ({
   onContextMenu,
   onChangePage,
 }) => {
+  const location = useLocation();
+
   return (
     <Row>
       {items.map((product) => {
-        if (displayMode === 'imagelist') {
-          return (
-            <ImageListView
-              key={product._id}
-              product={product}
-              isSelect={selectedItems.includes(product._id)}
-              collect={collect}
-              onCheckItem={onCheckItem}
-            />
-          );
-        }
-        if (displayMode === 'thumblist') {
-          return (
-            <ThumbListView
-              key={product._id}
-              product={product}
-              isSelect={selectedItems.includes(product._id)}
-              collect={collect}
-              onCheckItem={onCheckItem}
-            />
-          );
+        if (location.pathname.includes('product')) {
+          if (displayMode === 'imagelist') {
+            return (
+              <ImageListView
+                key={product._id}
+                product={product}
+                isSelect={selectedItems.includes(product._id)}
+                collect={collect}
+                onCheckItem={onCheckItem}
+                location={location}
+              />
+            );
+          }
+          if (displayMode === 'thumblist') {
+            return (
+              <ThumbListView
+                key={product._id}
+                product={product}
+                isSelect={selectedItems.includes(product._id)}
+                collect={collect}
+                onCheckItem={onCheckItem}
+                location={location}
+              />
+            );
+          }
         }
         return (
           <DataListView
@@ -53,6 +60,7 @@ const ListPageListing = ({
             isSelect={selectedItems.includes(product._id)}
             onCheckItem={onCheckItem}
             collect={collect}
+            location={location}
           />
         );
       })}

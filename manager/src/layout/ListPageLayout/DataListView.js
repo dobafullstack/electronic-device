@@ -6,7 +6,7 @@ import { ContextMenuTrigger } from 'react-contextmenu';
 import { Colxx } from 'components/common/CustomBootstrap';
 import { formatDate } from 'helpers/Utils';
 
-const DataListView = ({ product, isSelect, collect, onCheckItem }) => {
+const DataListView = ({ product, isSelect, collect, onCheckItem, location }) => {
   return (
     <Colxx xxs="12" className="mb-3">
       <ContextMenuTrigger id="menu_id" data={product._id} collect={collect}>
@@ -23,6 +23,11 @@ const DataListView = ({ product, isSelect, collect, onCheckItem }) => {
                   {product.name}
                 </p>
               </NavLink>
+              {location.pathname.includes('product') && (
+                <p className="mb-1 text-muted text-small w-15 w-sm-100">
+                  {product.category_detail_id.name}
+                </p>
+              )}
               <p className="mb-1 text-muted text-small w-15 w-sm-100">
                 {formatDate(new Date(Date.parse(product.createdAt)))}
               </p>
