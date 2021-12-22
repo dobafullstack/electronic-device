@@ -24,7 +24,7 @@ export default class ProductService {
     }
 
     public static async GetListProductsService(limit: number): Promise<ApiResponse> {
-        const products = await Product.find().limit(limit);
+        const products = await (Product as any).find().limit(limit).subPopulate('category_detail_id');
 
         return GetActionResult(200, products, null);
     }
@@ -37,8 +37,8 @@ export default class ProductService {
         return GetActionResult(200, existingProduct, null);
     }
 
-    public static async GetProductsByCategoryDetailIdService(categoryDetailId: string, limit: number): Promise<ApiResponse> {
-        const products = await Product.find({ category_detail_id: categoryDetailId }).limit(limit);
+    public static async GetProductsByCategoryDetailIdService(categoryDetailId: string): Promise<ApiResponse> {
+        const products = await (Product as any).find({ category_detail_id: categoryDetailId }).subPopulate('category_detail_id');
 
         return GetActionResult(200, products, null);
     }
@@ -50,10 +50,15 @@ export default class ProductService {
 
         let ids = category.childCate.map((categoryDetail) => categoryDetail._id);
 
-        const products = await Product.find({
-            ...query,
-            category_detail_id: { $in: ids.map((id) => id.toString()) },
-        }).limit(limit);
+        console.log(ids);
+
+        const products = await (Product as any)
+            .find({
+                ...query,
+                category_detail_id: { $in: ids },
+            })
+            .limit(limit)
+            .subPopulate('category_detail_id');
 
         return GetActionResult(200, products, null);
     }
@@ -61,10 +66,12 @@ export default class ProductService {
     public static async GetProductsByProductNameService(productName: string): Promise<ApiResponse> {
         if (!productName) return GetActionResult(400, null, { message: 'Invalid product name' }, Result.PRODUCT.GET_LIST);
 
-        const products = await Product.find({
-            name: { $regex: productName, $options: 'i' },
-            // name: productName,
-        })
+        const products = await (Product as any)
+            .find({
+                name: { $regex: productName, $options: 'i' },
+                // name: productName,
+            })
+            .subPopulate('category_detail_id');
 
         return GetActionResult(200, products, null);
     }

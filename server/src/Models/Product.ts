@@ -1,5 +1,6 @@
 import Schema from '@Constants/Schema';
 import mongoose from 'mongoose';
+const subReferencePopulate =  require('mongoose-sub-references-populate');
 
 export interface ProductDocument extends mongoose.Document {
     _id: mongoose.Schema.Types.ObjectId;
@@ -26,8 +27,9 @@ export interface ProductDocument extends mongoose.Document {
 const ProductSchema = new mongoose.Schema(
     {
         category_detail_id: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
+            subRef: `${Schema.CATEGORY}.childCate`,
         },
         name: {
             type: String,
@@ -62,6 +64,8 @@ const ProductSchema = new mongoose.Schema(
     },
     { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } }
 );
+
+ProductSchema.plugin(subReferencePopulate);
 
 const Product = mongoose.model<ProductDocument>(Schema.PRODUCT, ProductSchema);
 

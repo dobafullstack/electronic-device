@@ -12,20 +12,24 @@ export interface CategoryDocument extends mongoose.Document {
     updatedAt: Date;
 }
 
+const ChildCate = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+        },
+        childCate: [],
+        createdAt: Date,
+        updatedAt: Date,
+    },
+    { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } }
+);
+
 const CategoryField = {
     name: {
         type: String,
     },
-    childCate: [],
-    createdAt: Date,
-    updatedAt: Date,
-};
-
-const CategorySchema = new mongoose.Schema(CategoryField, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
-
-CategorySchema.add({
     childCate: {
-        type: [new mongoose.Schema(CategoryField)],
+        type: [ChildCate],
         required: false,
         default: [],
     },
@@ -34,7 +38,12 @@ CategorySchema.add({
         ref: Schema.ATTRIBUTE,
         default: [],
     },
-});
+    createdAt: Date,
+    updatedAt: Date,
+};
+
+const CategorySchema = new mongoose.Schema(CategoryField, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
+
 export class CategoryComposite extends mongoose.Model {
     AddCategoryDetail(root: CategoryDocument, nodeId: string, categoryDetail: CategoryDocument) {
         if (root._id.toString() === nodeId) {
