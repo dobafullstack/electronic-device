@@ -1,264 +1,272 @@
-/*-------- 7. Section title style ---------*/
-
-.section-title-tab-wrap {
-	display: flex;
-    flex-wrap: wrap;
-	justify-content: space-between;
-	align-items: center;
-    &.align-items-inherit {
-        align-items: inherit;
-    }
-    @media #{$md-layout} {
-        &.mb-45 {
-            margin-bottom: 40px;
-        }
-        &.mb-55 {
-            margin-bottom: 30px;
-        }
-    }
-    @media #{$xs-layout} {
-        &.mb-45 {
-            margin-bottom: 25px;
-        }
-        &.mb-30 {
-            margin-bottom: 15px;
-        }
-        &.mb-50 {
-            margin-bottom: 23px;
-        }
-        &.mb-55 {
-            margin-bottom: 20px;
-        }
-    }
-}
+/*------- 5. Section title style  -------*/
 
 .section-title {
-    h2 {
-        font-size: 24px;
-        font-weight: bold;
-        font-family: $heebo;
-        margin: 0;
-        text-transform: uppercase;
-        @media #{$md-layout} {
-            font-size: 22px;
-        }
+  @media #{$xs-layout} {
+    &.mb-50 {
+      margin-bottom: 30px;
     }
-    p {
-        font-size: 16px;
-        margin: 10px 0 0;
-    }
-    @media #{$md-layout} {
-        &.mb-45 {
-            margin-bottom: 30px;
-        }
-    }
-    @media #{$xs-layout} {
-        &.mb-45 {
-            margin-bottom: 25px;
-        }
-    }
-}
+  }
+  h2 {
+    font-size: 30px;
+    font-weight: 600;
 
-.section-title-tag-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    @media #{$md-layout} {
-        &.mb-70 {
-            margin-bottom: 40px;
-        }
-    }
+    position: relative;
+
+    display: inline-block;
+
+    margin: 0 0 0;
     @media #{$xs-layout} {
-        &.mb-70 {
-            margin-bottom: 25px;
-        }
+      font-size: 24px;
+      line-height: 30px;
+      &.mb-50 {
+        margin-bottom: 30px;
+      }
     }
+    &::before {
+      position: absolute;
+      top: 17px;
+      left: -100px;
+
+      width: 80px;
+      height: 2px;
+
+      content: "";
+
+      background-color: #000;
+      @media #{$xs-layout} {
+        left: -40px;
+
+        width: 30px;
+      }
+    }
+    &::after {
+      position: absolute;
+      top: 17px;
+      right: -100px;
+
+      width: 80px;
+      height: 2px;
+
+      content: "";
+
+      background-color: #000;
+      @media #{$xs-layout} {
+        right: -40px;
+
+        width: 30px;
+      }
+    }
+  }
+  &.mb-55 {
+    @media #{$xs-layout} {
+      margin-bottom: 30px;
+    }
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: 400;
+
+    margin-top: 10px;
+
+    &.grey {
+      color: #808080;
+    }
+  }
+
+  &.no-border {
+    h2 {
+      font-size: 36px;
+      &:before,
+      &:after {
+        display: none;
+      }
+    }
+  }
 }
 
 .section-title-2 {
-    h2 {
-        font-size: 30px;
-        font-weight: 300;
-        margin: 0;
-        line-height: 1;
-        letter-spacing: .25px;
-        span {
-            font-weight: bold;
-        }
+  h2 {
+    font-size: 30px;
+    font-weight: 600;
+
+    position: relative;
+
+    display: inline-block;
+
+    margin: 0 0 15px;
+    padding: 0 0 15px;
+
+    color: #000000;
+    &:before {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      width: 80px;
+      height: 2px;
+      margin: 0 auto;
+
+      content: "";
+
+      background-color: #000000;
     }
-    p {
-        color: #999999;
-        margin: 12px 0 0;
-        @media #{$xs-layout} {
-            margin: 7px 0 0;
-        }
-    }
-    @media #{$md-layout} {
-        &.mb-45 {
-            margin-bottom: 35px;
-        }
-    }
+  }
+  p {
+    margin: 0;
+
+    color: #333;
+  }
+  &.mb-60 {
     @media #{$xs-layout} {
-        &.mb-45 {
-            margin-bottom: 20px;
-        }
+      margin-bottom: 30px;
     }
+  }
 }
 
 .section-title-3 {
-    h2 {
-        font-size: 24px;
-        font-weight: 600;
-        margin: 0;
-        letter-spacing: -.25px;
-        @media #{$xs-layout} {
-            font-size: 19px;
-        }
+  h4 {
+    font-size: 24px;
+    font-weight: 500;
+
+    color: #000000;
+  }
+  &.mb-40 {
+    @media #{$xs-layout} {
+      margin-bottom: 20px;
     }
-    p {
-        margin: 8px 0 0;
+  }
+}
+
+.section-border {
+  position: relative;
+
+  overflow: hidden;
+
+  margin-right: 94px;
+  @media #{$xs-layout} {
+    margin-right: 0;
+  }
+  &::before {
+    position: absolute;
+    z-index: 1;
+    top: 11px;
+    left: 0;
+
+    width: 100%;
+    height: 1px;
+
+    content: "";
+    transition: all 0.4s ease 0s;
+
+    background-color: #d2d2d2;
+    @media #{$xs-layout} {
+      display: none;
     }
-    &.section-title-3-white {
-        h2 {
-            color: $white;
-        }
-        p {
-            color: $white;
-        }
-    }
+  }
 }
 
 .section-title-4 {
-    h2 {
-        font-size: 30px;
-        margin: 0;
-        letter-spacing: -.25px;
-        text-transform: uppercase;
-        line-height: 1;
-        @media #{$xs-layout} {
-            font-size: 20px;
-        }
+  position: relative;
+  z-index: 999;
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+
+    margin: 0;
+    padding-right: 45px;
+
+    letter-spacing: -0.25px;
+
+    color: #242424;
+    @media #{$xs-layout} {
+      padding-right: 0;
     }
+  }
 }
 
 .section-title-5 {
-    display: flex;
-    padding: 15px 24px;
+  h2 {
+    font-size: 48px;
+    line-height: 38px;
+
+    margin: 0;
+
+    color: #010101;
+    @media #{$md-layout} {
+      font-size: 40px;
+    }
     @media #{$xs-layout} {
-        justify-content: center;
+      font-size: 30px;
+      line-height: 27px;
     }
-    @media #{$sm-layout} {
-        justify-content: flex-start;
+  }
+  @media #{$xs-layout} {
+    &.mb-60 {
+      margin-bottom: 30px;
     }
-    i {
-        font-size: 20px;
-        margin-right: 12px;
-        &.red {
-            color: $theme-color-red;
-        }
-        &.purple {
-            color: #6f50a7;
-        }
-        &.green {
-            color: #6e9b00;
-        }
-    }
-    h5 {
-        font-size: 16px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: .25px;
-        margin: 0;
-        display: inline-block;
-        &.red {
-            color: $theme-color-red;
-            border-bottom: 1px solid $theme-color-red;
-        }
-        &.purple {
-            color: #6f50a7;
-            border-bottom: 1px solid #6f50a7;
-        }
-        &.green {
-            color: #6e9b00;
-            border-bottom: 1px solid #6e9b00;
-        }
-    }
-    &.section-title-5-bg-1 {
-        background-color: #fdefed;
-    }
-    &.section-title-5-bg-2 {
-        background-color: #f2edfc;
-    }
-    &.section-title-5-bg-3 {
-        background-color: #f7faee;
-    }
+  }
 }
 
 .section-title-6 {
-    h2 {
-        font-size: 24px;
-        text-transform: uppercase;
-        margin: 0;
-        line-height: 1;
-        letter-spacing: .25px;
-        @media #{$xs-layout} {
-            font-size: 17px;
-        }
-        i {
-            position: relative;
-            top: 2px;
-            margin-right: 14px;
-        }
-    }
-    @media #{$md-layout} {
-        &.mb-60 {
-            margin-bottom: 35px;
-        }
-    }
-    @media #{$xs-layout} {
-        &.section-title-6-xs {
-            h2 {
-                font-size: 20px;
-            }
-        }
-        &.mb-60 {
-            margin-bottom: 25px;
-        }
-        &.mb-25 {
-            margin-bottom: 15px;
-        }
-    }
+  h2 {
+    font-family: $poppins;
+    font-size: 24px;
+    font-weight: bold;
+
+    margin-bottom: 0;
+
+    text-transform: uppercase;
+
+    color: #010101;
+  }
 }
 
 .section-title-7 {
-    h2 {
-        font-size: 18px;
-        font-weight: 600;
-        text-transform: uppercase;
-        margin: 0 0 0;
-        line-height: 1;
-    }
+  h2 {
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 29px;
+
+    margin: 0;
+
+    color: #010101;
+  }
 }
 
 .section-title-8 {
-    h2 {
-        font-size: 24px;
-        font-weight: 600;
-        text-transform: uppercase;
-        margin: 0 0 0;
-        line-height: 1;
-        letter-spacing: -.25px;
-        @media #{$xs-layout} {
-            font-size: 20px;
-            margin: 0 0 5px;
-        }
-        @media #{$sm-layout} {
-            font-size: 18px;
-            margin: 0 0 0px;
-        }
+  h2 {
+    font-family: $josefin;
+    font-size: 36px;
+    font-weight: 600;
+
+    color: #010101;
+  }
+  p {
+    width: 600px;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  &.bottom-border {
+    position: relative;
+
+    padding-bottom: 15px;
+    &:before {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+
+      width: 50px;
+      height: 1px;
+
+      content: "";
+      transform: translateX(-50%);
+
+      background-color: #000;
     }
+  }
 }
-
-
-

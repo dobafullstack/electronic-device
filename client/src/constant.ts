@@ -1,1 +1,0 @@
-export const CITY_API = "https://api-vietnam-city.herokuapp.com";
