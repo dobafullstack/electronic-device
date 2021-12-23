@@ -6,7 +6,8 @@ import AddNewModal from './AddNewModal';
 import ModelEditCategory from './ModelEditCategory';
 
 const ListCategory = ({ match }) => {
-  const fetchApi = () => categoryApi.getAllCategories().then((res) => res.result);
+  const fetchApi = () =>
+    categoryApi.getAllCategories().then((res) => res.result);
 
   const deleteItem = async (selectedItem) => {
     try {

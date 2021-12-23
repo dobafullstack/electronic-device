@@ -6,7 +6,13 @@ import { ContextMenuTrigger } from 'react-contextmenu';
 import { Colxx } from 'components/common/CustomBootstrap';
 import { formatDate } from 'helpers/Utils';
 
-const ThumbListView = ({ product, isSelect, collect, onCheckItem, location }) => {
+const ThumbListView = ({
+  product,
+  isSelect,
+  collect,
+  onCheckItem,
+  location,
+}) => {
   return (
     <Colxx xxs="12" key={product.id} className="mb-3">
       <ContextMenuTrigger id="menu_id" data={product._id} collect={collect}>

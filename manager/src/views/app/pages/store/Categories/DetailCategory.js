@@ -9,7 +9,8 @@ import ModelEditCategoryDetail from './ModelEditCategoryDetail';
 const DetailCategory = ({ match }) => {
   const { categoryId } = useParams();
 
-  const fetchApi = () => categoryApi.getCategory(categoryId).then((res) => res.result.childCate);
+  const fetchApi = () =>
+    categoryApi.getCategory(categoryId).then((res) => res.result.childCate);
 
   const deleteItem = async (selectedItem) => {
     try {

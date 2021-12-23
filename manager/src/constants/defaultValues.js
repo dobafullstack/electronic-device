@@ -21,12 +21,13 @@ export const localeOptions = [
 export const baseUrl = 'https://electronic-device.herokuapp.com';
 
 export const firebaseConfig = {
-  apiKey: 'AIzaSyBBksq-Asxq2M4Ot-75X19IyrEYJqNBPcg',
-  authDomain: 'gogo-react-login.firebaseapp.com',
-  databaseURL: 'https://gogo-react-login.firebaseio.com',
-  projectId: 'gogo-react-login',
-  storageBucket: 'gogo-react-login.appspot.com',
-  messagingSenderId: '216495999563',
+  apiKey: 'AIzaSyC7E6qJ0oZJd3IQ6eP4IgUfwPggPR4VWoY',
+  authDomain: 'electronic-device-34ea2.firebaseapp.com',
+  projectId: 'electronic-device-34ea2',
+  storageBucket: 'electronic-device-34ea2.appspot.com',
+  messagingSenderId: '864294362942',
+  appId: '1:864294362942:web:b9a013a18938de536dd66f',
+  measurementId: 'G-2CX8V1B3FX',
 };
 
 export const currentUser = {
@@ -62,4 +63,4 @@ export const colors = [
   'greysteel',
 ];
 
-export const SECRET_JWT = 'dobadov3333';
+export const SECRET_JWT = 'TMDT2021';
