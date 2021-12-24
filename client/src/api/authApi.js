@@ -6,13 +6,9 @@ export default {
             usernameOrEmail,
             password,
         }),
-    register: async (username, email, password, name, phone) =>
+    register: async (body) =>
         await axiosClient.post("/auth/register", {
-            username,
-            email,
-            password,
-            name,
-            phone,
+            ...body
         }),
     getUser: async (token) =>
         await axiosClient.get("/auth", {

@@ -29,7 +29,7 @@ const ProductDescriptionInfo = ({
     product.variation ? product.variation[0].size[0].name : ""
   );
   const [productStock, setProductStock] = useState(
-    product.variation ? product.variation[0].size[0].stock : product.stock
+    product.count
   );
   const [quantityCount, setQuantityCount] = useState(1);
 

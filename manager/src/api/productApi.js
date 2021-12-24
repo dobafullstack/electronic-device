@@ -6,5 +6,7 @@ export default {
     axiosClient.post('/product', {
       ...body,
     }),
-  deleteProduct: async (productId) => axiosClient.delete(`/product/${productId}`)
+  deleteProduct: async (productId) => axiosClient.delete(`/product/${productId}`),
+  getDetailProduct: async (productId) => axiosClient.get(`/product/${productId}`),
+  editProduct: async (productId, body) => axiosClient.put(`/product/${productId}`, {...body})
 };

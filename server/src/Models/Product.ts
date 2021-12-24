@@ -59,6 +59,10 @@ const ProductSchema = new mongoose.Schema(
         connect: String,
         key_cap: String,
         mouse_pad_size: String,
+        description: {
+            type: String,
+            default: ""
+        },
         createdAt: Date,
         updatedAt: Date,
     },

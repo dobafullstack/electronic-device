@@ -22,19 +22,25 @@ export default {
         BASE_URL: '/product',
         CATEGORY: '/category/:categoryId',
         CATEGORY_DETAIL: '/category-detail/:categoryDetailId',
-        SEARCH: '/search/:productName'
+        SEARCH: '/search/:productName',
     },
     PRODUCT_TYPE: {
         BASE_URL: '/product-type',
     },
     ORDER: {
         BASE_URL: '/order',
-        MY_ORDER: '/my-order'
+        MY_ORDER: '/my-order',
     },
     BILL: {
         BASE_URL: '/bill',
     },
     ATTRIBUTE: {
-        BASE_URL: "/attribute"
-    }
+        BASE_URL: '/attribute',
+    },
+    SLIDER: {
+        BASE_URL: '/slider',
+    },
+    POST: {
+        BASE_URL: '/post',
+    },
 };

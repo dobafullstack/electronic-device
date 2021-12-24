@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
   cartData: cartReducer,
   wishlistData: wishlistReducer,
   compareData: compareReducer,
+  productData: productReducer
 });
 
 export default rootReducer;

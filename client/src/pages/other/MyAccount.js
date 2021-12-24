@@ -6,9 +6,15 @@ import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+import { useContext } from "react";
+import { AuthContext } from "../../Context/AuthContext";
+import { Redirect } from "react-router-dom";
 
 const MyAccount = ({ location }) => {
   const { pathname } = location;
+  const {isLogin} = useContext(AuthContext);
+
+  if (!isLogin) return <Redirect to='/login-register' />;
 
   return (
     <Fragment>

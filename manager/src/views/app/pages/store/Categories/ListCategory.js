@@ -44,6 +44,7 @@ const ListCategory = ({ match }) => {
       EditModal={ModelEditCategory}
       deleteItem={deleteItem}
       match={match}
+      title="List Category"
     />
   );
 };

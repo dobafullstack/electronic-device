@@ -7,4 +7,6 @@ export default {
     ORDER: 'Order',
     PRODUCT_TYPE: 'ProductType',
     ATTRIBUTE: 'Attribute',
+    SLIDER: "Slider",
+    POST: "Post"
 };

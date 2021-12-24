@@ -26,7 +26,7 @@ const DataListView = ({
             <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
               <NavLink to={`${product._id}`} className="w-40 w-sm-100">
                 <p className="list-item-heading mb-1 truncate">
-                  {product.name}
+                  {product.name ? product.name : product.title}
                 </p>
               </NavLink>
               {location.pathname.includes('product') && (

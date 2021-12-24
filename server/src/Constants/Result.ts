@@ -60,4 +60,18 @@ export default {
         UPDATE: 'Update bill',
         DELETE: 'Delete bill',
     },
+    SLIDER: {
+        CREATE: 'Create slider',
+        GET_LIST: 'Get list sliders',
+        GET_DETAIL: 'Get detail slider',
+        UPDATE: 'Update slider',
+        DELETE: 'Delete slider',
+    },
+    POST: {
+        CREATE: 'Create post',
+        GET_LIST: 'Get list posts',
+        GET_DETAIL: 'Get detail post',
+        UPDATE: 'Update post',
+        DELETE: 'Delete post',
+    },
 };

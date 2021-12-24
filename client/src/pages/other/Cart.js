@@ -10,7 +10,6 @@ import {
   addToCart,
   decreaseQuantity,
   deleteFromCart,
-  cartItemStock,
   deleteAllFromCart
 } from "../../redux/actions/cartActions";
 import LayoutOne from "../../layouts/LayoutOne";
@@ -71,7 +70,7 @@ const Cart = ({
                           {cartItems.map((cartItem, key) => {
                             const discountedPrice = getDiscountPrice(
                               cartItem.price,
-                              cartItem.discount
+                              cartItem.discount_value
                             );
                             const finalProductPrice = (
                               cartItem.price * currency.currencyRate
@@ -99,7 +98,7 @@ const Cart = ({
                                       className="img-fluid"
                                       src={
                                         process.env.PUBLIC_URL +
-                                        cartItem.image[0]
+                                        cartItem.images[0]
                                       }
                                       alt=""
                                     />
@@ -176,16 +175,7 @@ const Cart = ({
                                           quantityCount
                                         )
                                       }
-                                      disabled={
-                                        cartItem !== undefined &&
-                                        cartItem.quantity &&
-                                        cartItem.quantity >=
-                                          cartItemStock(
-                                            cartItem,
-                                            cartItem.selectedProductColor,
-                                            cartItem.selectedProductSize
-                                          )
-                                      }
+                                      disabled={cartItem.count === cartItem.quantity}
                                     >
                                       +
                                     </button>

@@ -52,6 +52,7 @@ const TabProductTen = ({
                   type="new"
                   limit={8}
                   spaceBottomClass="mb-25"
+                  key="newArrival"
                 />
               </div>
             </Tab.Pane>
@@ -62,6 +63,7 @@ const TabProductTen = ({
                   type="bestSeller"
                   limit={8}
                   spaceBottomClass="mb-25"
+                  key="bestSeller"
                 />
               </div>
             </Tab.Pane>
@@ -72,6 +74,7 @@ const TabProductTen = ({
                   type="saleItems"
                   limit={8}
                   spaceBottomClass="mb-25"
+                  key="saleItems"
                 />
               </div>
             </Tab.Pane>

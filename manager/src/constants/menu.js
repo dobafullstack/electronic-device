@@ -46,6 +46,11 @@ const data = [
         to: `${adminRoot}/pages/product`,
         subs: [
           {
+            icon: 'simple-icon-docs',
+            label: 'Slider',
+            to: `${adminRoot}/pages/store/sliders`,
+          },
+          {
             icon: 'simple-icon-layers',
             label: 'pages.store.attributes',
             to: `${adminRoot}/pages/store/attributes`,

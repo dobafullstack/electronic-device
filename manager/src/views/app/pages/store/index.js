@@ -16,6 +16,9 @@ const OrderPage = React.lazy(() =>
 const BillPage = React.lazy(() =>
   import(/* webpackChunkName: "product-data-list" */ './Bill')
 );
+const SliderPage = React.lazy(() =>
+  import(/* webpackChunkName: "product-data-list" */ './Slider')
+);
 
 const PagesStore = ({ match }) => (
   <Suspense fallback={<div className="loading" />}>
@@ -40,6 +43,10 @@ const PagesStore = ({ match }) => (
       <Route
         path={`${match.url}/bills`}
         render={(props) => <BillPage {...props} />}
+      />
+      <Route
+        path={`${match.url}/sliders`}
+        render={(props) => <SliderPage {...props} />}
       />
       <Redirect to="/error" />
     </Switch>

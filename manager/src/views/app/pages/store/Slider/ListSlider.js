@@ -1,20 +1,20 @@
-import productApi from 'api/productApi';
+import sliderApi from 'api/sliderApi';
 import { NotificationManager } from 'components/common/react-notifications';
 import ListItem from 'layout/ListPageLayout/ListItem';
 import React from 'react';
 import AddNewProductModal from './AddNewProductModal';
 import EditProductModal from './EditProductModal';
 
-export default function ListProduct({ match }) {
-  const fetchApi = () => productApi.getAllProducts().then((res) => res.result);
+export default function ListSlider({ match }) {
+  const fetchApi = () => sliderApi.getAllSlider().then(res => res.result);
 
-  const deleteItem = async (productId) => {
+  const deleteItem = async (sliderId) => {
     try {
-      const { result } = await productApi.deleteProduct(productId);
+      const { result } = await sliderApi.deleteSlider(sliderId);
 
       NotificationManager.success(
         result,
-        'Delete Product',
+        'Delete Slider',
         3000,
         null,
         null,
@@ -24,7 +24,7 @@ export default function ListProduct({ match }) {
       if (error.response.data) {
         NotificationManager.warning(
           error.response.data.result,
-          'Delete Product',
+          'Delete Slider',
           3000,
           null,
           null,
@@ -33,7 +33,7 @@ export default function ListProduct({ match }) {
       } else {
         NotificationManager.warning(
           error.message,
-          'Delete Product',
+          'Delete Slider',
           3000,
           null,
           null,
@@ -50,7 +50,8 @@ export default function ListProduct({ match }) {
       deleteItem={deleteItem}
       AddNewModal={AddNewProductModal}
       EditModal={EditProductModal}
-      title="List Product"
+      notEdit
+      title="List Slider"
     />
   );
 }

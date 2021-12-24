@@ -20,7 +20,7 @@ const orderOptions = [
 ];
 const pageSizes = [4, 8, 12, 20];
 
-const ListItem = ({ match, fetchApi, AddNewModal, deleteItem, EditModal }) => {
+const ListItem = ({ match, fetchApi, AddNewModal, deleteItem, EditModal, notEdit, title }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [displayMode, setDisplayMode] = useState('list');
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,7 +52,11 @@ const ListItem = ({ match, fetchApi, AddNewModal, deleteItem, EditModal }) => {
               (currentPage - 1) * selectedPageSize,
               selectedPageSize * currentPage
             )
-            .filter((x) => x.name.toLowerCase().includes(search))
+            .filter((x) =>
+              x.name
+                ? x.name.toLowerCase().includes(search)
+                : x.title.toLowerCase().includes(search)
+            )
         );
         setSelectedItems([]);
         setTotalItemCount(data.length);
@@ -159,7 +163,7 @@ const ListItem = ({ match, fetchApi, AddNewModal, deleteItem, EditModal }) => {
     <>
       <div className="disable-text-selection">
         <ListPageHeading
-          heading="menu.list-categories" /* title */
+          heading={title} /* title */
           displayMode={displayMode} /* grid or list or thumb */
           changeDisplayMode={setDisplayMode}
           onReload={onReload}
@@ -201,6 +205,7 @@ const ListItem = ({ match, fetchApi, AddNewModal, deleteItem, EditModal }) => {
           onContextMenuClick={onContextMenuClick}
           onContextMenu={onContextMenu}
           onChangePage={setCurrentPage}
+          notEdit={notEdit}
         />
         {selectedItems.length > 0 && (
           <EditModal

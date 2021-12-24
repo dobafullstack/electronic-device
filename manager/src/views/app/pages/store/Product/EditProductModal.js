@@ -1,15 +1,17 @@
-import attributeApi from 'api/attributeApi';
 import categoryApi from 'api/categoryApi';
+import productApi from 'api/productApi';
 import { NotificationManager } from 'components/common/react-notifications';
+import { FieldArray, Formik } from 'formik';
+import { storage } from 'helpers/Firebase';
 import React, { useEffect, useState } from 'react';
 import {
   Button,
+  Form,
   FormGroup,
   Input,
   Label,
   Modal,
   ModalBody,
-  ModalFooter,
   ModalHeader,
 } from 'reactstrap';
 
@@ -18,106 +20,245 @@ export default function EditProductModal({
   setIsOpenModal,
   item,
 }) {
-  const [categoryName, setCategoryName] = useState('');
-  const [attributes, setAttributes] = useState([]);
-  const [selectedAttribute, setSelectedAttribute] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [objTypes, setObjectTypes] = useState({});
+  const [product, setProduct] = useState();
+  const imageKeys = [123, 463, 641, 256];
+
+  const attributes =
+    selectedCategory !== ''
+      ? categories
+          .find((x) => x._id === selectedCategory)
+          .attributes.map((att) => att.unit)
+      : [];
+
+  const initialValues = {
+    name: product && product.name,
+    category_detail_id: product && product.category_detail_id,
+    price: product && product.price,
+    count: product && product.count,
+    images: product && product.images,
+    ...objTypes,
+  };
+
+  const getLinkUpload = (image, setFieldValue, fieldName) => {
+    console.log(fieldName);
+
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    uploadTask.on(
+      'state_changed',
+      () => {},
+      (err) => console.log(err),
+      () => {
+        storage
+          .ref('images')
+          .child(image.name)
+          .getDownloadURL()
+          .then((url) => {
+            setFieldValue(fieldName, url);
+          });
+      }
+    );
+  };
 
   useEffect(() => {
     const fetchCategory = async () => {
-      const { result, error } = await categoryApi.getCategory(item);
+      try {
+        const { result } = await categoryApi.getAllCategories();
 
-      if (error === null) {
-        setCategoryName(result.name);
-        setSelectedAttribute(result.attributes.map((x) => x._id));
+        setCategories(result);
+        setSelectedCategory(result[0]._id);
+      } catch (error) {
+        console.log(error);
       }
     };
 
-    fetchCategory().catch((err) => console.log(err));
+    fetchCategory();
+  }, []);
+
+  useEffect(() => {
+    productApi
+      .getDetailProduct(item)
+      .then((res) => setProduct(res.result))
+      .catch((err) => console.log(err));
   }, [item]);
 
   useEffect(() => {
-    const fetchAttribute = async () => {
-      const { result, error } = await attributeApi.getAllAttributes();
+    setObjectTypes(
+      attributes.reduce((obj, key) => ({ ...obj, [key]: '' }), {})
+    );
+  }, [selectedCategory]);
 
-      if (error === null) {
-        setAttributes(result);
-      }
-    };
+  const onSubmit = (values) => {
+    const editProduct = async () => {
+      try {
+        const { result } = await productApi.editProduct(item, values);
 
-    fetchAttribute().catch((err) => console.log(err));
-  }, []);
-
-  const onCheckChange = (e, attributeId) => {
-    const index = selectedAttribute.findIndex((x) => x === attributeId);
-
-    if (index >= 0)
-      setSelectedAttribute(selectedAttribute.filter((x) => x !== attributeId));
-    else setSelectedAttribute([...selectedAttribute, attributeId]);
-  };
-
-  const onSave = async () => {
-    try {
-      const { result } = await categoryApi.updatedCategory(item, {
-        name: categoryName,
-        attributes: selectedAttribute,
-      });
-
-      NotificationManager.success(
-        result,
-        'Update category',
-        3000,
-        null,
-        null,
-        ''
-      );
-
-      setIsOpenModal(false);
-    } catch (error) {
-      if (error.response.data) {
-        NotificationManager.warning(
-          error.response.data.error.message,
-          'Update category',
+        NotificationManager.success(
+          result,
+          'Edit Product',
           3000,
           null,
           null,
           ''
         );
+        setIsOpenModal(false);
+      } catch (error) {
+        if (error.response.data) {
+          NotificationManager.warning(
+            error.response.data.result,
+            'Edit Product',
+            3000,
+            null,
+            null,
+            ''
+          );
+        } else {
+          NotificationManager.warning(
+            error.message,
+            'Edit Product',
+            3000,
+            null,
+            null,
+            ''
+          );
+        }
       }
-    }
+    };
+
+    editProduct();
   };
 
   return (
     <Modal isOpen={isOpenModal} toggle={() => setIsOpenModal(!isOpenModal)}>
-      <ModalHeader>Edit Category</ModalHeader>
+      <ModalHeader>Edit Product</ModalHeader>
       <ModalBody>
-        <FormGroup>
-          <Label>Category Name</Label>
-          <Input
-            type="text"
-            placeholder="Name"
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
-          />
-        </FormGroup>
-        {attributes.map((att) => (
-          <FormGroup check key={att._id}>
-            <Input
-              type="checkbox"
-              checked={selectedAttribute.includes(att._id)}
-              onChange={(e) => onCheckChange(e, att._id)}
-            />{' '}
-            <Label check>{att.name}</Label>
-          </FormGroup>
-        ))}
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          enableReinitialize
+        >
+          {({ values, handleChange, handleSubmit, setFieldValue }) => (
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit();
+              }}
+            >
+              <FormGroup>
+                <Label>Product name</Label>
+                <Input
+                  type="text"
+                  placeholder="Product Name"
+                  name="name"
+                  value={values.name}
+                  onChange={handleChange}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Price</Label>
+                <Input
+                  type="number"
+                  name="price"
+                  value={values.price}
+                  onChange={handleChange}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Quantity</Label>
+                <Input
+                  type="number"
+                  name="count"
+                  value={values.count}
+                  onChange={handleChange}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Category</Label>
+                <Input
+                  type="select"
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                  {categories.map((category) => (
+                    <option value={category._id} key={category._id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label>Category Detail</Label>
+                <Input
+                  type="select"
+                  name="category_detail_id"
+                  onChange={handleChange}
+                >
+                  {selectedCategory !== '' &&
+                    categories
+                      .find((x) => x._id === selectedCategory)
+                      .childCate.map((child) => (
+                        <option value={child._id} key={child._id}>
+                          {child.name}
+                        </option>
+                      ))}
+                </Input>
+              </FormGroup>
+              {values.category !== '' &&
+                categories
+                  .find((x) => x._id === selectedCategory)
+                  .attributes.map((att) => (
+                    <FormGroup key={att._id}>
+                      <Label>{att.name}</Label>
+                      <Input
+                        type="select"
+                        name={att.unit}
+                        onChange={handleChange}
+                      >
+                        {att.types.map((type) => (
+                          <option value={type.name} key={type._id}>
+                            {type.name}
+                          </option>
+                        ))}
+                      </Input>
+                    </FormGroup>
+                  ))}
+              <FieldArray name="images">
+                {({ form }) =>
+                  form.values.images.map((image, index) => (
+                    <FormGroup key={imageKeys[index]}>
+                      <Label>Ảnh {index + 1}</Label>
+                      <Input
+                        name={`images[${index}]`}
+                        type="file"
+                        onChange={(e) => {
+                          getLinkUpload(
+                            e.target.files[0],
+                            setFieldValue,
+                            `images[${index}]`
+                          );
+                        }}
+                      />
+                    </FormGroup>
+                  ))
+                }
+              </FieldArray>
+              <div className="d-flex justify-content-end" style={{ gap: 10 }}>
+                <Button
+                  color="secondary"
+                  outline
+                  onClick={() => setIsOpenModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button color="primary" type="submit">
+                  Submit
+                </Button>{' '}
+              </div>
+            </Form>
+          )}
+        </Formik>
       </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={() => onSave()}>
-          Save
-        </Button>{' '}
-        <Button color="secondary" onClick={() => setIsOpenModal(false)}>
-          Cancel
-        </Button>
-      </ModalFooter>
     </Modal>
   );
 }

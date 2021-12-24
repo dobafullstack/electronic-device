@@ -7,8 +7,18 @@ import FeatureIconFour from "../../wrappers/feature-icon/FeatureIconFour";
 import TabProductTen from "../../wrappers/product/TabProductTen";
 import BannerTwelve from "../../wrappers/banner/BannerTwelve";
 import BlogFeaturedThree from "../../wrappers/blog-featured/BlogFeaturedThree";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getAllBestSellerAction, getAllNewArrivalAction, getAllSaleItemsAction } from "../../redux/actions/productActions";
 
 const HomeElectronicsTwo = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllBestSellerAction());
+    dispatch(getAllNewArrivalAction());
+    dispatch(getAllSaleItemsAction());
+  }, [])
   return (
     <Fragment>
       <MetaTags>

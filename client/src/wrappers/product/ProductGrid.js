@@ -17,8 +17,8 @@ const ProductGrid = ({
     compareItems,
     sliderClassName,
     spaceBottomClass,
+    products
 }) => {
-    const products = [];
     return (
         <Fragment>
             {products.map((product) => {
@@ -33,7 +33,7 @@ const ProductGrid = ({
                         addToCompare={addToCompare}
                         cartItem={
                             cartItems.filter(
-                                (cartItem) => cartItem.id === product.id
+                                (cartItem) => cartItem._id === product._id
                             )[0]
                         }
                         wishlistItem={
@@ -68,11 +68,13 @@ ProductGrid.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
+    const {key} = ownProps;
     return {
         currency: state.currencyData,
         cartItems: state.cartData,
         wishlistItems: state.wishlistData,
         compareItems: state.compareData,
+        products: key === 'newArrival' ? state.productData.newArrival : key === 'bestSeller' ? state.productData.bestSeller : state.productData.saleItems
     };
 };
 

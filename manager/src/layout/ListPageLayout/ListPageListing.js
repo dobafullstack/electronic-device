@@ -21,6 +21,7 @@ const ListPageListing = ({
   onContextMenuClick,
   onContextMenu,
   onChangePage,
+  notEdit,
 }) => {
   const location = useLocation();
 
@@ -72,6 +73,7 @@ const ListPageListing = ({
       <ContextMenuContainer
         onContextMenuClick={onContextMenuClick}
         onContextMenu={onContextMenu}
+        notEdit={notEdit}
       />
     </Row>
   );

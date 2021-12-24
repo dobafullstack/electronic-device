@@ -158,6 +158,8 @@ module.exports = {
   'menu.list-categories': 'List Categories',
   'menu.list-order': 'List Orders',
   'menu.list-bill': 'List Bills',
+  'menu.list-slider': 'List Slider',
+  'menu.sliders': 'Sliders',
 
   /* 04.Dashboards */
   'dashboards.pending-orders': 'Pending Orders',

@@ -56,11 +56,6 @@ const IconGroup = ({
                 </button>
                 <div className='account-dropdown'>
                     <ul>
-                        <li>
-                            <Link to={process.env.PUBLIC_URL + "/my-account"}>
-                                my account
-                            </Link>
-                        </li>
                         {!isLogin && (
                             <li>
                                 <Link
@@ -73,15 +68,28 @@ const IconGroup = ({
                             </li>
                         )}
                         {isLogin && (
-                            <li>
-                                <a
-                                    onClick={() => {
-                                        localStorage.removeItem("access_token");
-                                        setIsLogin(false);
-                                    }}>
-                                    Logout
-                                </a>
-                            </li>
+                            <>
+                                <li>
+                                    <Link
+                                        to={
+                                            process.env.PUBLIC_URL +
+                                            "/my-account"
+                                        }>
+                                        my account
+                                    </Link>
+                                </li>
+                                <li>
+                                    <a
+                                        onClick={() => {
+                                            localStorage.removeItem(
+                                                "access_token"
+                                            );
+                                            setIsLogin(false);
+                                        }}>
+                                        Logout
+                                    </a>
+                                </li>
+                            </>
                         )}
                     </ul>
                 </div>
