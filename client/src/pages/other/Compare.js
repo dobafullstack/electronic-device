@@ -18,7 +18,7 @@ const Compare = ({
   compareItems,
   addToCart,
   deleteFromCompare,
-  currency
+  currency,
 }) => {
   const { pathname } = location;
   const { addToast } = useToasts();
@@ -26,7 +26,7 @@ const Compare = ({
   return (
     <Fragment>
       <MetaTags>
-        <title>Flone | Compare</title>
+        <title>Tin Học Mặt Trăng | Compare</title>
         <meta
           name="description"
           content="Compare page of flone react minimalist eCommerce template."
@@ -52,7 +52,7 @@ const Compare = ({
                             <th className="title-column">Product Info</th>
                             {compareItems.map((compareItem, key) => {
                               const cartItem = cartItems.filter(
-                                item => item.id === compareItem.id
+                                (item) => item._id === compareItem._id
                               )[0];
                               return (
                                 <td className="product-image-title" key={key}>
@@ -69,7 +69,7 @@ const Compare = ({
                                     to={
                                       process.env.PUBLIC_URL +
                                       "/product/" +
-                                      compareItem.id
+                                      compareItem._id
                                     }
                                     className="image"
                                   >
@@ -77,7 +77,7 @@ const Compare = ({
                                       className="img-fluid"
                                       src={
                                         process.env.PUBLIC_URL +
-                                        compareItem.image[0]
+                                        compareItem.images[0]
                                       }
                                       alt=""
                                     />
@@ -87,7 +87,7 @@ const Compare = ({
                                       to={
                                         process.env.PUBLIC_URL +
                                         "/product/" +
-                                        compareItem.id
+                                        compareItem._id
                                       }
                                     >
                                       {compareItem.name}
@@ -110,8 +110,8 @@ const Compare = ({
                                       >
                                         Select Option
                                       </Link>
-                                    ) : compareItem.stock &&
-                                      compareItem.stock > 0 ? (
+                                    ) : compareItem.count &&
+                                      compareItem.count > 0 ? (
                                       <button
                                         onClick={() =>
                                           addToCart(compareItem, addToast)
@@ -245,18 +245,18 @@ Compare.propTypes = {
   compareItems: PropTypes.array,
   currency: PropTypes.object,
   location: PropTypes.object,
-  deleteFromCompare: PropTypes.func
+  deleteFromCompare: PropTypes.func,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     cartItems: state.cartData,
     compareItems: state.compareData,
-    currency: state.currencyData
+    currency: state.currencyData,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (item, addToast, quantityCount) => {
       dispatch(addToCart(item, addToast, quantityCount));
@@ -264,7 +264,7 @@ const mapDispatchToProps = dispatch => {
 
     deleteFromCompare: (item, addToast) => {
       dispatch(deleteFromCompare(item, addToast));
-    }
+    },
   };
 };
 

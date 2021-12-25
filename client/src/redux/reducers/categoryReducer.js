@@ -3,14 +3,19 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   categories: [],
   category: {},
+  loading: true,
 };
 
 const CategorySlice = createSlice({
   name: "category",
   initialState,
   reducers: {
-    getAllCategories(state, { payload }) {
-      state.splice(0, state.length);
+    getAllCategoriesLoading(state) {
+      state.loading = true;
+    },
+    getAllCategoriesSuccess(state, { payload }) {
+      state.loading = false;
+      state.categories.splice(0, state.categories.length);
       payload.forEach((item) => state.categories.push(item));
     },
     getCategoryById(state, { payload }) {
@@ -21,4 +26,8 @@ const CategorySlice = createSlice({
 
 export default CategorySlice.reducer;
 
-export const { getAllCategories, getCategoryById } = CategorySlice.actions;
+export const {
+  getAllCategoriesSuccess,
+  getAllCategoriesLoading,
+  getCategoryById,
+} = CategorySlice.actions;

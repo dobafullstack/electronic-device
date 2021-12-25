@@ -57,10 +57,10 @@ const Product = ({ location, match }) => {
             />
 
             {/* product description tab */}
-            {/* <ProductDescriptionTab
-                            spaceBottomClass="pb-90"
-                            productFullDesc={product.description}
-                            /> */}
+            <ProductDescriptionTab
+              spaceBottomClass="pb-90"
+              productFullDesc={product.description}
+            />
 
             {/* related product slider */}
             <RelatedProductSlider

@@ -9,7 +9,12 @@ import BannerTwelve from "../../wrappers/banner/BannerTwelve";
 import BlogFeaturedThree from "../../wrappers/blog-featured/BlogFeaturedThree";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getAllBestSellerAction, getAllNewArrivalAction, getAllSaleItemsAction } from "../../redux/actions/productActions";
+import {
+  getAllBestSellerAction,
+  getAllNewArrivalAction,
+  getAllSaleItemsAction,
+} from "../../redux/actions/productActions";
+import { getAllCategoriesAction } from "../../redux/actions/categoryActions";
 
 const HomeElectronicsTwo = () => {
   const dispatch = useDispatch();
@@ -18,7 +23,8 @@ const HomeElectronicsTwo = () => {
     dispatch(getAllBestSellerAction());
     dispatch(getAllNewArrivalAction());
     dispatch(getAllSaleItemsAction());
-  }, [])
+    dispatch(getAllCategoriesAction());
+  }, []);
   return (
     <Fragment>
       <MetaTags>
