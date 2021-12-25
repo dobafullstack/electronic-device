@@ -21,10 +21,7 @@ const HeroSliderSixteenSingle = ({ data, sliderClass }) => {
               />
               <p className="animated text-white">{data.content}</p>
               <div className="slider-btn btn-hover">
-                <Link
-                  className="animated rounden-btn"
-                  to="/shop"
-                >
+                <Link className="animated rounden-btn" to={data.url || "/shop"}>
                   SHOP NOW
                 </Link>
               </div>
@@ -38,7 +35,7 @@ const HeroSliderSixteenSingle = ({ data, sliderClass }) => {
 
 HeroSliderSixteenSingle.propTypes = {
   data: PropTypes.object,
-  sliderClass: PropTypes.string
+  sliderClass: PropTypes.string,
 };
 
 export default HeroSliderSixteenSingle;
