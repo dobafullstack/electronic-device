@@ -7,6 +7,7 @@ import { addToCart } from "../../redux/actions/cartActions";
 import { addToWishlist } from "../../redux/actions/wishlistActions";
 import { addToCompare } from "../../redux/actions/compareActions";
 import Rating from "./sub-components/ProductRating";
+import VNDCurrency from "../../config/VNDCurrency";
 
 const ProductDescriptionInfo = ({
   product,
@@ -20,7 +21,7 @@ const ProductDescriptionInfo = ({
   addToast,
   addToCart,
   addToWishlist,
-  addToCompare
+  addToCompare,
 }) => {
   const [selectedProductColor, setSelectedProductColor] = useState(
     product.variation ? product.variation[0].color : ""
@@ -28,9 +29,7 @@ const ProductDescriptionInfo = ({
   const [selectedProductSize, setSelectedProductSize] = useState(
     product.variation ? product.variation[0].size[0].name : ""
   );
-  const [productStock, setProductStock] = useState(
-    product.count
-  );
+  const [productStock, setProductStock] = useState(product.count);
   const [quantityCount, setQuantityCount] = useState(1);
 
   const productCartQty = getProductCartQuantity(
@@ -46,13 +45,23 @@ const ProductDescriptionInfo = ({
       <div className="product-details-price">
         {discountedPrice !== null ? (
           <Fragment>
-            <span>{currency.currencySymbol + finalDiscountedPrice}</span>{" "}
+            <span>
+              {currency.currencyName === "VND"
+                ? VNDCurrency(finalDiscountedPrice)
+                : currency.currencySymbol + finalDiscountedPrice}
+            </span>{" "}
             <span className="old">
-              {currency.currencySymbol + finalProductPrice}
+              {currency.currencyName === "VND"
+                ? VNDCurrency(finalProductPrice)
+                : currency.currencySymbol + finalProductPrice}
             </span>
           </Fragment>
         ) : (
-          <span>{currency.currencySymbol + finalProductPrice} </span>
+          <span>
+            {currency.currencyName === "VND"
+              ? VNDCurrency(finalProductPrice)
+              : currency.currencySymbol + finalProductPrice}{" "}
+          </span>
         )}
       </div>
       {product.rating && product.rating > 0 ? (
@@ -65,7 +74,7 @@ const ProductDescriptionInfo = ({
         ""
       )}
       <div className="pro-details-list">
-        <p>{product.shortDescription}</p>
+        <p>{`${product.description.substring(0, 300)}...`}</p>
       </div>
 
       {product.variation ? (
@@ -103,7 +112,7 @@ const ProductDescriptionInfo = ({
             <span>Size</span>
             <div className="pro-details-size-content">
               {product.variation &&
-                product.variation.map(single => {
+                product.variation.map((single) => {
                   return single.color === selectedProductColor
                     ? single.size.map((singleSize, key) => {
                         return (
@@ -312,10 +321,10 @@ ProductDescriptionInfo.propTypes = {
   finalDiscountedPrice: PropTypes.number,
   finalProductPrice: PropTypes.number,
   product: PropTypes.object,
-  wishlistItem: PropTypes.object
+  wishlistItem: PropTypes.object,
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (
       item,
@@ -339,7 +348,7 @@ const mapDispatchToProps = dispatch => {
     },
     addToCompare: (item, addToast) => {
       dispatch(addToCompare(item, addToast));
-    }
+    },
   };
 };
 

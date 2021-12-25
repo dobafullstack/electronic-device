@@ -5,6 +5,7 @@ import { useToasts } from "react-toast-notifications";
 import { getDiscountPrice } from "../../helpers/product";
 import Rating from "./sub-components/ProductRating";
 import ProductModal from "./ProductModal";
+import VNDCurrency from "../../config/VNDCurrency";
 
 const ProductGridSingle = ({
   product,
@@ -16,16 +17,20 @@ const ProductGridSingle = ({
   wishlistItem,
   compareItem,
   sliderClassName,
-  spaceBottomClass
+  spaceBottomClass,
 }) => {
   const [modalShow, setModalShow] = useState(false);
   const { addToast } = useToasts();
 
   const discountedPrice = getDiscountPrice(product.price, product.discount);
-  const finalProductPrice = +(product.price * currency.currencyRate).toFixed(2);
-  const finalDiscountedPrice = +(
-    discountedPrice * currency.currencyRate
-  ).toFixed(2);
+  const finalProductPrice =
+    currency.currencyName === "VND"
+      ? VNDCurrency(+(product.price * currency.currencyRate))
+      : +(product.price * currency.currencyRate).toFixed(2);
+  const finalDiscountedPrice =
+    currency.currencyName === "VND"
+      ? VNDCurrency(+(discountedPrice * currency.currencyRate))
+      : +(discountedPrice * currency.currencyRate).toFixed(2);
 
   return (
     <Fragment>
@@ -38,7 +43,7 @@ const ProductGridSingle = ({
           className={`product-wrap ${spaceBottomClass ? spaceBottomClass : ""}`}
         >
           <div className="product-img">
-            <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
+            <Link to={process.env.PUBLIC_URL + "/product/" + product._id}>
               <img
                 className="default-img"
                 src={process.env.PUBLIC_URL + product.images[0]}
@@ -187,7 +192,7 @@ ProductGridSingle.propTypes = {
   product: PropTypes.object,
   sliderClassName: PropTypes.string,
   spaceBottomClass: PropTypes.string,
-  wishlistItem: PropTypes.object
+  wishlistItem: PropTypes.object,
 };
 
 export default ProductGridSingle;
