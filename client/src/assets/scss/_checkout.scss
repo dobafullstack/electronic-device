@@ -296,3 +296,43 @@
     }
   }
 }
+.payment-method {
+  margin: 40px 0 0;
+  .sin-payment {
+      margin-bottom: 20px;
+      input {
+          width: auto;
+          display: inline-block;
+          float: left;
+          height: auto;
+          margin-top: 5px;
+      }
+      label {
+          font-size: 14px;
+          text-transform: uppercase;
+          margin: 0px 0 0 21px;
+          display: flex;
+          align-items: center;
+          font-weight: 500;
+          @media #{$xs-layout} {
+              display: block;
+          }
+          img {
+              max-width: 140px;
+              display: inline-block;
+              margin: 0 5px
+          }
+          a {
+              text-decoration: underline;
+          }
+      }
+      .payment-box {
+          margin: 6px 0 0;
+          display: block;
+          p {
+              font-size: 14px;
+              margin: 0;
+          }
+      }
+  }
+}
