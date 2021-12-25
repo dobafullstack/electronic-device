@@ -30,11 +30,11 @@ export default class ProductService {
     }
 
     public static async GetDetailProductService(productId: string): Promise<ApiResponse> {
-        const existingProduct = await Product.findById(productId);
+        const existingProduct = await (Product as any).find({ _id: productId }).subPopulate('category_detail_id');
 
         if (!existingProduct) return GetActionResult(400, null, { message: 'Can not find any product' }, Result.PRODUCT.GET_DETAIL);
 
-        return GetActionResult(200, existingProduct, null);
+        return GetActionResult(200, existingProduct[0], null);
     }
 
     public static async GetProductsByCategoryDetailIdService(categoryDetailId: string): Promise<ApiResponse> {
@@ -49,8 +49,6 @@ export default class ProductService {
         if (!category) return GetActionResult(400, null, { message: 'Can not find any category' }, Result.PRODUCT.GET_LIST);
 
         let ids = category.childCate.map((categoryDetail) => categoryDetail._id);
-
-        console.log(ids);
 
         const products = await (Product as any)
             .find({
