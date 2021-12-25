@@ -9,11 +9,12 @@ import { getDiscountPrice } from "../../helpers/product";
 import {
   addToWishlist,
   deleteFromWishlist,
-  deleteAllFromWishlist
+  deleteAllFromWishlist,
 } from "../../redux/actions/wishlistActions";
 import { addToCart } from "../../redux/actions/cartActions";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+import VNDCurrency from "../../config/VNDCurrency";
 
 const Wishlist = ({
   location,
@@ -22,7 +23,7 @@ const Wishlist = ({
   addToCart,
   wishlistItems,
   deleteFromWishlist,
-  deleteAllFromWishlist
+  deleteAllFromWishlist,
 }) => {
   const { addToast } = useToasts();
   const { pathname } = location;
@@ -30,7 +31,7 @@ const Wishlist = ({
   return (
     <Fragment>
       <MetaTags>
-        <title>Flone | Wishlist</title>
+        <title>Tin Học Mặt Trăng | Wishlist</title>
         <meta
           name="description"
           content="Wishlist page of flone react minimalist eCommerce template."
@@ -69,14 +70,26 @@ const Wishlist = ({
                               wishlistItem.price,
                               wishlistItem.discount
                             );
-                            const finalProductPrice = (
-                              wishlistItem.price * currency.currencyRate
-                            ).toFixed(2);
-                            const finalDiscountedPrice = (
-                              discountedPrice * currency.currencyRate
-                            ).toFixed(2);
+                            const finalProductPrice =
+                              currency.currencyName === "VND"
+                                ? VNDCurrency(
+                                    wishlistItem.price * currency.currencyRate
+                                  )
+                                : currency.currencySymbol +
+                                  (
+                                    wishlistItem.price * currency.currencyRate
+                                  ).toFixed(2);
+                            const finalDiscountedPrice =
+                              currency.currencyName === "VND"
+                                ? VNDCurrency(
+                                    discountedPrice * currency.currencyRate
+                                  )
+                                : currency.currencySymbol +
+                                  (
+                                    discountedPrice * currency.currencyRate
+                                  ).toFixed(2);
                             const cartItem = cartItems.filter(
-                              item => item.id === wishlistItem.id
+                              (item) => item.id === wishlistItem.id
                             )[0];
                             return (
                               <tr key={key}>
@@ -85,14 +98,14 @@ const Wishlist = ({
                                     to={
                                       process.env.PUBLIC_URL +
                                       "/product/" +
-                                      wishlistItem.id
+                                      wishlistItem._id
                                     }
                                   >
                                     <img
                                       className="img-fluid"
                                       src={
                                         process.env.PUBLIC_URL +
-                                        wishlistItem.image[0]
+                                        wishlistItem.images[0]
                                       }
                                       alt=""
                                     />
@@ -104,7 +117,7 @@ const Wishlist = ({
                                     to={
                                       process.env.PUBLIC_URL +
                                       "/product/" +
-                                      wishlistItem.id
+                                      wishlistItem._id
                                     }
                                   >
                                     {wishlistItem.name}
@@ -115,18 +128,15 @@ const Wishlist = ({
                                   {discountedPrice !== null ? (
                                     <Fragment>
                                       <span className="amount old">
-                                        {currency.currencySymbol +
-                                          finalProductPrice}
+                                        {finalProductPrice}
                                       </span>
                                       <span className="amount">
-                                        {currency.currencySymbol +
-                                          finalDiscountedPrice}
+                                        {finalDiscountedPrice}
                                       </span>
                                     </Fragment>
                                   ) : (
                                     <span className="amount">
-                                      {currency.currencySymbol +
-                                        finalProductPrice}
+                                      {finalProductPrice}
                                     </span>
                                   )}
                                 </td>
@@ -148,8 +158,8 @@ const Wishlist = ({
                                     >
                                       Select option
                                     </Link>
-                                  ) : wishlistItem.stock &&
-                                    wishlistItem.stock > 0 ? (
+                                  ) : wishlistItem.count &&
+                                    wishlistItem.count > 0 ? (
                                     <button
                                       onClick={() =>
                                         addToCart(wishlistItem, addToast)
@@ -250,18 +260,18 @@ Wishlist.propTypes = {
   location: PropTypes.object,
   deleteAllFromWishlist: PropTypes.func,
   deleteFromWishlist: PropTypes.func,
-  wishlistItems: PropTypes.array
+  wishlistItems: PropTypes.array,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     cartItems: state.cartData,
     wishlistItems: state.wishlistData,
-    currency: state.currencyData
+    currency: state.currencyData,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (item, addToast, quantityCount) => {
       dispatch(addToCart(item, addToast, quantityCount));
@@ -272,9 +282,9 @@ const mapDispatchToProps = dispatch => {
     deleteFromWishlist: (item, addToast, quantityCount) => {
       dispatch(deleteFromWishlist(item, addToast, quantityCount));
     },
-    deleteAllFromWishlist: addToast => {
+    deleteAllFromWishlist: (addToast) => {
       dispatch(deleteAllFromWishlist(addToast));
-    }
+    },
   };
 };
 

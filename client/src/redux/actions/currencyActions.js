@@ -5,10 +5,10 @@ export const setCurrency = (currencyName) => {
   return (dispatch) => {
     axios
       .get(
-        `http://api.exchangeratesapi.io/v1/latest?access_key=f7ec261c9c4548f303fefe00c594c81c&symbols=USD,VND,EUR`
+        `https://v6.exchangerate-api.com/v6/1e22593441f5bf74855042dc/latest/VND`
       )
       .then((response) => {
-        const rates = response.data.rates;
+        const rates = response.data.conversion_rates;
         let currencyRate = 0;
         for (const rate in rates) {
           if (rate === currencyName) {
@@ -17,7 +17,7 @@ export const setCurrency = (currencyName) => {
         }
         dispatch({
           type: SET_CURRENCY,
-          payload: { currencyName, currencyRate }
+          payload: { currencyName, currencyRate },
         });
       })
       .catch((err) => {

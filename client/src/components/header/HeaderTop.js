@@ -29,7 +29,7 @@ const HeaderTop = ({
           Free delivery on order over{" "}
           <span>
             {currency.currencyName === "VND"
-              ? Math.floor(200 * currency.currencyRate) +
+              ? Math.floor(200000 * currency.currencyRate) +
                 currency.currencySymbol
               : currency.currencySymbol +
                 (200 * currency.currencyRate).toFixed(2)}
