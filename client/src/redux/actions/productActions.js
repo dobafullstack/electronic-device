@@ -139,10 +139,11 @@ export const getAllProductsAction = () => async (dispatch) => {
 };
 
 export const getProductsByCategoryIdAction =
-  (categoryId) => async (dispatch) => {
+  (categoryId, query) => async (dispatch) => {
     try {
       const { code, result, error } = await productApi.getProductsByCategoryId(
-        categoryId
+        categoryId,
+        query
       );
 
       if (code !== 200 || error !== null) {

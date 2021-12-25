@@ -4,7 +4,7 @@ import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
 import Paginator from "react-hooks-paginator";
 import MetaTags from "react-meta-tags";
 import { connect, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { getSortedProducts } from "../../helpers/product";
 import LayoutOne from "../../layouts/LayoutOne";
 import {
@@ -32,6 +32,7 @@ const ShopGridStandard = ({ location, products }) => {
   const dispatch = useDispatch();
   const { categoryId, childId } = useParams();
   const currentCategory = useSelector((state) => state.categoryData.category);
+  const {state} = useLocation();
 
   const pageLimit = 15;
   const { pathname } = location;
@@ -51,9 +52,9 @@ const ShopGridStandard = ({ location, products }) => {
   };
 
   useEffect(() => {
-    console.log({ categoryId, childId });
+    console.log(state)
     if (categoryId) {
-      dispatch(getProductsByCategoryIdAction(categoryId));
+      dispatch(getProductsByCategoryIdAction(categoryId, state));
       dispatch(getCategoryByIdAction(categoryId));
     } else if (childId) {
       dispatch(getProductsByCategoryDetailIdAction(childId));
@@ -61,7 +62,7 @@ const ShopGridStandard = ({ location, products }) => {
       dispatch(getAllProductsAction());
       dispatch(getCategoryByIdAction(0));
     }
-  }, [categoryId, childId]);
+  }, [categoryId, childId, state]);
 
   useEffect(() => {
     let sortedProducts = getSortedProducts(products, sortType, sortValue);

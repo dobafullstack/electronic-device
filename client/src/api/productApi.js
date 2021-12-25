@@ -4,8 +4,8 @@ const productApi = {
     getAllProducts: async () => {
         return await axiosClient.get("/product");
     },
-    getProductsByCategoryId: async (categoryId) => {
-        return await axiosClient.get(`/product/category/${categoryId}`);
+    getProductsByCategoryId: async (categoryId, query) => {
+        return await axiosClient.get(`/product/category/${categoryId}${query}`);
     },
     getAllBestSeller: async () => {
         return await axiosClient.get("/product?limit=8");
