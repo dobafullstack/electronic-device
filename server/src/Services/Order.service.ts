@@ -9,22 +9,21 @@ import _ from 'lodash';
 
 export default class OrderService {
     public static async CreateOrderService(body: CreateOrderInput): Promise<ApiResponse> {
-        let total = 0;
-
-        const products = body.products.map(async (product) => ({
-            product: await Product.findById(product.productId),
-            count: product.count,
-        }));
-
-        for (let i = 0; i < products.length; i++) {
-            total += ((await products[i]).product?.price as number) * (await products[i]).count;
-        }
-
-        const result = await Order.create({
-            ...body,
-            total,
-        })
-            .then(() => GetActionResult(201, null, null, Result.ORDER.CREATE))
+        const result = await Order.create(body)
+            .then((res) => {
+                const updateQuantity = async () => {
+                    for (let i = 0; i < res.productItems.length; i++) {
+                        const product = await Product.findById(res.productItems[i].productItem._id);
+                        if (product){
+                            product.count = product.count - res.productItems[i].quantity;
+                            product.sale_count = product.sale_count + res.productItems[i].quantity;
+                            product.save();
+                        }
+                    }
+                }
+                updateQuantity().catch((err: any) => Logger.error(err))
+                return GetActionResult(201, null, null, Result.ORDER.CREATE);
+            })
             .catch((err: any) => {
                 Logger.error(err);
                 return GetActionResult(400, null, { message: err.message }, Result.ORDER.CREATE);

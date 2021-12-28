@@ -143,7 +143,7 @@ export const getProductsByCategoryIdAction =
     try {
       const { code, result, error } = await productApi.getProductsByCategoryId(
         categoryId,
-        query
+        query ? query : ''
       );
 
       if (code !== 200 || error !== null) {

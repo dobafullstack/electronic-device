@@ -21,9 +21,7 @@ function ProductModal(props) {
   const [selectedProductSize, setSelectedProductSize] = useState(
     product.variation ? product.variation[0].size[0].name : ""
   );
-  const [productStock, setProductStock] = useState(
-    product.variation ? product.variation[0].size[0].stock : product.stock
-  );
+  const [productStock, setProductStock] = useState(product.count);
   const [quantityCount, setQuantityCount] = useState(1);
 
   const wishlistItem = props.wishlistitem;

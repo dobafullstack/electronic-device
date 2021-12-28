@@ -77,7 +77,7 @@ const NavMenu = ({ strings, menuWhiteClass, sidebarMenu }) => {
                                                   (x) => x._id === category._id
                                               )
                                               .attributes.map((att) => (
-                                                  <>
+                                                  <div key={att._id}>
                                                       <br />
                                                       <p className='text-left ml-4'>
                                                           {att.name}
@@ -93,7 +93,7 @@ const NavMenu = ({ strings, menuWhiteClass, sidebarMenu }) => {
                                                               </Link>
                                                           </li>
                                                       ))}
-                                                  </>
+                                                  </div>
                                               ))}
                                       </ul>
                                   </li>

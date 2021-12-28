@@ -14,6 +14,7 @@ import {
 } from "../../redux/actions/cartActions";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+import VND from "../../helpers/VND";
 
 const Cart = ({
   location,
@@ -28,6 +29,26 @@ const Cart = ({
   const { addToast } = useToasts();
   const { pathname } = location;
   let cartTotalPrice = 0;
+
+  cartItems.map((cartItem) => {
+      const discountedPrice = getDiscountPrice(
+          cartItem.price,
+          cartItem.discount
+      );
+      const finalProductPrice = (
+          cartItem.price *
+          cartItem.quantity *
+          currency.currencyRate
+      ).toFixed(2);
+      const finalDiscountedPrice = (
+          discountedPrice *
+          cartItem.quantity *
+          currency.currencyRate
+      ).toFixed(2);
+      discountedPrice !== null
+          ? (cartTotalPrice += parseInt(finalDiscountedPrice))
+          : (cartTotalPrice += parseInt(finalProductPrice));
+  });
 
   return (
     <Fragment>
@@ -70,7 +91,7 @@ const Cart = ({
                           {cartItems.map((cartItem, key) => {
                             const discountedPrice = getDiscountPrice(
                               cartItem.price,
-                              cartItem.discount_value
+                              cartItem.discount
                             );
                             const finalProductPrice = (
                               cartItem.price * currency.currencyRate
@@ -78,12 +99,6 @@ const Cart = ({
                             const finalDiscountedPrice = (
                               discountedPrice * currency.currencyRate
                             ).toFixed(2);
-
-                            discountedPrice != null
-                              ? (cartTotalPrice +=
-                                  finalDiscountedPrice * cartItem.quantity)
-                              : (cartTotalPrice +=
-                                  finalProductPrice * cartItem.quantity);
                             return (
                               <tr key={key}>
                                 <td className="product-thumbnail">
@@ -134,18 +149,18 @@ const Cart = ({
                                   {discountedPrice !== null ? (
                                     <Fragment>
                                       <span className="amount old">
-                                        {currency.currencySymbol +
-                                          finalProductPrice}
+                                        {VND(parseInt(finalProductPrice))
+                                          }
                                       </span>
                                       <span className="amount">
-                                        {currency.currencySymbol +
-                                          finalDiscountedPrice}
+                                        {VND(parseInt(finalDiscountedPrice))
+                                          }
                                       </span>
                                     </Fragment>
                                   ) : (
                                     <span className="amount">
-                                      {currency.currencySymbol +
-                                        finalProductPrice}
+                                      {VND(parseInt(finalProductPrice))
+                                        }
                                     </span>
                                   )}
                                 </td>
@@ -183,14 +198,8 @@ const Cart = ({
                                 </td>
                                 <td className="product-subtotal">
                                   {discountedPrice !== null
-                                    ? currency.currencySymbol +
-                                      (
-                                        finalDiscountedPrice * cartItem.quantity
-                                      ).toFixed(2)
-                                    : currency.currencySymbol +
-                                      (
-                                        finalProductPrice * cartItem.quantity
-                                      ).toFixed(2)}
+                                    ? VND(parseInt(finalDiscountedPrice) * cartItem.quantity)
+                                    : VND(parseInt(finalProductPrice) * cartItem.quantity)}
                                 </td>
 
                                 <td className="product-remove">
@@ -229,50 +238,7 @@ const Cart = ({
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-lg-4 col-md-6">
-                    <div className="cart-tax">
-                      <div className="title-wrap">
-                        <h4 className="cart-bottom-title section-bg-gray">
-                          Estimate Shipping And Tax
-                        </h4>
-                      </div>
-                      <div className="tax-wrapper">
-                        <p>
-                          Enter your destination to get a shipping estimate.
-                        </p>
-                        <div className="tax-select-wrapper">
-                          <div className="tax-select">
-                            <label>* Country</label>
-                            <select className="email s-email s-wid">
-                              <option>Bangladesh</option>
-                              <option>Albania</option>
-                              <option>Åland Islands</option>
-                              <option>Afghanistan</option>
-                              <option>Belgium</option>
-                            </select>
-                          </div>
-                          <div className="tax-select">
-                            <label>* Region / State</label>
-                            <select className="email s-email s-wid">
-                              <option>Bangladesh</option>
-                              <option>Albania</option>
-                              <option>Åland Islands</option>
-                              <option>Afghanistan</option>
-                              <option>Belgium</option>
-                            </select>
-                          </div>
-                          <div className="tax-select">
-                            <label>* Zip/Postal Code</label>
-                            <input type="text" />
-                          </div>
-                          <button className="cart-btn-2" type="submit">
-                            Get A Quote
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="row justify-content-end">
 
                   <div className="col-lg-4 col-md-6">
                     <div className="discount-code-wrapper">
@@ -303,14 +269,14 @@ const Cart = ({
                       <h5>
                         Total products{" "}
                         <span>
-                          {currency.currencySymbol + cartTotalPrice.toFixed(2)}
+                          {VND(cartTotalPrice)}
                         </span>
                       </h5>
 
                       <h4 className="grand-totall-title">
                         Grand Total{" "}
                         <span>
-                          {currency.currencySymbol + cartTotalPrice.toFixed(2)}
+                          {VND(cartTotalPrice)}
                         </span>
                       </h4>
                       <Link to={process.env.PUBLIC_URL + "/checkout"}>

@@ -19,7 +19,6 @@ const CategoryThreeSlider = ({ spaceTopClass, spaceBottomClass }) => {
         };
       })
     : null;
-  console.log(categoryData);
   // swiper slider settings
   const settings = {
     loop: false,

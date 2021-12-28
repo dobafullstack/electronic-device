@@ -17,8 +17,9 @@ export default class ProductController {
     }
     public static async GetListProductsController(req: Request, res: Response) {
         const limit: number = req.query.limit ? parseInt(req.query.limit as string) : 0;
+        const type: string = req.query.type ? (req.query.type as string) : "";
         try {
-            const result = await ProductService.GetListProductsService(limit);
+            const result = await ProductService.GetListProductsService(limit, type);
 
             res.status(result.code).json(result);
         } catch (error: any) {

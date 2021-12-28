@@ -4,7 +4,7 @@ import {
   DELETE_ALL_FROM_WISHLIST,
 } from "../actions/wishlistActions";
 
-const initState = [];
+const initState = localStorage.getItem('wishList') ? JSON.parse(localStorage.getItem('wishList')) : [];
 
 const wishlistReducer = (state = initState, action) => {
   const wishlistItems = state,

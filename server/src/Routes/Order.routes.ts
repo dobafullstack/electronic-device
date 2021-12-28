@@ -6,7 +6,7 @@ import OrderController from '@Controllers/Order.controller';
 
 const router = Router();
 
-router.post(Path.APP.BASE_URL, Authentication, OrderController.CreateOrderController);
+router.post(Path.APP.BASE_URL, OrderController.CreateOrderController);
 router.get(Path.APP.BASE_URL, OrderController.GetListOrdersController);
 router.get(Path.ORDER.MY_ORDER, OrderController.GetMyOrderController);
 router.get(Path.APP.PARAMS.replace('id', 'orderId'), OrderController.GetDetailOrderController);

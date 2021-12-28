@@ -20,6 +20,12 @@ const router = (app: Express) => {
         });
     });
 
+    app.post('/momo/notifyUrl', (req: Request, res: Response) => {
+        console.log(req.body);
+
+        res.status(200).json({ ...req.body });
+    });
+
     app.use(Path.AUTH.BASE_URL, AuthRoute); //Auth
     app.use(Path.ROLE.BASE_URL, Authentication, Strict, RoleRoute); //Role
     app.use(Path.CATEGORY.BASE_URL, CategoryRoute); //Category

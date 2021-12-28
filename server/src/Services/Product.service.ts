@@ -23,9 +23,35 @@ export default class ProductService {
         return result;
     }
 
-    public static async GetListProductsService(limit: number): Promise<ApiResponse> {
-        const products = await (Product as any).find().limit(limit).subPopulate('category_detail_id');
+    public static async GetListProductsService(limit: number, type: string): Promise<ApiResponse> {
+        let sort = {};
+        let query = {};
 
+        switch (type) {
+            case 'bestSeller':
+                sort = {
+                    sale_count: -1,
+                };
+                break;
+            case 'newArrival':
+                sort = {
+                    createdAt: -1,
+                };
+                break;
+            case 'sale':
+                query = {
+                    discount: {
+                        $gt: 0,
+                    },
+                };
+                break;
+            default:
+                sort = {
+                    sale_count: -1,
+                };
+        }
+
+        const products = await (Product as any).find(query).limit(limit).sort(sort).subPopulate('category_detail_id');
         return GetActionResult(200, products, null);
     }
 

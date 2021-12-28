@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import authApi from "../../api/authApi";
 import { AuthContext } from "../../Context/AuthContext";
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 export default function Login() {
     const [usernameOrEmail, setUsernameOrEmail] = useState("");
@@ -11,6 +12,7 @@ export default function Login() {
     const { addToast } = useToasts();
     const history = useHistory();
     const { setIsLogin } = useContext(AuthContext);
+    const [token, setToken] = useLocalStorage('access_token', '');
 
     const onLogin = async () => {
         try {
@@ -20,7 +22,7 @@ export default function Login() {
             );
 
             if (code === 200) {
-                localStorage.setItem("access_token", result.accessToken);
+                setToken(result.accessToken);
                 setIsLogin(true);
                 history.replace("/");
             }

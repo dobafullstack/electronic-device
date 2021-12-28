@@ -6,6 +6,7 @@ import compareReducer from "./compareReducer";
 import { combineReducers } from "redux";
 import { createMultilanguageReducer } from "redux-multilanguage";
 import categoryReducer from "./categoryReducer";
+import { authReducer } from "./authReducer";
 
 const rootReducer = combineReducers({
   multilanguage: createMultilanguageReducer({ currentLanguageCode: "en" }),
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   compareData: compareReducer,
   productData: productReducer,
   categoryData: categoryReducer,
+  [authReducer.reducerPath]: authReducer.reducer
 });
 
 export default rootReducer;

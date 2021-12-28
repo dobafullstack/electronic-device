@@ -10,7 +10,16 @@ export interface UserDocument {
     name: string;
     password: string;
     phone: string;
-    address: string;
+    delivery: {
+        _id: mongoose.Schema.Types.ObjectId;
+        name: string;
+        phone: string;
+        address: {
+            city: string;
+            district: string;
+            street: string;
+        };
+    }[];
     avatar: string;
     wishList: [];
     createAt?: Date;
@@ -47,9 +56,18 @@ const UserSchema = new mongoose.Schema(
             required: true,
             unique: true,
         },
-        address: {
-            type: String,
-            default: ""
+        delivery: {
+            type: [{
+                _id: mongoose.Schema.Types.ObjectId,
+                name: String,
+                address: {
+                    city: String,
+                    district: String,
+                    street: String
+                },
+                phone: String
+            }],
+            default: []
         },
         avatar: {
             type: String,

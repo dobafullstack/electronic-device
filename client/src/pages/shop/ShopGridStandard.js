@@ -52,7 +52,6 @@ const ShopGridStandard = ({ location, products }) => {
   };
 
   useEffect(() => {
-    console.log(state)
     if (categoryId) {
       dispatch(getProductsByCategoryIdAction(categoryId, state));
       dispatch(getCategoryByIdAction(categoryId));

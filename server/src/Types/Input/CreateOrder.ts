@@ -1,3 +1,5 @@
+import { ProductDocument } from "@Models/Product";
+
 type Delivery = {
     name: string;
     phone: string;
@@ -7,7 +9,7 @@ type Delivery = {
 }
 
 type Product = {
-    productId: string;
+    productItem: ProductDocument;
     count: number;
 }
 
@@ -18,7 +20,7 @@ type Payment = {
 
 type CreateOrderInput = {
     userId: string;
-    products: Product[];
+    productItems: Product[];
     delivery: Delivery;
     payment: Payment;
     description: string;

@@ -7,298 +7,308 @@ import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
 import { getDiscountPrice } from "../../helpers/product";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+import VND from "../../helpers/VND";
+import UnLogged from "../../components/checkout/UnLogged";
+import { useContext } from "react";
+import { AuthContext } from "../../Context/AuthContext";
+import Logged from "../../components/checkout/Logged";
+import { useState } from "react";
+import { Formik } from "formik";
+import Payment from "../../components/checkout/Payment";
+import validateSchema from "../../helpers/validateCheckout";
+import { useToasts } from "react-toast-notifications";
+import { useHistory } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import { useGetMyUserQuery } from "../../redux/reducers/authReducer";
 
 const Checkout = ({ location, cartItems, currency }) => {
-  const { pathname } = location;
-  let cartTotalPrice = 0;
+    const { pathname } = location;
+    let cartTotalPrice = 0;
+    const { isLogin } = useContext(AuthContext);
+    const [selectedAddress, setSelectedAddress] = useState("");
+    const { addToast } = useToasts();
+    const history = useHistory();
+    const [token] = useLocalStorage("access_token", "");
 
-  return (
-    <Fragment>
-      <MetaTags>
-        <title>Tin Học Mặt Trăng | Checkout</title>
-        <meta
-          name="description"
-          content="Checkout page of flone react minimalist eCommerce template."
-        />
-      </MetaTags>
-      <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
-      <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>
-        Checkout
-      </BreadcrumbsItem>
-      <LayoutOne headerTop="visible">
-        {/* breadcrumb */}
-        <Breadcrumb />
-        <div className="checkout-area pt-95 pb-100">
-          <div className="container">
-            {cartItems && cartItems.length >= 1 ? (
-              <div className="row">
-                <div className="col-lg-7">
-                  <div className="billing-info-wrap">
-                    <h3>Billing Details</h3>
-                    <div className="row">
-                      <div className="col-lg-6 col-md-6">
-                        <div className="billing-info mb-20">
-                          <label>First Name</label>
-                          <input type="text" />
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-md-6">
-                        <div className="billing-info mb-20">
-                          <label>Last Name</label>
-                          <input type="text" />
-                        </div>
-                      </div>
-                      <div className="col-lg-12">
-                        <div className="billing-info mb-20">
-                          <label>Company Name</label>
-                          <input type="text" />
-                        </div>
-                      </div>
-                      <div className="col-lg-12">
-                        <div className="billing-select mb-20">
-                          <label>Country</label>
-                          <select>
-                            <option>Select a country</option>
-                            <option>Azerbaijan</option>
-                            <option>Bahamas</option>
-                            <option>Bahrain</option>
-                            <option>Bangladesh</option>
-                            <option>Barbados</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-lg-12">
-                        <div className="billing-info mb-20">
-                          <label>Street Address</label>
-                          <input
-                            className="billing-address"
-                            placeholder="House number and street name"
-                            type="text"
-                          />
-                          <input
-                            placeholder="Apartment, suite, unit etc."
-                            type="text"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-lg-12">
-                        <div className="billing-info mb-20">
-                          <label>Town / City</label>
-                          <input type="text" />
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-md-6">
-                        <div className="billing-info mb-20">
-                          <label>State / County</label>
-                          <input type="text" />
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-md-6">
-                        <div className="billing-info mb-20">
-                          <label>Postcode / ZIP</label>
-                          <input type="text" />
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-md-6">
-                        <div className="billing-info mb-20">
-                          <label>Phone</label>
-                          <input type="text" />
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-md-6">
-                        <div className="billing-info mb-20">
-                          <label>Email Address</label>
-                          <input type="text" />
-                        </div>
-                      </div>
-                    </div>
+    const { data, isFetching } = useGetMyUserQuery(token);
 
-                    <div className="additional-info-wrap">
-                      <h4>Additional information</h4>
-                      <div className="additional-info">
-                        <label>Order notes</label>
-                        <textarea
-                          placeholder="Notes about your order, e.g. special notes for delivery. "
-                          name="message"
-                          defaultValue={""}
-                        />
-                      </div>
-                    </div>
-                  </div>
+    const initialValues = {
+        name: "",
+        phone: "",
+        city: "",
+        district: "",
+        street: "",
+        description: "",
+        userId: null
+    };
+
+    cartItems.map((cartItem) => {
+        const discountedPrice = getDiscountPrice(
+            cartItem.price,
+            cartItem.discount
+        );
+        const finalProductPrice = (
+            cartItem.price *
+            cartItem.quantity *
+            currency.currencyRate
+        ).toFixed(2);
+        const finalDiscountedPrice = (
+            discountedPrice *
+            cartItem.quantity *
+            currency.currencyRate
+        ).toFixed(2);
+        discountedPrice !== null
+            ? (cartTotalPrice += parseInt(finalDiscountedPrice))
+            : (cartTotalPrice += parseInt(finalProductPrice));
+    });
+
+    const onSubmit = (values) => {
+        history.push({
+            pathname: "/checkout/payment",
+            state: {
+                values,
+                cartItems,
+                cartTotalPrice,
+                currency,
+            },
+        });
+    };
+
+    if (isFetching)
+        return (
+            <div className='flone-preloader-wrapper'>
+                <div className='flone-preloader'>
+                    <span></span>
+                    <span></span>
                 </div>
+            </div>
+        );
 
-                <div className="col-lg-5">
-                  <div className="your-order-area">
-                    <h3>Your order</h3>
-                    <div className="your-order-wrap gray-bg-4">
-                      <div className="your-order-product-info">
-                        <div className="your-order-top">
-                          <ul>
-                            <li>Product</li>
-                            <li>Total</li>
-                          </ul>
-                        </div>
-                        <div className="your-order-middle">
-                          <ul>
-                            {cartItems.map((cartItem, key) => {
-                              const discountedPrice = getDiscountPrice(
-                                cartItem.price,
-                                cartItem.discount
-                              );
-                              const finalProductPrice = (
-                                cartItem.price * currency.currencyRate
-                              ).toFixed(2);
-                              const finalDiscountedPrice = (
-                                discountedPrice * currency.currencyRate
-                              ).toFixed(2);
+    return (
+        <Fragment>
+            <MetaTags>
+                <title>Tin Học Mặt Trăng | Checkout</title>
+                <meta
+                    name='description'
+                    content='Checkout page of flone react minimalist eCommerce template.'
+                />
+            </MetaTags>
+            <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>
+                Home
+            </BreadcrumbsItem>
+            <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>
+                Checkout
+            </BreadcrumbsItem>
+            <LayoutOne headerTop='visible'>
+                {/* breadcrumb */}
+                <Breadcrumb />
+                <div className='checkout-area pt-95 pb-100'>
+                    <div className='container'>
+                        {cartItems && cartItems.length >= 1 ? (
+                            <Formik
+                                initialValues={initialValues}
+                                enableReinitialize
+                                onSubmit={onSubmit}
+                                validationSchema={validateSchema}>
+                                {({
+                                    values,
+                                    handleChange,
+                                    handleSubmit,
+                                    setFieldValue,
+                                    errors,
+                                    touched
+                                }) => (
+                                    <form
+                                        onSubmit={(e) => {
+                                            e.preventDefault();
+                                            handleSubmit();
+                                        }}>
+                                        <div className='row'>
+                                            {!isLogin ? (
+                                                <UnLogged
+                                                    values={values}
+                                                    handleChange={handleChange}
+                                                    setFieldValue={
+                                                        setFieldValue
+                                                    }
+                                                    errors={errors}
+                                                    touched={touched}
+                                                />
+                                            ) : (
+                                                <Logged
+                                                    selectedAddress={
+                                                        selectedAddress
+                                                    }
+                                                    setSelectedAddress={
+                                                        setSelectedAddress
+                                                    }
+                                                    values={values}
+                                                    handleChange={handleChange}
+                                                    setFieldValue={
+                                                        setFieldValue
+                                                    }
+                                                    data={data}
+                                                />
+                                            )}
 
-                              discountedPrice != null
-                                ? (cartTotalPrice +=
-                                    finalDiscountedPrice * cartItem.quantity)
-                                : (cartTotalPrice +=
-                                    finalProductPrice * cartItem.quantity);
-                              return (
-                                <li key={key}>
-                                  <span className="order-middle-left">
-                                    {cartItem.name} X {cartItem.quantity}
-                                  </span>{" "}
-                                  <span className="order-price">
-                                    {discountedPrice !== null
-                                      ? currency.currencySymbol +
-                                        (
-                                          finalDiscountedPrice *
-                                          cartItem.quantity
-                                        ).toFixed(2)
-                                      : currency.currencySymbol +
-                                        (
-                                          finalProductPrice * cartItem.quantity
-                                        ).toFixed(2)}
-                                  </span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                        <div className="your-order-bottom">
-                          <ul>
-                            <li className="your-order-shipping">Shipping</li>
-                            <li>Free shipping</li>
-                          </ul>
-                        </div>
-                        <div className="your-order-total">
-                          <ul>
-                            <li className="order-total">Total</li>
-                            <li>
-                              {currency.currencySymbol +
-                                cartTotalPrice.toFixed(2)}
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="payment-method">
-                        <div className="pay-top sin-payment">
-                          <input
-                            id="payment_method_1"
-                            className="input-radio"
-                            type="radio"
-                            defaultValue="cheque"
-                            defaultChecked="checked"
-                            name="payment_method"
-                          />
-                          <label htmlFor="payment_method_1">
-                            {" "}
-                            Direct Bank Transfer{" "}
-                          </label>
-                          <div className="payment-box payment_method_bacs">
-                            <p>
-                              Make your payment directly into our bank account:{" "}
-                              <br />
-                              TPBANK 03425624301 Bui Pham Vinh Ky
-                              <br /> Please use your Order ID as the payment
-                              reference.
-                            </p>
-                          </div>
-                        </div>
-                        <div className="pay-top sin-payment">
-                          <input
-                            id="payment-method_2"
-                            className="input-radio"
-                            type="radio"
-                            defaultValue="cheque"
-                            name="payment_method"
-                          />
-                          <label htmlFor="payment-method-3">
-                            Cash on delivery{" "}
-                          </label>
-                          <div className="payment-box payment_method_bacs">
-                            <p>
-                              Make your payment directly into our bank account.
-                              Please use your Order ID as the payment reference.
-                            </p>
-                          </div>
-                        </div>
-                        <div className="pay-top sin-payment sin-payment-3">
-                          <input
-                            id="payment-method_3"
-                            className="input-radio"
-                            type="radio"
-                            defaultValue="cheque"
-                            name="payment_method"
-                          />
-                          <label htmlFor="payment-method-4">
-                            PayPal{" "}
-                            <img alt src="assets/img/icon-img/paypal.png" />
-                            <a href="https://www.dienmayxanh.com/kinh-nghiem-hay/paypal-la-gi-cach-tao-va-thiet-lap-tai-khoan-paypa-1179841">
-                              What is PayPal?
-                            </a>
-                          </label>
-                          <div className="payment-box payment_method_bacs">
-                            <p>Continue checkout with PayPal in a new tab.</p>
-                          </div>
-                        </div>
-                      </div>
+                                            <div className='col-lg-5'>
+                                                <div className='your-order-area'>
+                                                    <h3>Your order</h3>
+                                                    <div className='your-order-wrap gray-bg-4'>
+                                                        <div className='your-order-product-info'>
+                                                            <div className='your-order-top'>
+                                                                <ul>
+                                                                    <li>
+                                                                        Product
+                                                                    </li>
+                                                                    <li>
+                                                                        Total
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div className='your-order-middle'>
+                                                                <ul>
+                                                                    {cartItems.map(
+                                                                        (
+                                                                            cartItem,
+                                                                            key
+                                                                        ) => {
+                                                                            const discountedPrice =
+                                                                                getDiscountPrice(
+                                                                                    cartItem.price,
+                                                                                    cartItem.discount
+                                                                                );
+                                                                            const finalProductPrice =
+                                                                                (
+                                                                                    cartItem.price *
+                                                                                    cartItem.quantity *
+                                                                                    currency.currencyRate
+                                                                                ).toFixed(
+                                                                                    2
+                                                                                );
+                                                                            const finalDiscountedPrice =
+                                                                                (
+                                                                                    discountedPrice *
+                                                                                    cartItem.quantity *
+                                                                                    currency.currencyRate
+                                                                                ).toFixed(
+                                                                                    2
+                                                                                );
+
+                                                                            return (
+                                                                                <li
+                                                                                    key={
+                                                                                        key
+                                                                                    }>
+                                                                                    <span className='order-middle-left'>
+                                                                                        {
+                                                                                            cartItem.name
+                                                                                        }{" "}
+                                                                                        X{" "}
+                                                                                        {
+                                                                                            cartItem.quantity
+                                                                                        }
+                                                                                    </span>{" "}
+                                                                                    <span className='order-price'>
+                                                                                        {discountedPrice !==
+                                                                                        null
+                                                                                            ? VND(
+                                                                                                  parseInt(
+                                                                                                      finalDiscountedPrice
+                                                                                                  )
+                                                                                              )
+                                                                                            : VND(
+                                                                                                  parseInt(
+                                                                                                      finalProductPrice
+                                                                                                  )
+                                                                                              )}
+                                                                                    </span>
+                                                                                </li>
+                                                                            );
+                                                                        }
+                                                                    )}
+                                                                </ul>
+                                                            </div>
+                                                            <div className='your-order-bottom'>
+                                                                <ul>
+                                                                    <li className='your-order-shipping'>
+                                                                        Shipping
+                                                                    </li>
+                                                                    <li>
+                                                                        Free
+                                                                        shipping
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div className='your-order-total'>
+                                                                <ul>
+                                                                    <li className='order-total'>
+                                                                        Total
+                                                                    </li>
+                                                                    <li>
+                                                                        {VND(
+                                                                            cartTotalPrice
+                                                                        )}
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className='place-order mt-25'>
+                                                        <button
+                                                            className='btn-hover'
+                                                            type='submit'>
+                                                            Place Order
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                )}
+                            </Formik>
+                        ) : (
+                            <div className='row'>
+                                <div className='col-lg-12'>
+                                    <div className='item-empty-area text-center'>
+                                        <div className='item-empty-area__icon mb-30'>
+                                            <i className='pe-7s-cash'></i>
+                                        </div>
+                                        <div className='item-empty-area__text'>
+                                            No items found in cart to checkout{" "}
+                                            <br />{" "}
+                                            <Link
+                                                to={
+                                                    process.env.PUBLIC_URL +
+                                                    "/shop-grid-standard"
+                                                }>
+                                                Shop Now
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                    <div className="place-order mt-25">
-                      <button className="btn-hover">Place Order</button>
-                    </div>
-                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="item-empty-area text-center">
-                    <div className="item-empty-area__icon mb-30">
-                      <i className="pe-7s-cash"></i>
-                    </div>
-                    <div className="item-empty-area__text">
-                      No items found in cart to checkout <br />{" "}
-                      <Link to={process.env.PUBLIC_URL + "/shop-grid-standard"}>
-                        Shop Now
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </LayoutOne>
-    </Fragment>
-  );
+            </LayoutOne>
+        </Fragment>
+    );
 };
 
 Checkout.propTypes = {
-  cartItems: PropTypes.array,
-  currency: PropTypes.object,
-  location: PropTypes.object,
+    cartItems: PropTypes.array,
+    currency: PropTypes.object,
+    location: PropTypes.object,
 };
 
+export const onCreateOrder = (values) => {};
+
 const mapStateToProps = (state) => {
-  return {
-    cartItems: state.cartData,
-    currency: state.currencyData,
-  };
+    return {
+        cartItems: state.cartData,
+        currency: state.currencyData,
+    };
 };
 
 export default connect(mapStateToProps)(Checkout);

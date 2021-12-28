@@ -3,6 +3,7 @@ import Tab from "react-bootstrap/Tab";
 import { Formik } from "formik";
 import { useToasts } from "react-toast-notifications";
 import authApi from "../../api/authApi";
+import * as yup from "yup";
 
 export default function Register() {
     const { addToast } = useToasts();
@@ -16,12 +17,21 @@ export default function Register() {
         phone: "",
     };
 
-    const onSubmit = (values) => {
-        console.log(values);
+    const validate = yup.object().shape({
+        name: yup.string().required("Họ tên không được để trống"),
+        username: yup.string().required("Tên tài khoản không được để trống"),
+        email: yup.string().required("Email không được để trống"),
+        password: yup.string().required("Mật khẩu không được để trống"),
+        confirmPassword: yup
+            .string()
+            .oneOf([yup.ref("password"), null], "Mật khẩu xác nhận không đúng"),
+        phone: yup.string().required("Họ tên không được để trống"),
+    });
 
+    const onSubmit = (values) => {
         const register = async () => {
-            if (values.password !== values.confirmPassword){
-                addToast('Invalid Confirm Password', {appearance: 'warning'})
+            if (values.password !== values.confirmPassword) {
+                addToast("Invalid Confirm Password", { appearance: "warning" });
                 return;
             }
 
@@ -45,9 +55,23 @@ export default function Register() {
         <Tab.Pane eventKey='register'>
             <div className='login-form-container'>
                 <div className='login-register-form'>
-                    <Formik initialValues={initialValues} onSubmit={onSubmit}>
-                        {({ values, handleSubmit, handleChange }) => (
+                    <Formik
+                        initialValues={initialValues}
+                        onSubmit={onSubmit}
+                        validationSchema={validate}>
+                        {({
+                            values,
+                            handleSubmit,
+                            handleChange,
+                            errors,
+                            touched,
+                        }) => (
                             <form onSubmit={handleSubmit}>
+                                {errors.name && touched.name ? (
+                                    <p className='text-danger m-0'>
+                                        {errors.name}
+                                    </p>
+                                ) : null}
                                 <input
                                     type='text'
                                     name='name'
@@ -55,6 +79,11 @@ export default function Register() {
                                     onChange={handleChange}
                                     placeholder='Full Name'
                                 />
+                                {errors.username && touched.username ? (
+                                    <p className='text-danger m-0'>
+                                        {errors.username}
+                                    </p>
+                                ) : null}
                                 <input
                                     type='text'
                                     name='username'
@@ -62,6 +91,11 @@ export default function Register() {
                                     onChange={handleChange}
                                     placeholder='Username'
                                 />
+                                {errors.email && touched.email ? (
+                                    <p className='text-danger m-0'>
+                                        {errors.email}
+                                    </p>
+                                ) : null}
                                 <input
                                     name='email'
                                     value={values.email}
@@ -69,6 +103,11 @@ export default function Register() {
                                     placeholder='Email'
                                     type='email'
                                 />
+                                {errors.phone && touched.phone ? (
+                                    <p className='text-danger m-0'>
+                                        {errors.phone}
+                                    </p>
+                                ) : null}
                                 <input
                                     type='tel'
                                     name='phone'
@@ -76,6 +115,11 @@ export default function Register() {
                                     onChange={handleChange}
                                     placeholder='Phone'
                                 />
+                                {errors.password && touched.password ? (
+                                    <p className='text-danger m-0'>
+                                        {errors.password}
+                                    </p>
+                                ) : null}
                                 <input
                                     type='password'
                                     name='password'
@@ -83,6 +127,11 @@ export default function Register() {
                                     onChange={handleChange}
                                     placeholder='Password'
                                 />
+                                {errors.confirmPassword && touched.confirmPassword ? (
+                                    <p className='text-danger m-0'>
+                                        {errors.confirmPassword}
+                                    </p>
+                                ) : null}
                                 <input
                                     type='password'
                                     name='confirmPassword'

@@ -8,19 +8,19 @@ const productApi = {
         return await axiosClient.get(`/product/category/${categoryId}${query}`);
     },
     getAllBestSeller: async () => {
-        return await axiosClient.get("/product?limit=8");
+        return await axiosClient.get("/product?limit=8&type=bestSeller");
     },
     getBestSellerByCategoryId: async (categoryId) => {
         return await axiosClient.get(`/product/category/${categoryId}`);
     },
     getAllSaleItems: async () => {
-        return await axiosClient.get("/product?limit=8");
+        return await axiosClient.get("/product?limit=8&type=sale");
     },
     getSaleItemsByCategoryId: async (categoryId) => {
         return await axiosClient.get(`/product/category/${categoryId}`);
     },
     getAllNewArrival: async () => {
-        return await axiosClient.get("/product?limit=8");
+        return await axiosClient.get("/product?limit=8&type=newArrival");
     },
     getNewArrivalByCategoryId: async (categoryId) => {
         return await axiosClient.get(`/product/category/${categoryId}`);

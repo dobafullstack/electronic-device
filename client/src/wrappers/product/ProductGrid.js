@@ -19,6 +19,7 @@ const ProductGrid = ({
     spaceBottomClass,
     products
 }) => {
+    console.log({products})
     return (
         <Fragment>
             {products.map((product) => {
@@ -68,13 +69,14 @@ ProductGrid.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    const {key} = ownProps;
+    const {type} = ownProps;
+    console.log(state.productData)
     return {
         currency: state.currencyData,
         cartItems: state.cartData,
         wishlistItems: state.wishlistData,
         compareItems: state.compareData,
-        products: key === 'newArrival' ? state.productData.newArrival : key === 'bestSeller' ? state.productData.bestSeller : state.productData.saleItems
+        products: type === 'newArrival' ? state.productData.newArrival : type === 'bestSeller' ? state.productData.bestSeller : state.productData.saleItems
     };
 };
 

@@ -4,12 +4,15 @@ import DeliveryType from '@Types/DeliveryType';
 import PaymentType from '@Types/PaymentType';
 import ProductSchemaType from '@Types/ProductSchemaType';
 import mongoose from 'mongoose';
-import Product from './Product';
+import { ProductDocument, ProductSchemaField } from './Product';
 
 export interface OrderDocument extends mongoose.Document {
     _id: mongoose.Schema.Types.ObjectId;
     userId: string;
-    products: ProductSchemaType[];
+    productItems: {
+        productItem: ProductDocument,
+        quantity: number;
+    }[];
     delivery: DeliveryType;
     payment: PaymentType;
     description: string;
@@ -22,20 +25,20 @@ const OrderSchema = new mongoose.Schema(
     {
         userId: {
             type: String,
-            required: true,
             ref: Schema.USER,
         },
-        products: {
+        productItems: {
             type: [
                 {
-                    productId: {
-                        type: String,
-                        ref: Schema.PRODUCT,
-                        required: true,
+                    productItem: {
+                        ...ProductSchemaField,
+                        _id: mongoose.Schema.Types.ObjectId
                     },
-                    count: Number,
+                    quantity: Number,
+                    _id: false
                 },
             ],
+            unique: false,
             default: [],
         },
         delivery: {
@@ -56,15 +59,12 @@ const OrderSchema = new mongoose.Schema(
                 required: true,
                 default: 'pending',
             },
-            method: {
-                type: String,
-                required: true,
-            },
         },
         payment: {
             status: {
                 type: Boolean,
                 required: true,
+                default: false,
             },
             method: {
                 type: String,
