@@ -5,6 +5,7 @@ export default {
         GET_USER: 'Get user',
         UPDATE_USER: 'Update user',
         DELETE_USER: 'Delete user',
+        UPDATE_PASSWORD: 'Update password'
     },
     ROLE: {
         CREATE: 'Create role',

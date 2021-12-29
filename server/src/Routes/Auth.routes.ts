@@ -10,6 +10,7 @@ router.post(Path.AUTH.LOGIN, AuthController.LoginController); //Login
 router.post(Path.AUTH.REGISTER, AuthController.RegisterController); //Register
 router.get(Path.AUTH.GET_USER, Authentication, AuthController.GetUserByTokenController); //Get user by token
 router.put(Path.AUTH.UPDATE_USER, Authentication, AuthController.UpdateUserController); //Update user by token themself
+router.put(Path.AUTH.UPDATE_PASSWORD, Authentication, AuthController.UpdatePasswordController); //Update password
 router.delete(Path.AUTH.DELETE_USER, Authentication, Authorization, AuthController.DeleteUserController); //Delete user by userId (only admin can do this)
 
 export default router;

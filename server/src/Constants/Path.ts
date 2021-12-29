@@ -10,6 +10,7 @@ export default {
         GET_USER: '/',
         UPDATE_USER: '/update',
         DELETE_USER: '/delete/:userId',
+        UPDATE_PASSWORD: '/change-password'
     },
     ROLE: {
         BASE_URL: '/role',
