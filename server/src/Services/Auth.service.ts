@@ -51,6 +51,34 @@ export default class AuthService {
         return result;
     }
 
+    public static async UpdateMyPasswordService(token: string, oldPassword: string, newPassword: string): Promise<ApiResponse> {
+        try {
+            const userId = jwt.verify(token, process.env.SECRET_JWT as string);
+            const user = await User.findById(userId);
+
+            if (!user) return GetActionResult(400, null, { message: 'Can not find any user' }, Result.AUTH.UPDATE_PASSWORD);
+
+            if (user.password !== md5(oldPassword)) return GetActionResult(400, null, { message: 'Invalid old password' }, Result.AUTH.UPDATE_PASSWORD);
+
+            _.extend(user, {
+                password: md5(newPassword),
+            });
+
+            const result = await user
+                .save()
+                .then(() => GetActionResult(200, null, null, Result.AUTH.UPDATE_PASSWORD))
+                .catch((err: any) => {
+                    Logger.error(err.message);
+                    return GetActionResult(400, null, err, Result.AUTH.UPDATE_PASSWORD);
+                });
+
+            return result;
+        } catch (error: any) {
+            Logger.error(error.message);
+            return GetActionResult(400, null, error, Result.AUTH.UPDATE_PASSWORD);
+        }
+    }
+
     public static async GetUserByTokenService(token: string): Promise<ApiResponse> {
         if (!token) return GetActionResult(400, null, { message: 'Invalid token' }, Result.AUTH.GET_USER);
 

@@ -46,6 +46,20 @@ export default class AuthController {
         }
     }
 
+    public static async UpdatePasswordController(req: Request, res: Response) {
+        const token = req.headers['authorization']?.split(' ')[1] as string;
+        const { oldPassword, newPassword } = req.body;
+
+        try {
+            const result = await AuthService.UpdateMyPasswordService(token, oldPassword, newPassword);
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error.message);
+            res.status(500).json(GetErrorResult(error, Result.AUTH.UPDATE_PASSWORD));
+        }
+    }
+
     public static async UpdateUserController(req: Request, res: Response) {
         const token = req.headers['authorization']?.split(' ')[1];
 
