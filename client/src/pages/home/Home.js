@@ -59,7 +59,7 @@ const HomeElectronicsTwo = () => {
         {/* banner */}
         <BannerTwelve />
         {/* blog featured */}
-        <BlogFeaturedThree spaceTopClass="pt-70" spaceBottomClass="pb-70" />
+        {/* <BlogFeaturedThree spaceTopClass="pt-70" spaceBottomClass="pb-70" /> */}
       </LayoutOne>
     </Fragment>
   );

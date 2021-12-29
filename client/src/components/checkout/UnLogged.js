@@ -3,6 +3,7 @@ import axiosClient from "../../api/axiosClient";
 
 export default function UnLogged({ values, handleChange, addNewAddress, setAddNewAddress, errors, touched }) {
     const [cites, setCities] = useState([]);
+    console.log(values)
 
     useEffect(() => {
         axiosClient
@@ -13,7 +14,7 @@ export default function UnLogged({ values, handleChange, addNewAddress, setAddNe
             });
     }, []);
 
-    return (
+    return !values ? null : (
         <div className='col-lg-7'>
             <div className='billing-info-wrap'>
                 <h3>Billing Details</h3>

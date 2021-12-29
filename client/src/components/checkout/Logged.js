@@ -8,7 +8,9 @@ export default function Logged({
     values,
     handleChange,
     setFieldValue,
-    data
+    data,
+    touched,
+    errors
 }) {
     const [addNewAddress, setAddNewAddress] = useState(false);
 
@@ -29,6 +31,8 @@ export default function Logged({
                 handleChange={handleChange}
                 addNewAddress={addNewAddress}
                 setAddNewAddress={setAddNewAddress}
+                touched={touched}
+                errors={errors}
             />
         );
 

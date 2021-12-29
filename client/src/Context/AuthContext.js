@@ -5,9 +5,9 @@ export const AuthContext = React.createContext();
 
 export default function AuthProvider({ children }) {
     const [isLogin, setIsLogin] = useState(false);
+    const [token, setToken] = useState(localStorage.getItem("access_token"));
 
-    const token = localStorage.getItem("access_token");
-
+    console.log(token)
     useEffect(() => {
         if (!token) setIsLogin(false);
         else {
@@ -30,6 +30,8 @@ export default function AuthProvider({ children }) {
             value={{
                 isLogin,
                 setIsLogin,
+                token,
+                setToken,
             }}>
             {children}
         </AuthContext.Provider>
