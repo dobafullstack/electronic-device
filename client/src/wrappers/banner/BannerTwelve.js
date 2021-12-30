@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
-import bannerData from "../../data/banner/banner-twelve.json";
+// import bannerData from "../../data/banner/banner-twelve.json";
 import BannerTwelveSingle from "../../components/banner/BannerTwelveSingle.js";
 
 const BannerTwelve = ({ spaceBottomClass }) => {

@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import MetaTags from "react-meta-tags";
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
 import { useDispatch, useSelector } from "react-redux";
-import LayoutOne from "../../layouts/LayoutOne";
+import Layout from "../../layouts/Layout";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import RelatedProductSlider from "../../wrappers/product/RelatedProductSlider";
 import ProductDescriptionTab from "../../wrappers/product/ProductDescriptionTab";
@@ -40,7 +40,7 @@ const Product = ({ location, match, history }) => {
             {product.name || "Product"}
           </BreadcrumbsItem>
 
-          <LayoutOne headerTop="visible">
+          <Layout headerTop="visible">
             {/* breadcrumb */}
             <Breadcrumb />
 
@@ -62,7 +62,7 @@ const Product = ({ location, match, history }) => {
               spaceBottomClass="pb-95"
               category={product.category_detail_id.name}
             />
-          </LayoutOne>
+          </Layout>
         </>
       ) : (
         <div className="flone-preloader-wrapper">

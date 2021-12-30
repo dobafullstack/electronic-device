@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import MetaTags from "react-meta-tags";
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
-import LayoutOne from "../../layouts/LayoutOne";
+import Layout from "../../layouts/Layout";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import LocationMap from "../../components/contact/LocationMap";
 
@@ -22,7 +22,7 @@ const Contact = ({ location }) => {
       <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>
         Contact
       </BreadcrumbsItem>
-      <LayoutOne headerTop="visible">
+      <Layout headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
         <div className="contact-area pt-100 pb-100">
@@ -53,9 +53,7 @@ const Contact = ({ location }) => {
                         </a>
                       </p>
                       <p>
-                        <a href="https://vinhkyit.tech">
-                          vinhkyit.tech
-                        </a>
+                        <a href="https://vinhkyit.tech">vinhkyit.tech</a>
                       </p>
                     </div>
                   </div>
@@ -128,13 +126,13 @@ const Contact = ({ location }) => {
             </div>
           </div>
         </div>
-      </LayoutOne>
+      </Layout>
     </Fragment>
   );
 };
 
 Contact.propTypes = {
-  location: PropTypes.object
+  location: PropTypes.object,
 };
 
 export default Contact;

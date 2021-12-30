@@ -10,9 +10,9 @@ import {
   addToCart,
   decreaseQuantity,
   deleteFromCart,
-  deleteAllFromCart
+  deleteAllFromCart,
 } from "../../redux/actions/cartActions";
-import LayoutOne from "../../layouts/LayoutOne";
+import Layout from "../../layouts/Layout";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import VND from "../../helpers/VND";
 
@@ -23,7 +23,7 @@ const Cart = ({
   decreaseQuantity,
   addToCart,
   deleteFromCart,
-  deleteAllFromCart
+  deleteAllFromCart,
 }) => {
   const [quantityCount] = useState(1);
   const { addToast } = useToasts();
@@ -31,23 +31,20 @@ const Cart = ({
   let cartTotalPrice = 0;
 
   cartItems.map((cartItem) => {
-      const discountedPrice = getDiscountPrice(
-          cartItem.price,
-          cartItem.discount
-      );
-      const finalProductPrice = (
-          cartItem.price *
-          cartItem.quantity *
-          currency.currencyRate
-      ).toFixed(2);
-      const finalDiscountedPrice = (
-          discountedPrice *
-          cartItem.quantity *
-          currency.currencyRate
-      ).toFixed(2);
-      discountedPrice !== null
-          ? (cartTotalPrice += parseInt(finalDiscountedPrice))
-          : (cartTotalPrice += parseInt(finalProductPrice));
+    const discountedPrice = getDiscountPrice(cartItem.price, cartItem.discount);
+    const finalProductPrice = (
+      cartItem.price *
+      cartItem.quantity *
+      currency.currencyRate
+    ).toFixed(2);
+    const finalDiscountedPrice = (
+      discountedPrice *
+      cartItem.quantity *
+      currency.currencyRate
+    ).toFixed(2);
+    discountedPrice !== null
+      ? (cartTotalPrice += parseInt(finalDiscountedPrice))
+      : (cartTotalPrice += parseInt(finalProductPrice));
   });
 
   return (
@@ -65,7 +62,7 @@ const Cart = ({
         Cart
       </BreadcrumbsItem>
 
-      <LayoutOne headerTop="visible">
+      <Layout headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
         <div className="cart-main-area pt-90 pb-100">
@@ -149,18 +146,15 @@ const Cart = ({
                                   {discountedPrice !== null ? (
                                     <Fragment>
                                       <span className="amount old">
-                                        {VND(parseInt(finalProductPrice))
-                                          }
+                                        {VND(parseInt(finalProductPrice))}
                                       </span>
                                       <span className="amount">
-                                        {VND(parseInt(finalDiscountedPrice))
-                                          }
+                                        {VND(parseInt(finalDiscountedPrice))}
                                       </span>
                                     </Fragment>
                                   ) : (
                                     <span className="amount">
-                                      {VND(parseInt(finalProductPrice))
-                                        }
+                                      {VND(parseInt(finalProductPrice))}
                                     </span>
                                   )}
                                 </td>
@@ -190,7 +184,9 @@ const Cart = ({
                                           quantityCount
                                         )
                                       }
-                                      disabled={cartItem.count === cartItem.quantity}
+                                      disabled={
+                                        cartItem.count === cartItem.quantity
+                                      }
                                     >
                                       +
                                     </button>
@@ -198,8 +194,14 @@ const Cart = ({
                                 </td>
                                 <td className="product-subtotal">
                                   {discountedPrice !== null
-                                    ? VND(parseInt(finalDiscountedPrice) * cartItem.quantity)
-                                    : VND(parseInt(finalProductPrice) * cartItem.quantity)}
+                                    ? VND(
+                                        parseInt(finalDiscountedPrice) *
+                                          cartItem.quantity
+                                      )
+                                    : VND(
+                                        parseInt(finalProductPrice) *
+                                          cartItem.quantity
+                                      )}
                                 </td>
 
                                 <td className="product-remove">
@@ -239,7 +241,6 @@ const Cart = ({
                 </div>
 
                 <div className="row justify-content-end">
-
                   <div className="col-lg-4 col-md-6">
                     <div className="discount-code-wrapper">
                       <div className="title-wrap">
@@ -267,17 +268,11 @@ const Cart = ({
                         </h4>
                       </div>
                       <h5>
-                        Total products{" "}
-                        <span>
-                          {VND(cartTotalPrice)}
-                        </span>
+                        Total products <span>{VND(cartTotalPrice)}</span>
                       </h5>
 
                       <h4 className="grand-totall-title">
-                        Grand Total{" "}
-                        <span>
-                          {VND(cartTotalPrice)}
-                        </span>
+                        Grand Total <span>{VND(cartTotalPrice)}</span>
                       </h4>
                       <Link to={process.env.PUBLIC_URL + "/checkout"}>
                         Proceed to Checkout
@@ -305,7 +300,7 @@ const Cart = ({
             )}
           </div>
         </div>
-      </LayoutOne>
+      </Layout>
     </Fragment>
   );
 };
@@ -317,17 +312,17 @@ Cart.propTypes = {
   decreaseQuantity: PropTypes.func,
   location: PropTypes.object,
   deleteAllFromCart: PropTypes.func,
-  deleteFromCart: PropTypes.func
+  deleteFromCart: PropTypes.func,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     cartItems: state.cartData,
-    currency: state.currencyData
+    currency: state.currencyData,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (item, addToast, quantityCount) => {
       dispatch(addToCart(item, addToast, quantityCount));
@@ -338,9 +333,9 @@ const mapDispatchToProps = dispatch => {
     deleteFromCart: (item, addToast) => {
       dispatch(deleteFromCart(item, addToast));
     },
-    deleteAllFromCart: addToast => {
+    deleteAllFromCart: (addToast) => {
       dispatch(deleteAllFromCart(addToast));
-    }
+    },
   };
 };
 

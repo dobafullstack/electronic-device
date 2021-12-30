@@ -5,7 +5,7 @@ import MetaTags from "react-meta-tags";
 import { connect } from "react-redux";
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
 import { getDiscountPrice } from "../../helpers/product";
-import LayoutOne from "../../layouts/LayoutOne";
+import Layout from "../../layouts/Layout";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import VND from "../../helpers/VND";
 import UnLogged from "../../components/checkout/UnLogged";
@@ -92,7 +92,7 @@ const Checkout = ({ location, cartItems, currency }) => {
       <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>
         Checkout
       </BreadcrumbsItem>
-      <LayoutOne headerTop="visible">
+      <Layout headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
         <div className="checkout-area pt-95 pb-100">
@@ -232,7 +232,7 @@ const Checkout = ({ location, cartItems, currency }) => {
             )}
           </div>
         </div>
-      </LayoutOne>
+      </Layout>
     </Fragment>
   );
 };

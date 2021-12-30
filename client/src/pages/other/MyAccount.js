@@ -3,7 +3,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import MetaTags from "react-meta-tags";
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
 import { Card, Accordion } from "react-bootstrap/";
-import LayoutOne from "../../layouts/LayoutOne";
+import Layout from "../../layouts/Layout";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
@@ -121,7 +121,7 @@ const MyAccount = ({ location }) => {
       <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>
         My Account
       </BreadcrumbsItem>
-      <LayoutOne headerTop="visible">
+      <Layout headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
         <div className="myaccount-area pb-80 pt-100">
@@ -327,7 +327,7 @@ const MyAccount = ({ location }) => {
             </div>
           </div>
         </div>
-      </LayoutOne>
+      </Layout>
     </Fragment>
   ) : (
     <div className="flone-preloader-wrapper">

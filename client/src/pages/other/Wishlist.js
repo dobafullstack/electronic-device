@@ -12,7 +12,7 @@ import {
   deleteAllFromWishlist,
 } from "../../redux/actions/wishlistActions";
 import { addToCart } from "../../redux/actions/cartActions";
-import LayoutOne from "../../layouts/LayoutOne";
+import Layout from "../../layouts/Layout";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import VNDCurrency from "../../config/VNDCurrency";
 
@@ -43,7 +43,7 @@ const Wishlist = ({
         Wishlist
       </BreadcrumbsItem>
 
-      <LayoutOne headerTop="visible">
+      <Layout headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
         <div className="cart-main-area pt-90 pb-100">
@@ -248,7 +248,7 @@ const Wishlist = ({
             )}
           </div>
         </div>
-      </LayoutOne>
+      </Layout>
     </Fragment>
   );
 };
