@@ -28,7 +28,7 @@ const MyAccount = ({ location }) => {
   const handleShow = () => setShow(true);
 
   const { pathname } = location;
-  const { isLogin } = useContext(AuthContext);
+  const { isLogin, setIsLogin } = useContext(AuthContext);
 
   const { addToast } = useToasts();
 
@@ -67,6 +67,8 @@ const MyAccount = ({ location }) => {
               autoDismiss: true,
               autoDismissTimeout: 3000,
             });
+            setIsLogin(false);
+            localStorage.removeItem("access_token");
           })
           .catch((error) => {
             if (error.response.data) {
