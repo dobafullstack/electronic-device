@@ -11,8 +11,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const { addToast } = useToasts();
     const history = useHistory();
-    const { setIsLogin } = useContext(AuthContext);
-    const [token, setToken] = useLocalStorage('access_token', '');
+    const { setIsLogin, setToken } = useContext(AuthContext);
 
     const onLogin = async () => {
         try {
@@ -22,6 +21,7 @@ export default function Login() {
             );
 
             if (code === 200) {
+                window.localStorage.setItem("access_token", result.accessToken);
                 setToken(result.accessToken);
                 setIsLogin(true);
                 history.replace("/");

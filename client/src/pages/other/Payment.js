@@ -142,21 +142,6 @@ const Payment = ({ location, deleteAllFromCart }) => {
                                 <Success className='fas fa-check-circle text-success'></Success>
                             )}
                         </PaymentItem>
-                        <PaymentItem onClick={() => setPayment("atm")}>
-                            <div
-                                style={{ flexGrow: 1 }}
-                                className='d-flex align-items-center justify-content-center'>
-                                <img
-                                    src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Credit_or_Debit_Card_Flat_Icon_Vector.svg/1024px-Credit_or_Debit_Card_Flat_Icon_Vector.svg.png'
-                                    alt=''
-                                    width={"75%"}
-                                />
-                            </div>
-                            <p style={{ fontSize: 20 }}>ATM</p>
-                            {payment === "atm" && (
-                                <Success className='fas fa-check-circle text-success'></Success>
-                            )}
-                        </PaymentItem>
                         <PaymentItem onClick={() => setPayment("paypal")}>
                             <div
                                 style={{ flexGrow: 1 }}

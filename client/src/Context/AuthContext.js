@@ -5,8 +5,7 @@ export const AuthContext = React.createContext();
 
 export default function AuthProvider({ children }) {
   const [isLogin, setIsLogin] = useState(false);
-
-  const token = localStorage.getItem("access_token");
+  const [token, setToken] = useState(localStorage.getItem("access_token"));
 
   useEffect(() => {
     if (!token) setIsLogin(false);
@@ -16,9 +15,7 @@ export default function AuthProvider({ children }) {
           localStorage.removeItem("access_token");
           setIsLogin(false);
           console.log(err);
-        } else {
-          setIsLogin(true);
-        }
+        } else setIsLogin(true);
       });
     }
   }, [token]);
@@ -28,6 +25,8 @@ export default function AuthProvider({ children }) {
       value={{
         isLogin,
         setIsLogin,
+        token,
+        setToken,
       }}
     >
       {children}

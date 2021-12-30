@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema(
             unique: true,
         },
         role_id: {
-            type: String, 
+            type: String,
             required: true,
             ref: Schema.ROLE
         },
@@ -58,7 +58,10 @@ const UserSchema = new mongoose.Schema(
         },
         delivery: {
             type: [{
-                _id: mongoose.Schema.Types.ObjectId,
+                _id: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    default: new mongoose.Types.ObjectId(),
+                },
                 name: String,
                 address: {
                     city: String,

@@ -24,12 +24,10 @@ import { useGetMyUserQuery } from "../../redux/reducers/authReducer";
 const Checkout = ({ location, cartItems, currency }) => {
   const { pathname } = location;
   let cartTotalPrice = 0;
-  const { isLogin } = useContext(AuthContext);
+  const { isLogin, token } = useContext(AuthContext);
   const [selectedAddress, setSelectedAddress] = useState("");
-  const { addToast } = useToasts();
   const history = useHistory();
-  const [token] = useLocalStorage("access_token", "");
-
+  console.log(token);
   const { data, isFetching } = useGetMyUserQuery(token);
 
   const initialValues = {
@@ -137,6 +135,8 @@ const Checkout = ({ location, cartItems, currency }) => {
                           handleChange={handleChange}
                           setFieldValue={setFieldValue}
                           data={data}
+                          errors={errors}
+                          touched={touched}
                         />
                       )}
 

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { Fragment, useState, useEffect } from "react";
 import MetaTags from "react-meta-tags";
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
-import { Modal, Button, Card, Accordion } from "react-bootstrap/";
+import { Card, Accordion } from "react-bootstrap/";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { useContext } from "react";
@@ -17,7 +17,6 @@ const MyAccount = ({ location }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -39,6 +38,7 @@ const MyAccount = ({ location }) => {
   };
 
   const onChangeDetails = async () => {
+    setIsFetching(true);
     return await axiosClient
       .put("/auth/update", {
         name,
@@ -46,6 +46,7 @@ const MyAccount = ({ location }) => {
         phone,
       })
       .then(({ result }) => {
+        fetchUser();
         setUser(result);
         addToast(result, {
           appearance: "success",
@@ -95,7 +96,6 @@ const MyAccount = ({ location }) => {
       setName(user.name);
       setEmail(user.email);
       setPhone(user.phone);
-      setAddress(user.address);
     }
   }, [user]);
 
@@ -165,7 +165,7 @@ const MyAccount = ({ location }) => {
                                       type="email"
                                       name="email"
                                       value={email}
-                                      onChange={(e) => setEmail(e.target.value)}
+                                      readOnly
                                     />
                                   </div>
                                 </div>
@@ -280,28 +280,33 @@ const MyAccount = ({ location }) => {
                             <div className="account-info-wrapper">
                               <h4>Address Book Entries</h4>
                             </div>
-                            <div className="entries-wrapper">
-                              <div className="row">
-                                <div className="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
-                                  <div className="entries-info text-center">
-                                    <p>{name}</p>
-                                    <p>{phone} </p>
-                                    <p>{address}</p>
+                            {!isFetching &&
+                              user?.delivery.map((item) => (
+                                <div className="entries-wrapper">
+                                  <div className="row">
+                                    <div className="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
+                                      <div className="entries-info text-center">
+                                        <p>{item.name}</p>
+                                        <p>{item.phone} </p>
+                                        <p>{item.address.street}</p>
+                                        <p>{item.address.district}</p>
+                                        <p>{item.address.city}</p>
+                                      </div>
+                                    </div>
+                                    <div className="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
+                                      <div className="entries-edit-delete text-center">
+                                        <button
+                                          className="edit"
+                                          onClick={handleShow}
+                                        >
+                                          Edit
+                                        </button>
+                                        <button>Delete</button>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
-                                  <div className="entries-edit-delete text-center">
-                                    <button
-                                      className="edit"
-                                      onClick={handleShow}
-                                    >
-                                      Edit
-                                    </button>
-                                    <button>Delete</button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                              ))}
                             <div className="billing-back-btn">
                               <div className="billing-btn">
                                 <button type="submit">Continue</button>
@@ -314,7 +319,7 @@ const MyAccount = ({ location }) => {
                   </Accordion>
                   <AddressUpdateModal
                     show={show}
-                    handleShow={handleShow}
+                    handleClose={handleClose}
                     cities={cities}
                   />
                 </div>
