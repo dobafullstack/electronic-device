@@ -32,7 +32,7 @@ const HeaderTop = ({
               ? Math.floor(200000 * currency.currencyRate) +
                 currency.currencySymbol
               : currency.currencySymbol +
-                (200 * currency.currencyRate).toFixed(2)}
+                (200000 * currency.currencyRate).toFixed(2)}
           </span>
         </p>
       </div>

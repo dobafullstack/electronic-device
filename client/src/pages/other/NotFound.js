@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import MetaTags from "react-meta-tags";
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
-import LayoutOne from "../../layouts/LayoutOne";
+import Layout from "../../layouts/Layout";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 
 const NotFound = ({ location }) => {
@@ -22,7 +22,7 @@ const NotFound = ({ location }) => {
       <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>
         404 page
       </BreadcrumbsItem>
-      <LayoutOne headerTop="visible">
+      <Layout headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
         <div className="error-area pt-40 pb-100">
@@ -56,13 +56,13 @@ const NotFound = ({ location }) => {
             </div>
           </div>
         </div>
-      </LayoutOne>
+      </Layout>
     </Fragment>
   );
 };
 
 NotFound.propTypes = {
-  location: PropTypes.object
+  location: PropTypes.object,
 };
 
 export default NotFound;
