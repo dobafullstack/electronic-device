@@ -6,7 +6,7 @@ import MetaTags from "react-meta-tags";
 import { connect, useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { getSortedProducts } from "../../helpers/product";
-import LayoutOne from "../../layouts/LayoutOne";
+import Layout from "../../layouts/Layout";
 import {
   getAllProductsAction,
   getProductsByCategoryDetailIdAction,
@@ -32,7 +32,7 @@ const ShopGridStandard = ({ location, products }) => {
   const dispatch = useDispatch();
   const { categoryId, childId } = useParams();
   const currentCategory = useSelector((state) => state.categoryData.category);
-  const {state} = useLocation();
+  const { state } = useLocation();
 
   const pageLimit = 15;
   const { pathname } = location;
@@ -90,7 +90,7 @@ const ShopGridStandard = ({ location, products }) => {
         {currentCategory.name || "Shop"}
       </BreadcrumbsItem>
 
-      <LayoutOne headerTop="visible">
+      <Layout headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
 
@@ -135,7 +135,7 @@ const ShopGridStandard = ({ location, products }) => {
             </div>
           </div>
         </div>
-      </LayoutOne>
+      </Layout>
     </Fragment>
   );
 };

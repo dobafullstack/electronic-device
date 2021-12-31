@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import bannerData from "../../data/banner/banner-one.json";
+// import bannerData from "../../data/banner/banner-one.json";
 import BannerOneSingle from "../../components/banner/BannerOneSingle.js";
 
 const BannerOne = ({ spaceTopClass, spaceBottomClass }) => {
@@ -30,7 +30,7 @@ const BannerOne = ({ spaceTopClass, spaceBottomClass }) => {
 
 BannerOne.propTypes = {
   spaceBottomClass: PropTypes.string,
-  spaceTopClass: PropTypes.string
+  spaceTopClass: PropTypes.string,
 };
 
 export default BannerOne;

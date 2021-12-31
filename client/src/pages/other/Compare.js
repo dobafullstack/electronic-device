@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { addToCart } from "../../redux/actions/cartActions";
 import { deleteFromCompare } from "../../redux/actions/compareActions";
 import { getDiscountPrice } from "../../helpers/product";
-import LayoutOne from "../../layouts/LayoutOne";
+import Layout from "../../layouts/Layout";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import Rating from "../../components/product/sub-components/ProductRating";
 
@@ -36,7 +36,7 @@ const Compare = ({
       <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>
         Compare
       </BreadcrumbsItem>
-      <LayoutOne headerTop="visible">
+      <Layout headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
         <div className="compare-main-area pt-90 pb-100">
@@ -234,7 +234,7 @@ const Compare = ({
             )}
           </div>
         </div>
-      </LayoutOne>
+      </Layout>
     </Fragment>
   );
 };

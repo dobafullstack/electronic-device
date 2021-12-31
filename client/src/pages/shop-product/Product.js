@@ -2,29 +2,24 @@ import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import MetaTags from "react-meta-tags";
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
-import { connect, useDispatch, useSelector } from "react-redux";
-import LayoutOne from "../../layouts/LayoutOne";
+import { useDispatch, useSelector } from "react-redux";
+import Layout from "../../layouts/Layout";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import RelatedProductSlider from "../../wrappers/product/RelatedProductSlider";
 import ProductDescriptionTab from "../../wrappers/product/ProductDescriptionTab";
 import ProductImageDescription from "../../wrappers/product/ProductImageDescription";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 import { getProductByIdAction } from "../../redux/actions/productActions";
-const Product = ({ location, match }) => {
+
+const Product = ({ location, match, history }) => {
   const { pathname } = location;
   const product = useSelector((state) => state.productData.product.data);
   const loading = useSelector((state) => state.productData.product.loading);
-  const { id } = useParams();
 
   const dispatch = useDispatch();
-  console.log("not dispatched");
   useEffect(() => {
     dispatch(getProductByIdAction(match.params.id));
-    console.log("dispatched");
   }, [dispatch, match.params.id]);
-
-  //   const product = products.find((x) => x._id === match.params.id);
 
   return (
     <Fragment>
@@ -45,7 +40,7 @@ const Product = ({ location, match }) => {
             {product.name || "Product"}
           </BreadcrumbsItem>
 
-          <LayoutOne headerTop="visible">
+          <Layout headerTop="visible">
             {/* breadcrumb */}
             <Breadcrumb />
 
@@ -67,7 +62,7 @@ const Product = ({ location, match }) => {
               spaceBottomClass="pb-95"
               category={product.category_detail_id.name}
             />
-          </LayoutOne>
+          </Layout>
         </>
       ) : (
         <div className="flone-preloader-wrapper">

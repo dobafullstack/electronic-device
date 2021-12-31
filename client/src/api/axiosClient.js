@@ -6,7 +6,6 @@ const axiosClient = axios.create({
     headers: {
         "Accept": "*/*",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
     },
     paramsSerializer: (params) => queryString.stringify(params),
 });

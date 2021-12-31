@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axiosClient from "../../api/axiosClient";
 
-export default function UnLogged({ values, handleChange, addNewAddress, setAddNewAddress, errors, touched }) {
+export default function UnLogged({
+    values,
+    handleChange,
+    addNewAddress,
+    setAddNewAddress,
+    errors,
+    touched,
+}) {
     const [cites, setCities] = useState([]);
-    console.log(values)
+    console.log(values);
 
     useEffect(() => {
         axiosClient
@@ -98,8 +105,8 @@ export default function UnLogged({ values, handleChange, addNewAddress, setAddNe
                                 name='street'
                                 type='text'
                             />
-                            {errors.address && touched.address ? (
-                                <p className='text-danger'>{errors.address}</p>
+                            {errors.street && touched.street ? (
+                                <p className='text-danger'>{errors.street}</p>
                             ) : null}
                         </div>
                     </div>
@@ -118,6 +125,7 @@ export default function UnLogged({ values, handleChange, addNewAddress, setAddNe
                     </div>
                 </div>
             </div>
+
             {addNewAddress && (
                 <div className='d-flex justify-content-end mt-3'>
                     <button

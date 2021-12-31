@@ -1,7 +1,30 @@
 import PropTypes from "prop-types";
 import React from "react";
-import featureIconData from "../../data/feature-icons/feature-icon-four.json";
 import FeatureIconFourSingle from "../../components/feature-icon/FeatureIconFourSingle.js";
+
+const featureIconData = [
+  {
+    id: 1,
+    titleImage: "/assets/img/icon-img/support-8.png",
+    title: "Free shipping on all order",
+    iconImage: "/assets/img/icon-img/support-5.png",
+    backgroundColor: "#ccfbe9",
+  },
+  {
+    id: 2,
+    titleImage: "/assets/img/icon-img/support-9.png",
+    title: "Back guarantee under 5 days",
+    iconImage: "/assets/img/icon-img/support-6.png",
+    backgroundColor: "#f2fbcc",
+  },
+  {
+    id: 3,
+    titleImage: "/assets/img/icon-img/support-10.png",
+    title: "On every order over $150",
+    iconImage: "/assets/img/icon-img/support-7.png",
+    backgroundColor: "#ddfbcc",
+  },
+];
 
 const FeatureIconFour = ({
   spaceTopClass,
@@ -9,7 +32,7 @@ const FeatureIconFour = ({
   containerClass,
   gutterClass,
   responsiveClass,
-  bgImg
+  bgImg,
 }) => {
   return (
     <div
@@ -52,7 +75,7 @@ FeatureIconFour.propTypes = {
   gutterClass: PropTypes.string,
   responsiveClass: PropTypes.string,
   spaceBottomClass: PropTypes.string,
-  spaceTopClass: PropTypes.string
+  spaceTopClass: PropTypes.string,
 };
 
 export default FeatureIconFour;

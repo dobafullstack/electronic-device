@@ -1,12 +1,11 @@
 import React, { Fragment } from "react";
 import MetaTags from "react-meta-tags";
-import LayoutOne from "../../layouts/LayoutOne";
+import Layout from "../../layouts/Layout";
 import HeroSliderSixteen from "../../wrappers/hero-slider/HeroSliderSixteen";
 import CategoryThreeSlider from "../../wrappers/category/CategoryThreeSlider";
 import FeatureIconFour from "../../wrappers/feature-icon/FeatureIconFour";
 import TabProductTen from "../../wrappers/product/TabProductTen";
 import BannerTwelve from "../../wrappers/banner/BannerTwelve";
-import BlogFeaturedThree from "../../wrappers/blog-featured/BlogFeaturedThree";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
@@ -34,7 +33,7 @@ const HomeElectronicsTwo = () => {
           content="Electronics home of flone react minimalist eCommerce template."
         />
       </MetaTags>
-      <LayoutOne
+      <Layout
         headerContainerClass="container-fluid"
         headerPaddingClass="header-padding-1"
       >
@@ -60,7 +59,7 @@ const HomeElectronicsTwo = () => {
         <BannerTwelve />
         {/* blog featured */}
         {/* <BlogFeaturedThree spaceTopClass="pt-70" spaceBottomClass="pb-70" /> */}
-      </LayoutOne>
+      </Layout>
     </Fragment>
   );
 };
