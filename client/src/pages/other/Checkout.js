@@ -114,13 +114,9 @@ const Checkout = ({ location, cartItems, currency }) => {
                                     handleSubmit,
                                     setFieldValue,
                                     errors,
-                                    touched
+                                    touched,
                                 }) => (
-                                    <form
-                                        onSubmit={(e) => {
-                                            e.preventDefault();
-                                            handleSubmit();
-                                        }}>
+                                    <form onSubmit={handleSubmit}>
                                         <div className='row'>
                                             {!isLogin ? (
                                                 <UnLogged
