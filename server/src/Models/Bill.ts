@@ -2,11 +2,15 @@ import ProductSchemaType from '@Types/ProductSchemaType';
 import Schema from '@Constants/Schema';
 import mongoose from 'mongoose';
 import Logger from '@Configs/Logger';
+import { ProductDocument, ProductSchemaField } from './Product';
 
-export interface BilLDocument extends mongoose.Document{
+export interface BilLDocument extends mongoose.Document {
     _id: mongoose.Schema.Types.ObjectId;
     userId: string;
-    products: ProductSchemaType[];
+    productItems: {
+        productItem: ProductDocument;
+        quantity: number;
+    }[];
     total: number;
     createdAt: Date;
     updatedAt: Date;
@@ -16,28 +20,28 @@ const BillSchema = new mongoose.Schema(
     {
         userId: {
             type: String,
-            required: true,
             ref: Schema.USER,
         },
-        products: {
+        productItems: {
             type: [
                 {
-                    productId: {
-                        type: String,
-                        ref: Schema.PRODUCT,
-                        required: true,
+                    productItem: {
+                        type: {
+                            ...ProductSchemaField,
+                            _id: mongoose.Schema.Types.ObjectId,
+                        },
                     },
-                    count: Number,
+                    quantity: Number,
                 },
             ],
             default: [],
         },
         total: {
             type: Number,
-            default: 0
+            default: 0,
         },
         createdAt: Date,
-        updatedAt: Date
+        updatedAt: Date,
     },
     { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } }
 );

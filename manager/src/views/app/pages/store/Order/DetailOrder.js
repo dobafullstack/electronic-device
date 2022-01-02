@@ -1,370 +1,261 @@
-import React, { useState } from 'react';
-import {
-  Row,
-  Card,
-  CardTitle,
-  CardBody,
-  Nav,
-  NavItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu,
-  TabContent,
-  TabPane,
-  Badge,
-  CardHeader,
-  Table,
-  InputGroup,
-  InputGroupAddon,
-  Input,
-  Button,
-} from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import classnames from 'classnames';
-import { injectIntl } from 'react-intl';
+import billApi from 'api/billApi';
+import orderApi from 'api/orderApi';
+import { Colxx, Separator } from 'components/common/CustomBootstrap';
+import { NotificationManager } from 'components/common/react-notifications';
 import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Separator, Colxx } from 'components/common/CustomBootstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import GlideComponentThumbs from 'components/carousel/GlideComponentThumbs';
-import { detailImages, detailThumbs } from 'data/carouselItems';
-import detailsQuestionsData from 'data/questions';
-import CommentWithLikes from 'components/pages/CommentWithLikes';
-import { commentWithLikesData } from 'data/comments';
-import QuestionAnswer from 'components/pages/QuestionAnswer';
-import GalleryDetail from 'containers/pages/GalleryDetail';
+import VND from 'helpers/VND';
+import React, { useEffect, useState } from 'react';
+import { injectIntl } from 'react-intl';
+import { useParams } from 'react-router-dom';
+import { Badge, Button, Card, CardBody, Row, Table } from 'reactstrap';
 
 const DetailsPages = ({ match, intl }) => {
-  const [activeTab, setActiveTab] = useState('details');
+  const { orderId } = useParams();
+  const [order, setOrder] = useState();
 
-  const { messages } = intl;
+  const fetchingOrder = () =>
+    orderApi
+      .getDetailOrder(orderId)
+      .then((res) => setOrder(res.result))
+      .catch((err) => console.log(err));
+
+  const onUpdate = async (body) => {
+    try {
+      const { result, error } = await orderApi.updateOrder(orderId, body);
+
+      if (error === null) {
+        NotificationManager.success(
+          result,
+          'Update Order',
+          3000,
+          null,
+          null,
+          ''
+        );
+        fetchingOrder();
+      }
+    } catch (error) {
+      if (error.response.data) {
+        NotificationManager.warning(
+          error.response.data.error.message,
+          'Update Order',
+          3000,
+          null,
+          null,
+          ''
+        );
+      }
+    }
+  };
+
+  const onBill = async () => {
+    try {
+      const { result, error } = await billApi.createBill({orderId})
+
+      if (error === null) {
+        NotificationManager.success(
+          result,
+          'Update Order',
+          3000,
+          null,
+          null,
+          ''
+        );
+        fetchingOrder();
+      }
+    } catch (error) {
+      if (error.response.data) {
+        NotificationManager.warning(
+          error.response.data.error.message,
+          'Update Order',
+          3000,
+          null,
+          null,
+          ''
+        );
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchingOrder();
+  }, [orderId]);
+
   return (
     <>
       <Row>
         <Colxx xxs="12">
-          <h1>Magdalena Cake</h1>
-          <div className="text-zero top-right-button-container">
-            <UncontrolledDropdown>
-              <DropdownToggle
-                caret
-                color="primary"
-                size="lg"
-                outline
-                className="top-right-button top-right-button-single"
-              >
-                <IntlMessages id="pages.actions" />
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>
-                  <IntlMessages id="pages.header" />
-                </DropdownItem>
-                <DropdownItem disabled>
-                  <IntlMessages id="pages.delete" />
-                </DropdownItem>
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </div>
+          <h1>Detail Order</h1>
+          <button
+            type="button"
+            onClick={() => fetchingOrder()}
+            className="btn d-flex justify-content-center align-items-center"
+            style={{ height: 25 }}
+          >
+            <i className="simple-icon-reload" />
+          </button>
 
           <Breadcrumb match={match} />
           <Separator className="mb-5" />
 
           <Row>
-            <Colxx xxs="12" xl="8" className="col-left">
+            <Colxx xxs="24" xl="12" className="col-left">
               <Card className="mb-4">
                 <CardBody>
-                  <GlideComponentThumbs
-                    settingsImages={{
-                      bound: true,
-                      rewind: false,
-                      focusAt: 0,
-                      startAt: 0,
-                      gap: 5,
-                      perView: 1,
-                      data: detailImages,
-                    }}
-                    settingsThumbs={{
-                      bound: true,
-                      rewind: false,
-                      focusAt: 0,
-                      startAt: 0,
-                      gap: 10,
-                      perView: 5,
-                      data: detailThumbs,
-                      breakpoints: {
-                        576: {
-                          perView: 4,
-                        },
-                        420: {
-                          perView: 3,
-                        },
-                      },
-                    }}
-                  />
+                  <h3>Products</h3>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Product Price</th>
+                        <th>Sub Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {order &&
+                        order.productItems.map((item) => (
+                          <tr key={item.productItem._id}>
+                            <td>{item.productItem.name}</td>
+                            <td>{item.quantity}</td>
+                            <td>{VND(item.productItem.price)}</td>
+                            <td>
+                              {VND(item.quantity * item.productItem.price)}
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
                 </CardBody>
-              </Card>
-              <Card className="mb-4">
-                <CardHeader>
-                  <Nav tabs className="card-header-tabs ">
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: activeTab === 'details',
-                          'nav-link': true,
-                        })}
-                        onClick={() => setActiveTab('details')}
-                        to="#"
-                        location={{}}
-                      >
-                        <IntlMessages id="pages.details-title" />
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: activeTab === 'comments',
-                          'nav-link': true,
-                        })}
-                        onClick={() => setActiveTab('comments')}
-                        to="#"
-                        location={{}}
-                      >
-                        <IntlMessages id="pages.comments-title" />
-                        (19)
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: activeTab === 'questions',
-                          'nav-link': true,
-                        })}
-                        onClick={() => setActiveTab('questions')}
-                        to="#"
-                        location={{}}
-                      >
-                        <IntlMessages id="pages.questions-title" />
-                        (6)
-                      </NavLink>
-                    </NavItem>
-                  </Nav>
-                </CardHeader>
-
-                <TabContent activeTab={activeTab}>
-                  <TabPane tabId="details">
-                    <Row>
-                      <Colxx sm="12">
-                        <CardBody>
-                          <p className="font-weight-bold">
-                            Augue Vitae Commodo
-                          </p>
-                          <p>
-                            Vivamus ultricies augue vitae commodo condimentum.
-                            Nullamfaucibus eros eu mauris feugiat, eget
-                            consectetur tortor tempus. Sed volutpatmollis dui
-                            eget fringilla. Vestibulum blandit urna ut tellus
-                            lobortis tristique.Vestibulum ante ipsum primis in
-                            faucibus orci luctus et ultrices posuere
-                            cubiliaCurae; Pellentesque quis cursus mauris. Nam
-                            in ornare erat. Vestibulum convallisenim ac massa
-                            dapibus consectetur. Maecenas facilisis eros ac
-                            felis mattis, egetauctor sapien varius. <br />
-                            <br />
-                            Nulla non purus fermentum, pulvinar dui condimentum,
-                            malesuada nibh. Sed viverra quam urna, at
-                            condimentum ante viverra non. Mauris posuere erat
-                            sapien, a convallis libero lobortis sit amet.
-                            Suspendisse in orci tellus.
-                          </p>
-                          <br />
-                          <p className="font-weight-bold">
-                            Phasellus Efficitur
-                          </p>
-                          <p>
-                            Tellus a sem condimentum, vitae convallis sapien
-                            feugiat.Aenean non nibh nec nunc aliquam iaculis. Ut
-                            quis suscipit nunc. Duis at lectusa est aliquam
-                            venenatis vitae eget arcu. Sed egestas felis eget
-                            convallismaximus. Curabitur maximus, ligula vel
-                            sagittis iaculis, risus nisi tinciduntsem, ut
-                            ultricies libero nulla eu ligula. Nam ultricies
-                            mollis nulla, sedlaoreet leo convallis ac. Mauris
-                            nisl risus, tincidunt ac diam aliquet,convallis
-                            pellentesque nisi. Nam sit amet libero at odio
-                            malesuada ultricies avitae dolor. Cras in viverra
-                            felis, non consequat quam. Praesent a orci
-                            enim.Vivamus porttitor nisi at nisl egestas iaculis.
-                            Nullam commodo eget duisollicitudin sagittis. Duis
-                            id nibh mollis, hendrerit metus
-                            consectetur,ullamcorper risus. Morbi elementum
-                            ultrices nunc, quis porta nisi ornare sitamet.
-                            <br />
-                            <br />
-                            Etiam tincidunt orci in nisi aliquam placerat.
-                            Aliquam finibus in sem utvehicula. Morbi eget
-                            consectetur leo. Quisque consectetur lectus eros,
-                            sedsodales libero ornare cursus. Etiam elementum ut
-                            dolor eget hendrerit.Suspendisse eu lacus eu eros
-                            lacinia feugiat sit amet non purus.
-                            <br />
-                            <br />
-                            Pellentesque quis cursus mauris. Nam in ornare erat.
-                            Vestibulum convallis enim ac massa dapibus
-                            consectetur. Maecenas facilisis eros ac felis
-                            mattis, eget auctor sapien varius.
-                          </p>
-                          <br />
-                          <p className="font-weight-bold">Elementum Ultrices</p>
-                          <Table borderless>
-                            <thead>
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">3</th>
-                                <td colSpan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                        </CardBody>
-                      </Colxx>
-                    </Row>
-                  </TabPane>
-                  <TabPane tabId="comments">
-                    <Row>
-                      <Colxx sm="12">
-                        <CardBody>
-                          {commentWithLikesData.map((item) => {
-                            return (
-                              <CommentWithLikes
-                                data={item}
-                                key={`comments_${item.key}`}
-                              />
-                            );
-                          })}
-                          <InputGroup className="comment-container">
-                            <Input placeholder={messages['pages.addComment']} />
-                            <InputGroupAddon addonType="append">
-                              <Button color="primary">
-                                <span className="d-inline-block">
-                                  {messages['pages.send']}
-                                </span>{' '}
-                                <i className="simple-icon-arrow-right ml-2" />
-                              </Button>
-                            </InputGroupAddon>
-                          </InputGroup>
-                        </CardBody>
-                      </Colxx>
-                    </Row>
-                  </TabPane>
-                  <TabPane tabId="questions">
-                    <Row>
-                      <Colxx sm="12">
-                        <CardBody>
-                          {detailsQuestionsData.map((item) => {
-                            return (
-                              <QuestionAnswer
-                                data={item}
-                                key={`qa_${item.key}`}
-                              />
-                            );
-                          })}
-                        </CardBody>
-                      </Colxx>
-                    </Row>
-                  </TabPane>
-                </TabContent>
               </Card>
             </Colxx>
-
-            <Colxx xxs="12" xl="4" className="col-right">
+            <Colxx xxs="12" xl="6" className="col-left">
               <Card className="mb-4">
                 <CardBody>
-                  <div className="mb-3">
-                    <div className="post-icon mr-3 d-inline-block">
-                      <NavLink to="#" location={{}}>
-                        <i className="simple-icon-heart mr-1" />
-                      </NavLink>
-                      <span>4 {messages['pages.likes']}</span>
-                    </div>
-
-                    <div className="post-icon mr-3 d-inline-block">
-                      <NavLink to="#" location={{}}>
-                        <i className="simple-icon-bubble mr-1" />
-                      </NavLink>
-                      <span>2 {messages['pages.comments-title']}</span>
-                    </div>
-                  </div>
-                  <p className="mb-3">
-                    Vivamus ultricies augue vitae commodo condimentum. Nullam
-                    faucibus eros eu mauris feugiat, eget consectetur tortor
-                    tempus.
-                    <br />
-                    <br />
-                    Sed volutpat mollis dui eget fringilla. Vestibulum blandit
-                    urna ut tellus lobortis tristique. Vestibulum ante ipsum
-                    primis in faucibus orci luctus et ultrices posuere cubilia
-                    Curae; Pellentesque quis cursus mauris.
-                    <br />
-                    <br />
-                    Nulla non purus fermentum, pulvinar dui condimentum,
-                    malesuada nibh. Sed viverra quam urna, at condimentum ante
-                    viverra non. Mauris posuere erat sapien, a convallis libero
-                    lobortis sit amet. Suspendisse in orci tellus.
-                  </p>
-                  <p className="text-muted text-small mb-2">
-                    {messages['forms.tags']}
-                  </p>
-                  <p className="mb-3">
-                    <Badge color="outline-secondary" className="mb-1 mr-1" pill>
-                      FRONTEND
-                    </Badge>
-                    <Badge color="outline-secondary" className="mb-1 mr-1" pill>
-                      JAVASCRIPT
-                    </Badge>
-                    <Badge color="outline-secondary" className="mb-1 mr-1" pill>
-                      SECURITY
-                    </Badge>
-                    <Badge color="outline-secondary" className="mb-1 mr-1" pill>
-                      DESIGN
-                    </Badge>
-                  </p>
+                  <h3>Delivery</h3>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {order && (
+                        <tr>
+                          <td>{order.delivery.name}</td>
+                          <td>{order.delivery.phone}</td>
+                          <td>{order.delivery.address}</td>
+                          <td>
+                            {order.delivery.status === 'pending' && (
+                              <Badge color="warning">
+                                {order.delivery.status}
+                              </Badge>
+                            )}
+                            {order.delivery.status === 'success' && (
+                              <Badge color="success">
+                                {order.delivery.status}
+                              </Badge>
+                            )}
+                            {order.delivery.status === 'canceled' && (
+                              <Badge color="danger">
+                                {order.delivery.status}
+                              </Badge>
+                            )}
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </Table>
                 </CardBody>
               </Card>
+            </Colxx>
+            <Colxx xxs="12" xl="6" className="col-left">
               <Card className="mb-4">
                 <CardBody>
-                  <CardTitle>
-                    <IntlMessages id="pages.similar-projects" />
-                  </CardTitle>
-                  <GalleryDetail />
+                  <h3>Payment</h3>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Status</th>
+                        <th>Method</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {order && (
+                        <tr>
+                          <td>
+                            {order.payment.status ? (
+                              <Badge color="success">Đã thanh toán</Badge>
+                            ) : (
+                              <Badge color="danger">Chưa thanh toán</Badge>
+                            )}
+                          </td>
+                          <td>
+                            {order.payment.method === 'cash' ? (
+                              <Badge color="success">
+                                {order.payment.method}
+                              </Badge>
+                            ) : (
+                              <Badge color="secondary">
+                                {order.payment.method}
+                              </Badge>
+                            )}
+                          </td>
+                          <td>{VND(order.total)}</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </Table>
                 </CardBody>
               </Card>
             </Colxx>
           </Row>
+          {order && (
+            <div className="d-flex justify-content-end" style={{ gap: 10 }}>
+              {order.delivery.status === 'pending' && !order.haveInBill ? (
+                <Button
+                  color="danger"
+                  onClick={() =>
+                    onUpdate({
+                      delivery: {
+                        ...order.delivery,
+                        status: 'canceled',
+                      },
+                    })
+                  }
+                >
+                  Hủy đơn hàng
+                </Button>
+              ) : null}
+              {!order.haveInBill && order.delivery.status === 'pending' ? (
+                <Button
+                  color="primary"
+                  onClick={() => onBill()}
+                >
+                  Lên hóa đơn
+                </Button>
+              ) : null}
+              {order.haveInBill && order.delivery.status === 'pending' ? (
+                <Button
+                  color="success"
+                  onClick={() =>
+                    onUpdate({
+                      delivery: {
+                        ...order.delivery,
+                        status: 'success',
+                      },
+                    })
+                  }
+                >
+                  Hoàn thành đơn hàng
+                </Button>
+              ) : null}
+            </div>
+          )}
         </Colxx>
       </Row>
     </>

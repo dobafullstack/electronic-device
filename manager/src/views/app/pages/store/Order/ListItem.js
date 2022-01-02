@@ -62,9 +62,9 @@ const ListItem = ({
               selectedPageSize * currentPage
             )
             .filter((x) =>
-              x.name
-                ? x.name.toLowerCase().includes(search)
-                : x.title.toLowerCase().includes(search)
+              x.userId
+                ? x.userId.name.toLowerCase().includes(search)
+                : x.delivery.name.toLowerCase().includes(search)
             )
         );
         setSelectedItems([]);

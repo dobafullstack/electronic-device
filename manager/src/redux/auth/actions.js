@@ -31,10 +31,14 @@ export const loginAction =
         getUserResult.role_id.name === 'admin' ||
         getUserResult.role_id.name === 'staff'
       ) {
-        localStorage.setItem('access_token', result.accessToken);
-        dispatch(loginSuccess(getUserResult));
-        setCurrentUser(getUserResult);
-        history.replace('/');
+        if (getUserResult.active) {
+          localStorage.setItem('access_token', result.accessToken);
+          dispatch(loginSuccess(getUserResult));
+          setCurrentUser(getUserResult);
+          history.replace('/');
+        } else {
+          dispatch(loginError({ message: 'Your account is unactive' }));
+        }
       } else {
         dispatch(loginError({ message: 'You do not have permission' }));
       }

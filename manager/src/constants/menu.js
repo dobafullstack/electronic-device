@@ -90,7 +90,7 @@ const data = [
           {
             icon: 'simple-icon-user-following',
             label: 'pages.auth.roles',
-            to: `${adminRoot}/pages/auth/users`,
+            to: `${adminRoot}/pages/auth/roles`,
           },
         ],
       },

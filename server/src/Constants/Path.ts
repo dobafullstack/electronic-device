@@ -9,8 +9,12 @@ export default {
         REGISTER: '/register',
         GET_USER: '/',
         UPDATE_USER: '/update',
+        UPDATE_USER_BY_ID: '/update/:userId',
         DELETE_USER: '/delete/:userId',
-        UPDATE_PASSWORD: '/change-password'
+        UPDATE_PASSWORD: '/change-password',
+        GET_LIST: '/users',
+        CREATE_USER: '/createUser',
+        GET_USER_BY_ID: '/user/:userId'
     },
     ROLE: {
         BASE_URL: '/role',

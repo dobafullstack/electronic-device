@@ -12,7 +12,11 @@ export default function ProductPage({ match }) {
   return (
     <Suspense fallback={<div className="loading" />}>
       <Switch>
-        <Redirect exact from={`${match.url}/`} to={`${match.url}/list-slider`} />
+        <Redirect
+          exact
+          from={`${match.url}/`}
+          to={`${match.url}/list-slider`}
+        />
         <Route
           path={`${match.url}/list-slider`}
           render={(props) => <ListOrder {...props} />}

@@ -28,7 +28,6 @@ const ListItem = ({
   EditModal,
   notEdit,
   title,
-  noCreate
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [displayMode, setDisplayMode] = useState('list');
@@ -61,11 +60,7 @@ const ListItem = ({
               (currentPage - 1) * selectedPageSize,
               selectedPageSize * currentPage
             )
-            .filter((x) =>
-              x.name
-                ? x.name.toLowerCase().includes(search)
-                : x.title.toLowerCase().includes(search)
-            )
+            .filter((x) => x.name.toLowerCase().includes(search))
         );
         setSelectedItems([]);
         setTotalItemCount(data.length);
@@ -140,7 +135,6 @@ const ListItem = ({
       }
       if (data.action === 'delete') {
         deleteItem(selectedItems[0]);
-        setItems(items.filter((x) => x._id !== selectedItems[0]));
       }
     }
   };
@@ -177,7 +171,6 @@ const ListItem = ({
           changeDisplayMode={setDisplayMode}
           onReload={onReload}
           handleChangeSelectAll={handleChangeSelectAll}
-          noCreate={noCreate}
           changeOrderBy={(column) => {
             setSelectedOrderOption(
               orderOptions.find((x) => x.column === column)

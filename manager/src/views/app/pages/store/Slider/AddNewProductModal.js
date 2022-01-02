@@ -11,13 +11,11 @@ import {
   Label,
   Modal,
   ModalBody,
-  ModalHeader
+  ModalHeader,
 } from 'reactstrap';
 import { storage } from '../../../../../helpers/Firebase';
 
 const AddNewProductModal = ({ modalOpen, toggleModal }) => {
-  
-
   const initialValues = {
     title: '',
     content: '',
@@ -50,14 +48,7 @@ const AddNewProductModal = ({ modalOpen, toggleModal }) => {
       try {
         const { result } = await sliderApi.createSlider(values);
 
-        NotificationManager.success(
-          result,
-          'Add Slider',
-          3000,
-          null,
-          null,
-          ''
-        );
+        NotificationManager.success(result, 'Add Slider', 3000, null, null, '');
         toggleModal();
       } catch (error) {
         if (error.response.data) {

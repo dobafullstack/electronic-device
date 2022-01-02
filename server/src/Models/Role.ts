@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 export interface RoleDocument extends mongoose.Document {
     _id: mongoose.Schema.Types.ObjectId;
     name: String;
+    active: Boolean;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -14,6 +15,10 @@ const RoleSchema = new mongoose.Schema(
             type: String,
             required: true,
             unique: true,
+        },
+        active: {
+            type: Boolean,
+            default: true,
         },
         createdAt: Date,
         updatedAt: Date,

@@ -61,11 +61,10 @@ const ListItem = ({
               (currentPage - 1) * selectedPageSize,
               selectedPageSize * currentPage
             )
-            .filter((x) =>
-              x.name
-                ? x.name.toLowerCase().includes(search)
-                : x.title.toLowerCase().includes(search)
-            )
+            // .filter((x) =>
+            //   x.userId
+            //     && x.userId.name.toLowerCase().includes(search)
+            // )
         );
         setSelectedItems([]);
         setTotalItemCount(data.length);

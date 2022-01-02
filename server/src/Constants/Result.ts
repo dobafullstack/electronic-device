@@ -5,7 +5,8 @@ export default {
         GET_USER: 'Get user',
         UPDATE_USER: 'Update user',
         DELETE_USER: 'Delete user',
-        UPDATE_PASSWORD: 'Update password'
+        UPDATE_PASSWORD: 'Update password',
+        GET_LIST: 'Get list user',
     },
     ROLE: {
         CREATE: 'Create role',
@@ -19,7 +20,7 @@ export default {
         CHILD: {
             ADD: 'Add child',
             UPDATE: 'Update child',
-            DELETE: 'Delete child'
+            DELETE: 'Delete child',
         },
         GET_LIST: 'Get list categories',
         GET_DETAIL: 'Get detail category',

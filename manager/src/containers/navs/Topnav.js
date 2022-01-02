@@ -264,15 +264,6 @@ const TopNav = ({
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>
-        <div className="position-relative d-none d-none d-lg-inline-block">
-          <a
-            className="btn btn-outline-primary btn-sm ml-2"
-            target="_top"
-            href={buyUrl}
-          >
-            <IntlMessages id="user.buy" />
-          </a>
-        </div>
       </div>
       <NavLink className="navbar-logo" to={adminRoot}>
         <span className="logo d-none d-xs-block" />

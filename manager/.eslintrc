@@ -30,7 +30,7 @@
       "experimentalObjectRestSpread": true
     }
   },
-  "plugins": ["react", "react-hooks", "jsx-a11y", "prettier"],
+  "plugins": ["react", "react-hooks", "jsx-a11y", "prettier", "formatjs"],
   "rules": {
     "react/jsx-filename-extension": [
       1,
@@ -45,7 +45,10 @@
     "no-console": "off",
     "react/prop-types": 0,
     "prettier/prettier": ["warn"],
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-unused-vars": "off",
+    "formatjs/no-offset": "error",
+    "react/no-array-index-key": "off"
   },
   "globals": {
     "window": true,

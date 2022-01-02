@@ -32,11 +32,35 @@ export default class AuthController {
         }
     }
 
+    public static async CreateUserController(req: Request, res: Response) {
+        try {
+            const result = await AuthService.RegisterService(req.body);
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+
+            res.status(500).json(GetErrorResult(error, Result.AUTH.REGISTER));
+        }
+    }
+
     public static async GetUserByTokenController(req: Request, res: Response) {
         const token = req.headers['authorization']?.split(' ')[1];
 
         try {
             const result = await AuthService.GetUserByTokenService(token as string);
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+
+            res.status(500).json(GetErrorResult(error, Result.AUTH.GET_USER));
+        }
+    }
+
+    public static async GetUserByIdController(req: Request, res: Response) {
+        try {
+            const result = await AuthService.GetUserByIdService(req.params.userId);
 
             res.status(result.code).json(result);
         } catch (error: any) {
@@ -79,6 +103,23 @@ export default class AuthController {
         }
     }
 
+    public static async UpdateUserByIdController(req: Request, res: Response) {
+        delete req.body.email;
+        delete req.body.username;
+        delete req.body.role_id;
+        delete req.body.password;
+
+        try {
+            const result = await AuthService.UpdateUserByIdService(req.params.userId, req.body);
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+
+            res.status(500).json(GetErrorResult(error, Result.AUTH.UPDATE_USER));
+        }
+    }
+
     public static async DeleteUserController(req: Request, res: Response) {
         const token = req.headers['authorization']?.split(' ')[1];
 
@@ -90,6 +131,18 @@ export default class AuthController {
             Logger.error(error);
 
             res.status(500).json(GetErrorResult(error, Result.AUTH.DELETE_USER));
+        }
+    }
+
+    public static async GetListUserController(req: Request, res: Response) {
+        try {
+            const result = await AuthService.GetListUserService();
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+
+            res.status(500).json(GetErrorResult(error, Result.AUTH.GET_LIST));
         }
     }
 }

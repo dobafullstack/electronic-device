@@ -1,6 +1,7 @@
 import Logger from '@Configs/Logger';
 import Result from '@Constants/Result';
 import Bill from '@Models/Bill';
+import Order from '@Models/Order';
 import Product from '@Models/Product';
 import CreateBillInput from '@Types/Input/CreateBill';
 import ApiResponse from '@Types/ResponseType';
@@ -8,32 +9,31 @@ import GetActionResult from '@Utils/GetActionResult';
 import _ from 'lodash';
 
 export default class BillService {
-    public static async CreateBillService(body: CreateBillInput): Promise<ApiResponse> {
-        let total = 0;
+    public static async CreateBillService(body: any): Promise<ApiResponse> {
+        const order = await Order.findById(body.orderId);
 
-        const products = body.products.map(async (product) => ({
-            product: await Product.findById(product.productId),
-            count: product.count,
-        }));
-
-        for (let i = 0; i < products.length; i++) {
-            total += ((await products[i]).product?.price as number) * (await products[i]).count;
+        if (order){
+            order.haveInBill = true;
+            await order.save();
+            const result = await Bill.create({
+                userId: order.userId,
+                productItems: order.productItems,
+                total: order.total
+            })
+                .then(() => GetActionResult(201, null, null, Result.BILL.CREATE))
+                .catch((err: any) => {
+                    Logger.error(err);
+                    return GetActionResult(400, null, { message: err.message }, Result.BILL.CREATE);
+                });
+    
+            return result;
+        }else{
+            return GetActionResult(400, null, {message: "Can not find any order"}, Result.BILL.CREATE);
         }
 
-        const result = await Bill.create({
-            ...body,
-            total
-        })
-            .then(() => GetActionResult(201, null, null, Result.BILL.CREATE))
-            .catch((err: any) => {
-                Logger.error(err);
-                return GetActionResult(400, null, { message: err.message }, Result.BILL.CREATE);
-            });
-
-        return result;
     }
     public static async GetListBillsService(): Promise<ApiResponse> {
-        const result = await Bill.find();
+        const result = await Bill.find().populate('userId');
 
         return GetActionResult(200, result, null);
     }

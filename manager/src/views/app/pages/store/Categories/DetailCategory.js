@@ -50,6 +50,7 @@ const DetailCategory = ({ match }) => {
       EditModal={ModelEditCategoryDetail}
       deleteItem={deleteItem}
       match={match}
+      title="List Detail Category"
     />
   );
 };

@@ -18,7 +18,7 @@ export default function ProductPage({ match }) {
           render={(props) => <ListOrder {...props} />}
         />
         <Route
-          path={`${match.url}/detail`}
+          path={`${match.url}/:orderId`}
           render={(props) => <DetailOrder {...props} />}
         />
         <Redirect to="/error" />

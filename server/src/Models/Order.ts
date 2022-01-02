@@ -17,6 +17,7 @@ export interface OrderDocument extends mongoose.Document {
     payment: PaymentType;
     description: string;
     total: number;
+    haveInBill: boolean;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -78,6 +79,10 @@ const OrderSchema = new mongoose.Schema(
         total: {
             type: Number,
             default: 0,
+        },
+        haveInBill: {
+            type: Boolean,
+            default: false,
         },
         createdAt: Date,
         updatedAt: Date,

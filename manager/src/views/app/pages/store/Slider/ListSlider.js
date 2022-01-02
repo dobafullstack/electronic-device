@@ -6,7 +6,7 @@ import AddNewProductModal from './AddNewProductModal';
 import EditProductModal from './EditProductModal';
 
 export default function ListSlider({ match }) {
-  const fetchApi = () => sliderApi.getAllSlider().then(res => res.result);
+  const fetchApi = () => sliderApi.getAllSlider().then((res) => res.result);
 
   const deleteItem = async (sliderId) => {
     try {

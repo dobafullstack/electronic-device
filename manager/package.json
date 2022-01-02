@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^13.1.9",
     "availity-reactstrap-validation": "^2.7.1",
     "axios": "^0.21.1",
+    "babel-plugin-formatjs": "^10.3.12",
     "chart.js": "2.9.4",
     "classnames": "2.3.1",
     "firebase": "^8.10.0",
@@ -87,15 +88,18 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "customize-cra": "^1.0.0",
     "eslint": "^7.28.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-formatjs": "^2.19.1",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
-    "prettier": "^2.3.1"
+    "prettier": "^2.3.1",
+    "react-app-rewired": "^2.1.11"
   }
 }

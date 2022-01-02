@@ -18,7 +18,7 @@ export default function BillPage({ match }) {
           render={(props) => <ListBill {...props} />}
         />
         <Route
-          path={`${match.url}/detail`}
+          path={`${match.url}/:billId`}
           render={(props) => <DetailBill {...props} />}
         />
         <Redirect to="/error" />

@@ -101,6 +101,17 @@ export default class AuthService {
         }
     }
 
+    public static async GetUserByIdService(id: string): Promise<ApiResponse> {
+        try {
+            const user: any = await User.findById(id).populate('role_id');
+
+            return GetActionResult(200, user, null);
+        } catch (error: any) {
+            Logger.error(error);
+            return GetActionResult(400, null, { message: error.message }, Result.AUTH.GET_USER);
+        }
+    }
+
     public static async UpdateUserService(token: string, body: any): Promise<ApiResponse> {
         if (!token) return GetActionResult(400, null, { message: 'Invalid token' }, Result.AUTH.UPDATE_USER);
 
@@ -144,6 +155,32 @@ export default class AuthService {
         } catch (error: any) {
             Logger.error(error);
             return GetActionResult(400, null, { message: error.message }, Result.AUTH.DELETE_USER);
+        }
+    }
+
+    public static async GetListUserService(): Promise<ApiResponse> {
+        const users = await User.find().populate('role_id');
+
+        return GetActionResult(200, users, null);
+    }
+
+    public static async UpdateUserByIdService(id: string, body: any): Promise<ApiResponse> {
+        try {
+            const user: any = await User.findById(id);
+
+            _.extend(user, body);
+            const result = await user
+                .save()
+                .then(() => GetActionResult(200, null, null, Result.AUTH.UPDATE_USER))
+                .catch((err: any) => {
+                    Logger.error(err);
+                    return GetActionResult(400, null, err, Result.AUTH.UPDATE_USER);
+                });
+
+            return result;
+        } catch (error: any) {
+            Logger.error(error);
+            return GetActionResult(400, null, { message: error.message }, Result.AUTH.UPDATE_USER);
         }
     }
 }

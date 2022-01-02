@@ -24,6 +24,7 @@ export interface UserDocument {
     wishList: [];
     createAt?: Date;
     updatedAt?: Date;
+    active: boolean;
 }
 
 const UserSchema = new mongoose.Schema(
@@ -71,6 +72,10 @@ const UserSchema = new mongoose.Schema(
                 phone: String
             }],
             default: []
+        },
+        active: {
+            type: Boolean,
+            default: true
         },
         avatar: {
             type: String,

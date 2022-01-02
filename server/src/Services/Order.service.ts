@@ -14,14 +14,14 @@ export default class OrderService {
                 const updateQuantity = async () => {
                     for (let i = 0; i < res.productItems.length; i++) {
                         const product = await Product.findById(res.productItems[i].productItem._id);
-                        if (product){
+                        if (product) {
                             product.count = product.count - res.productItems[i].quantity;
                             product.sale_count = product.sale_count + res.productItems[i].quantity;
                             product.save();
                         }
                     }
-                }
-                updateQuantity().catch((err: any) => Logger.error(err))
+                };
+                updateQuantity().catch((err: any) => Logger.error(err));
                 return GetActionResult(201, null, null, Result.ORDER.CREATE);
             })
             .catch((err: any) => {
@@ -32,7 +32,7 @@ export default class OrderService {
         return result;
     }
     public static async GetListOrdersService(): Promise<ApiResponse> {
-        const result = await Order.find();
+        const result = await Order.find().populate('userId');
 
         return GetActionResult(200, result, null);
     }
