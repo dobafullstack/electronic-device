@@ -2,7 +2,10 @@ import axios from "axios";
 import queryString from "query-string";
 
 const axiosClient = axios.create({
-    baseURL: "https://electronic-device.herokuapp.com",
+    baseURL:
+        !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+            ? "http://localhost:4000"
+            : "https://electronic-device.herokuapp.com",
     headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
