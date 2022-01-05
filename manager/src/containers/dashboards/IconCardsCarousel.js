@@ -1,10 +1,32 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import IconCard from 'components/cards/IconCard';
-import data from 'data/iconCards';
+// import data from 'data/iconCards';
 import GlideComponent from 'components/carousel/GlideComponent';
 
-const IconCardsCarousel = ({ className = 'icon-cards-row' }) => {
+const IconCardsCarousel = ({ className = 'icon-cards-row', data }) => {
+  const cardData = [
+    {
+      title: 'dashboards.pending-orders',
+      icon: 'iconsminds-clock',
+      value: data.pending,
+    },
+    {
+      title: 'dashboards.completed-orders',
+      icon: 'iconsminds-basket-coins',
+      value: data.completed,
+    },
+    {
+      title: 'dashboards.refund-requests',
+      icon: 'iconsminds-arrow-refresh',
+      value: data.refundRequest,
+    },
+    {
+      title: 'dashboards.new-comments',
+      icon: 'iconsminds-mail-read',
+      value: data.comment,
+    },
+  ];
   return (
     <div className={className}>
       <GlideComponent
@@ -21,7 +43,7 @@ const IconCardsCarousel = ({ className = 'icon-cards-row' }) => {
           hideNav: true,
         }}
       >
-        {data.map((item, index) => {
+        {cardData.map((item, index) => {
           return (
             <div key={`icon_card_${index}`}>
               <IconCard {...item} className="mb-4" />

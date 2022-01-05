@@ -11,16 +11,9 @@ export default function ListProduct({ match }) {
 
   const deleteItem = async (roleId) => {
     try {
-      const { result } = await roleApi.updateRole(roleId, {active: false});
+      const { result } = await roleApi.updateRole(roleId, { active: false });
 
-      NotificationManager.success(
-        result,
-        'Delete Role',
-        3000,
-        null,
-        null,
-        ''
-      );
+      NotificationManager.success(result, 'Delete Role', 3000, null, null, '');
     } catch (error) {
       if (error.response.data) {
         NotificationManager.warning(

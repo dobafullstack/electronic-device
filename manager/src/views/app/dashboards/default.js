@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { injectIntl } from 'react-intl';
 import { Row } from 'reactstrap';
 import { Colxx, Separator } from 'components/common/CustomBootstrap';
@@ -21,9 +21,53 @@ import ProductCategoriesPolarArea from 'containers/dashboards/ProductCategoriesP
 import WebsiteVisitsChartCard from 'containers/dashboards/WebsiteVisitsChartCard';
 import ConversionRatesChartCard from 'containers/dashboards/ConversionRatesChartCard';
 import TopRatedItems from 'containers/dashboards/TopRatedItems';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllOrdersAction } from '../../../redux/dashboard/default/actions';
 
 const DefaultDashboard = ({ intl, match }) => {
   const { messages } = intl;
+  const [iconData, setIconData] = useState({
+    pending: 0,
+    completed: 0,
+    refundRequest: 0,
+    comment: 0,
+  });
+
+  const { defaultData, loading, error } = useSelector(
+    (state) => state.defaultApp
+  );
+
+  const dispatch = useDispatch();
+
+  const getIconData = () => {
+    let pending = 0;
+    let completed = 0;
+    if (!loading) {
+      defaultData.orders.forEach((order) => {
+        if (order.delivery.status === 'pending') {
+          pending += 1;
+        } else if (order.delivery.status === 'success') {
+          completed += 1;
+        }
+      });
+    }
+    setIconData({
+      ...iconData,
+      pending,
+      completed,
+    });
+  };
+
+  useEffect(() => {
+    dispatch(getAllOrdersAction());
+  }, [dispatch]);
+
+  useEffect(() => {
+    getIconData(defaultData);
+  }, [defaultData]);
+
+  if (loading) <div>Loading...</div>;
+  if (error) <div>{error}</div>;
 
   return (
     <>
@@ -35,15 +79,15 @@ const DefaultDashboard = ({ intl, match }) => {
       </Row>
       <Row>
         <Colxx lg="12" xl="6">
-          <IconCardsCarousel />
+          <IconCardsCarousel data={iconData} />
           <Row>
             <Colxx md="12" className="mb-4">
-              <SalesChartCard />
+              <SalesChartCard data={defaultData.orders} />
             </Colxx>
           </Row>
         </Colxx>
         <Colxx lg="12" xl="6" className="mb-4">
-          <RecentOrders />
+          <RecentOrders data={defaultData.orders} />
         </Colxx>
       </Row>
       <Row>

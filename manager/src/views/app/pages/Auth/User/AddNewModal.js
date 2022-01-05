@@ -17,7 +17,7 @@ import {
   ModalHeader,
 } from 'reactstrap';
 import * as yup from 'yup';
-import authApi from 'api/authApi'
+import authApi from 'api/authApi';
 
 const AddNewModal = ({ modalOpen, toggleModal }) => {
   const [roles, setRoles] = useState([]);
@@ -165,7 +165,11 @@ const AddNewModal = ({ modalOpen, toggleModal }) => {
                   value={values.role_id}
                   onChange={handleChange}
                 >
-                  {roles.map(role => <option value={role._id} key={role._id}>{role.name}</option>)}
+                  {roles.map((role) => (
+                    <option value={role._id} key={role._id}>
+                      {role.name}
+                    </option>
+                  ))}
                 </Input>
                 {errors.role_id && touched.role_id ? (
                   <p className="text-danger">{errors.role_id}</p>

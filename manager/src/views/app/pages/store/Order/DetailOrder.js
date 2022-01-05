@@ -50,7 +50,7 @@ const DetailsPages = ({ match, intl }) => {
 
   const onBill = async () => {
     try {
-      const { result, error } = await billApi.createBill({orderId})
+      const { result, error } = await billApi.createBill({ orderId });
 
       if (error === null) {
         NotificationManager.success(
@@ -75,7 +75,7 @@ const DetailsPages = ({ match, intl }) => {
         );
       }
     }
-  }
+  };
 
   useEffect(() => {
     fetchingOrder();
@@ -232,10 +232,7 @@ const DetailsPages = ({ match, intl }) => {
                 </Button>
               ) : null}
               {!order.haveInBill && order.delivery.status === 'pending' ? (
-                <Button
-                  color="primary"
-                  onClick={() => onBill()}
-                >
+                <Button color="primary" onClick={() => onBill()}>
                   Lên hóa đơn
                 </Button>
               ) : null}

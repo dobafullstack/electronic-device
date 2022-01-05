@@ -4,6 +4,7 @@ import menu from './menu/reducer';
 import authUser from './auth/reducer';
 import todoApp from './todo/reducer';
 import chatApp from './chat/reducer';
+import defaultApp from './dashboard/default/reducers';
 import surveyListApp from './surveyList/reducer';
 import surveyDetailApp from './surveyDetail/reducer';
 
@@ -11,6 +12,7 @@ const reducers = combineReducers({
   menu,
   settings,
   authUser,
+  defaultApp,
   todoApp,
   chatApp,
   surveyListApp,

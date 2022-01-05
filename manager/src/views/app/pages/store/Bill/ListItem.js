@@ -28,7 +28,7 @@ const ListItem = ({
   EditModal,
   notEdit,
   title,
-  noCreate
+  noCreate,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [displayMode, setDisplayMode] = useState('list');
@@ -56,15 +56,14 @@ const ListItem = ({
       .then((data) => {
         setTotalPage(getTotalPage(data, selectedPageSize));
         setItems(
-          data
-            .slice(
-              (currentPage - 1) * selectedPageSize,
-              selectedPageSize * currentPage
-            )
-            // .filter((x) =>
-            //   x.userId
-            //     && x.userId.name.toLowerCase().includes(search)
-            // )
+          data.slice(
+            (currentPage - 1) * selectedPageSize,
+            selectedPageSize * currentPage
+          )
+          // .filter((x) =>
+          //   x.userId
+          //     && x.userId.name.toLowerCase().includes(search)
+          // )
         );
         setSelectedItems([]);
         setTotalItemCount(data.length);

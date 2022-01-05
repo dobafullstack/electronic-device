@@ -28,7 +28,7 @@ export default function ModelEditCategory({
 
   const initialValues = {
     name: role?.name || '',
-    active: role?.active  || true
+    active: role?.active || true,
   };
 
   const validate = yup.object().shape({

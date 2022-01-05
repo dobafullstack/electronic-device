@@ -35,7 +35,7 @@ const Dashboards = ({ match }) => (
         path={`${match.url}/analytics`}
         render={(props) => <AnalyticsDefault {...props} />}
       />
-      {/* 
+      {/*
       <ProtectedRoute
         path={`${match.url}/default`}
         component={DashboardDefault}

@@ -33,7 +33,7 @@ const AddNewModal = ({ modalOpen, toggleModal }) => {
     try {
       const { result, error } = await attributeApi.createAttribute({
         ...values,
-        types: values.types.map(item => ({name: item}))
+        types: values.types.map((item) => ({ name: item })),
       });
       if (error === null) {
         NotificationManager.success(
@@ -108,7 +108,11 @@ const AddNewModal = ({ modalOpen, toggleModal }) => {
                   {({ form, insert, remove }) => (
                     <>
                       {form.values.types.map((type, index) => (
-                        <div className="d-flex mb-3" key={index} style={{gap: 10}}>
+                        <div
+                          className="d-flex mb-3"
+                          key={index}
+                          style={{ gap: 10 }}
+                        >
                           <Input
                             name={`types[${index}]`}
                             value={form.values.types[index]}

@@ -14,8 +14,6 @@ const DataListView = ({
   onCheckItem,
   location,
 }) => {
-  
-
   return (
     <Colxx xxs="12" className="mb-3">
       <ContextMenuTrigger id="menu_id" data={product._id} collect={collect}>
