@@ -35,7 +35,7 @@ export default function ModelEditCategory({
   const initialValues = {
     name: attribute ? attribute.name : '',
     unit: attribute ? attribute.unit : '',
-    types: attribute ? attribute.types.map(type => type.name) : [],
+    types: attribute ? attribute.types.map((type) => type.name) : [],
   };
 
   const validate = yup.object().shape({
@@ -47,7 +47,7 @@ export default function ModelEditCategory({
     try {
       const { result } = await attributeApi.editAttribute(item, {
         ...values,
-        types: values.types.map(type => ({name: type}))
+        types: values.types.map((type) => ({ name: type })),
       });
 
       NotificationManager.success(

@@ -7,8 +7,7 @@ import ModelEditCategory from './EditModal';
 import ListItem from './ListItem';
 
 const ListBill = ({ match }) => {
-  const fetchApi = () =>
-    billApi.getAllBills().then((res) => res.result);
+  const fetchApi = () => billApi.getAllBills().then((res) => res.result);
 
   const deleteItem = async (selectedItem) => {
     try {

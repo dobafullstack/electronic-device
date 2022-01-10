@@ -39,8 +39,8 @@ const DataListView = ({
               </p>
               {location.pathname.includes('role') && (
                 <div className="w-15 w-sm-100">
-                  <Badge color={product.active ? "success" : 'danger'} pill>
-                    {product.active ? "active" : 'unactive'}
+                  <Badge color={product.active ? 'success' : 'danger'} pill>
+                    {product.active ? 'active' : 'unactive'}
                   </Badge>
                 </div>
               )}

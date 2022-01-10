@@ -30,18 +30,15 @@ const HomeElectronicsTwo = () => {
         <title>Tin Học Mặt Trăng | Home</title>
         <meta
           name="description"
-          content="Electronics home of flone react minimalist eCommerce template."
+          content="Electronics home of Ecommerce Project by KTA."
         />
       </MetaTags>
       <Layout
         headerContainerClass="container-fluid"
         headerPaddingClass="header-padding-1"
       >
-        {/* hero slider */}
         <HeroSliderSixteen />
-        {/* category */}
         <CategoryThreeSlider spaceTopClass="pt-100" spaceBottomClass="pb-95" />
-        {/* feature icon */}
         <FeatureIconFour
           bgImg="/assets/img/bg/shape.png"
           containerClass="container-fluid"
@@ -49,15 +46,12 @@ const HomeElectronicsTwo = () => {
           spaceTopClass="pt-50"
           spaceBottomClass="pb-40"
         />
-        {/* tab product */}
         <TabProductTen
           spaceBottomClass="pb-60"
           spaceTopClass="pt-100"
           category="electronics"
         />
-        {/* banner */}
         <BannerTwelve />
-        {/* blog featured */}
         {/* <BlogFeaturedThree spaceTopClass="pt-70" spaceBottomClass="pb-70" /> */}
       </Layout>
     </Fragment>

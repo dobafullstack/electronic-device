@@ -49,8 +49,6 @@ const Login = ({ history }) => {
   }, [error]);
 
   const onUserLogin = (values) => {
-    console.log(values);
-
     if (values.usernameOrEmail !== '' && values.password !== '') {
       dispatch(loginAction(values.usernameOrEmail, values.password, history));
     }

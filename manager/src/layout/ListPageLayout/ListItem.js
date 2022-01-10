@@ -28,7 +28,7 @@ const ListItem = ({
   EditModal,
   notEdit,
   title,
-  noCreate
+  noCreate,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [displayMode, setDisplayMode] = useState('list');

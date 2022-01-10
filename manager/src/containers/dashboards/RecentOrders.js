@@ -5,10 +5,10 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Card, CardBody, CardTitle, Badge } from 'reactstrap';
 
 import IntlMessages from 'helpers/IntlMessages';
-import data from 'data/products';
 import { adminRoot } from 'constants/defaultValues';
 
-const RecentOrders = () => {
+const RecentOrders = ({ data }) => {
+  const orders = [...data].reverse();
   return (
     <Card>
       <div className="position-absolute card-top-buttons">
@@ -24,38 +24,51 @@ const RecentOrders = () => {
           <PerfectScrollbar
             options={{ suppressScrollX: true, wheelPropagation: false }}
           >
-            {data.slice(0, 6).map((order, index) => {
+            {orders.slice(0, 8).map((order) => {
+              console.log(order);
               return (
-                <div key={index} className="d-flex flex-row mb-3">
+                <div key={order._id} className="d-flex flex-row mb-3">
                   <NavLink
-                    to={`${adminRoot}/pages/product/details`}
+                    to={`${adminRoot}/pages/store/orders/${order._id}`}
                     className="d-block position-relative"
                   >
                     <img
-                      src={order.img}
-                      alt={order.title}
+                      src={order.productItems[0].productItem.images[0]}
+                      alt={order.productItems[0].productItem.name}
+                      width="85px"
                       className="list-thumbnail border-0"
                     />
                     <Badge
-                      key={index}
+                      key={order._id}
                       className="position-absolute badge-top-right"
-                      color={order.statusColor}
+                      color={
+                        order.delivery.status === 'success'
+                          ? 'success'
+                          : 'warning'
+                      }
                       pill
                     >
-                      {order.status}
+                      {order.delivery.status.toUpperCase()}
                     </Badge>
                   </NavLink>
 
                   <div className="pl-3 pt-2 pr-2 pb-2">
-                    <NavLink to={`${adminRoot}/pages/product/details`}>
-                      <p className="list-item-heading">{order.title}</p>
+                    <NavLink
+                      to={`${adminRoot}/pages/store/orders/${order._id}`}
+                    >
+                      <p className="list-item-heading">
+                        {order.productItems[0].productItem.name}
+                      </p>
                       <div className="pr-4">
                         <p className="text-muted mb-1 text-small">
-                          {order.description}
+                          {order.productItems[0].productItem.description.slice(
+                            0,
+                            100
+                          )}
                         </p>
                       </div>
                       <div className="text-primary text-small font-weight-medium d-none d-sm-block">
-                        {order.createDate}
+                        {new Date(order.createdAt).toLocaleString('vi-VN')}
                       </div>
                     </NavLink>
                   </div>
