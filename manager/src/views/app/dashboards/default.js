@@ -90,7 +90,7 @@ const DefaultDashboard = ({ intl, match }) => {
           <RecentOrders data={defaultData.orders} />
         </Colxx>
       </Row>
-      <Row>
+      {/* <Row>
         <Colxx lg="4" md="12" className="mb-4">
           <ProductCategoriesPolarArea chartClass="dashboard-donut-chart" />
         </Colxx>
@@ -168,7 +168,7 @@ const DefaultDashboard = ({ intl, match }) => {
           <SmallLineCharts />
           <TopRatedItems />
         </Colxx>
-      </Row>
+      </Row> */}
     </>
   );
 };
