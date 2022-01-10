@@ -8,6 +8,7 @@ import IntlMessages from 'helpers/IntlMessages';
 import { adminRoot } from 'constants/defaultValues';
 
 const RecentOrders = ({ data }) => {
+  const orders = [...data].reverse();
   return (
     <Card>
       <div className="position-absolute card-top-buttons">
@@ -23,10 +24,10 @@ const RecentOrders = ({ data }) => {
           <PerfectScrollbar
             options={{ suppressScrollX: true, wheelPropagation: false }}
           >
-            {data.slice(0, 8).map((order, index) => {
+            {orders.slice(0, 8).map((order) => {
               console.log(order);
               return (
-                <div key={index} className="d-flex flex-row mb-3">
+                <div key={order._id} className="d-flex flex-row mb-3">
                   <NavLink
                     to={`${adminRoot}/pages/store/orders/${order._id}`}
                     className="d-block position-relative"
@@ -38,7 +39,7 @@ const RecentOrders = ({ data }) => {
                       className="list-thumbnail border-0"
                     />
                     <Badge
-                      key={index}
+                      key={order._id}
                       className="position-absolute badge-top-right"
                       color={
                         order.delivery.status === 'success'

@@ -23,7 +23,7 @@ const LoginRegister = ({ location }) => {
         <title>Tin Học Mặt Trăng | Login</title>
         <meta
           name="description"
-          content="Compare page of flone react minimalist eCommerce template."
+          content="Compare page of Ecommerce Project by KTA."
         />
       </MetaTags>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>

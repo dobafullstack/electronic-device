@@ -29,7 +29,7 @@ const Product = ({ location, match, history }) => {
             <title>Tin Học Mặt Trăng | {product.name || "Product"}</title>
             <meta
               name="description"
-              content="Product page of flone react minimalist eCommerce template."
+              content="Product page of Ecommerce Project by KTA."
             />
           </MetaTags>
 
