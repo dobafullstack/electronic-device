@@ -35,7 +35,7 @@ const MyAccount = ({ location }) => {
   };
 
   const { pathname } = location;
-  const { isLogin, setIsLogin, token } = useContext(AuthContext);
+  const { isLogin, token } = useContext(AuthContext);
 
   const { addToast } = useToasts();
 
@@ -48,74 +48,6 @@ const MyAccount = ({ location }) => {
       })
       .then((res) => setUser(res.result));
     setIsFetching(false);
-  };
-
-  const onChangeDetails = async () => {
-    setIsFetching(true);
-    return await axiosClient
-      .put(
-        "/auth/update",
-        {
-          name,
-          email,
-          phone,
-        },
-        {
-          headers: {
-            authorization: "Bearer " + token,
-          },
-        }
-      )
-      .then(({ result }) => {
-        fetchUser();
-        setUser(result);
-        addToast(result, {
-          appearance: "success",
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
-      });
-  };
-
-  const onPasswordChange = async () => {
-    if (user) {
-      if (newPassword === confirmPassword) {
-        await axiosClient
-          .put(
-            "/auth/change-password",
-            { oldPassword, newPassword },
-            {
-              headers: {
-                authorization: "Bearer " + token,
-              },
-            }
-          )
-          .then((res) => {
-            addToast("Cập nhật thành công", {
-              appearance: "success",
-              autoDismiss: true,
-              autoDismissTimeout: 3000,
-            });
-            setIsLogin(false);
-            localStorage.removeItem("access_token");
-          })
-          .catch((error) => {
-            if (error.response.data) {
-              addToast(error.response.data.error.message, {
-                appearance: "error",
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
-              });
-            }
-          });
-      } else {
-        addToast("Confirm password not match", {
-          appearance: "error",
-          autoDismiss: true,
-          autoDismissTimeout: 3000,
-        });
-      }
-    }
   };
 
   useEffect(() => {
