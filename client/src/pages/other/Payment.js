@@ -36,170 +36,183 @@ const Success = styled.i`
 `;
 
 export const onPayment = (
-  { values, cartItems, cartTotalPrice, currency },
-  payment,
-  history,
-  deleteAllFromCart
-) => {
-  const productItems = cartItems.map((cartItem) => {
-    const discountedPrice = getDiscountPrice(cartItem.price, cartItem.discount);
-    const finalProductPrice = cartItem.price * currency.currencyRate;
-    const finalDiscountedPrice = discountedPrice * currency.currencyRate;
-
-    return {
-      productItem: {
-        ...cartItem,
-        price:
-          discountedPrice === null ? finalProductPrice : finalDiscountedPrice,
-        category_detail_id: cartItem.category_detail_id._id,
-      },
-      quantity: cartItem.quantity,
-    };
-  });
-
-  const order = {
-    userId: values.userId !== null ? values.userId : undefined,
-    productItems,
-    delivery: {
-      name: values.name,
-      phone: values.phone,
-      address: `${values.street} ${values.district} ${values.city}`,
-    },
+    { values, cartItems, cartTotalPrice, currency, discount, code },
     payment,
-    description: values.description,
-    total: cartTotalPrice,
-  };
-  const createOrder = async () => {
-    try {
-      const { code } = await orderApi.createOrder(order);
+    history,
+    deleteAllFromCart
+) => {
+    const productItems = cartItems.map((cartItem) => {
+        const discountedPrice = getDiscountPrice(
+            cartItem.price,
+            cartItem.discount
+        );
+        const finalProductPrice = cartItem.price * currency.currencyRate;
+        const finalDiscountedPrice = discountedPrice * currency.currencyRate;
 
-      if (code === 201) {
-        history.replace("/checkout/success");
-        localStorage.removeItem("cartData");
-        deleteAllFromCart();
-      }
-    } catch (error) {
-      console.log(error);
-      history.replace("/checkout/fail");
-    }
-  };
+        return {
+            productItem: {
+                ...cartItem,
+                price:
+                    discountedPrice === null
+                        ? finalProductPrice
+                        : finalDiscountedPrice,
+                category_detail_id: cartItem.category_detail_id._id,
+            },
+            quantity: cartItem.quantity,
+        };
+    });
+    console.log(code)
+    const order = {
+        userId: values.userId !== null ? values.userId : undefined,
+        productItems,
+        delivery: {
+            name: values.name,
+            phone: values.phone,
+            address: `${values.street} ${values.district} ${values.city}`,
+        },
+        payment,
+        description: values.description,
+        total: cartTotalPrice,
+        discount,
+        code,
+    };
+    console.log({order})
+    
+    const createOrder = async () => {
+        try {
+            const { code: responseCode } = await orderApi.createOrder(order);
 
-  createOrder();
+            if (responseCode === 201) {
+                history.replace("/checkout/success");
+                localStorage.removeItem("cartData");
+                deleteAllFromCart();
+            }
+        } catch (error) {
+            console.log(error);
+            history.replace("/checkout/fail");
+        }
+    };
+
+    createOrder();
 };
 
 const Payment = ({ location, deleteAllFromCart }) => {
   const { pathname } = location;
   const history = useHistory();
   const {
-    state: { values, cartItems, cartTotalPrice, currency },
+      state: { values, cartItems, cartTotalPrice, currency, discount, code },
   } = useLocation();
   const [payment, setPayment] = useState("cash");
+  console.log(code)
 
   return (
-    <Fragment>
-      <MetaTags>
-        <title>Tin Học Mặt Trăng | Checkout</title>
-        <meta
-          name="description"
-          content="Checkout page of Ecommerce Project by KTA."
-        />
-      </MetaTags>
-      <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
-      <BreadcrumbsItem to={process.env.PUBLIC_URL + "/checkout"}>
-        Checkout
-      </BreadcrumbsItem>
-      <BreadcrumbsItem to={process.env.PUBLIC_URL + "/checkout" + pathname}>
-        Payment
-      </BreadcrumbsItem>
-      <Layout headerTop="visible">
-        <Breadcrumb />
-        <div
-          className="checkout-area pt-95 pb-100"
-          style={{ minHeight: "calc(100vh - 377px - 141px)" }}
-        >
-          <div
-            className="container d-flex justify-content-center"
-            style={{ gap: 20 }}
-          >
-            <PaymentItem onClick={() => setPayment("cash")}>
-              <div
-                style={{ flexGrow: 1 }}
-                className="d-flex align-items-center justify-content-center"
-              >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/438/438526.png"
-                  alt=""
-                  width={"75%"}
-                />
-              </div>
-              <p style={{ fontSize: 20 }}>Cash</p>
-              {payment === "cash" && (
-                <Success className="fas fa-check-circle text-success"></Success>
-              )}
-            </PaymentItem>
-            <PaymentItem onClick={() => setPayment("paypal")}>
-              <div
-                style={{ flexGrow: 1 }}
-                className="d-flex align-items-center justify-content-center"
-              >
-                <img src={paypalImg} alt="" width={"100%"} />
-              </div>
-              <p style={{ fontSize: 20 }}>Paypal</p>
-              {payment === "paypal" && (
-                <Success className="fas fa-check-circle text-success"></Success>
-              )}
-            </PaymentItem>
-          </div>
-          <div className="mt-5 container d-flex justify-content-center ">
-            {payment === "paypal" && (
-              <Paypal
-                values={values}
-                cartItems={cartItems}
-                cartTotalPrice={cartTotalPrice}
-                currency={currency}
-                history={history}
-                deleteAllFromCart={deleteAllFromCart}
+      <Fragment>
+          <MetaTags>
+              <title>Tin Học Mặt Trăng | Checkout</title>
+              <meta
+                  name='description'
+                  content='Checkout page of Ecommerce Project by KTA.'
               />
-            )}
-            {payment === "cash" && (
-              <>
-                <div className="place-order mt-25">
-                  <button
-                    className="btn btn-success"
-                    onClick={() =>
-                      onPayment(
-                        {
-                          values,
-                          cartItems,
-                          cartTotalPrice,
-                          currency,
-                        },
-                        {
-                          status: false,
-                          method: "cash",
-                        },
-                        history,
-                        deleteAllFromCart
-                      )
-                    }
-                  >
-                    Hoàn thành
-                  </button>
-                </div>
-              </>
-            )}
+          </MetaTags>
+          <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>
+              Home
+          </BreadcrumbsItem>
+          <BreadcrumbsItem to={process.env.PUBLIC_URL + "/checkout"}>
+              Checkout
+          </BreadcrumbsItem>
+          <BreadcrumbsItem to={process.env.PUBLIC_URL + "/checkout" + pathname}>
+              Payment
+          </BreadcrumbsItem>
+          <Layout headerTop='visible'>
+              <Breadcrumb />
+              <div
+                  className='checkout-area pt-95 pb-100'
+                  style={{ minHeight: "calc(100vh - 377px - 141px)" }}>
+                  <div
+                      className='container d-flex justify-content-center'
+                      style={{ gap: 20 }}>
+                      <PaymentItem onClick={() => setPayment("cash")}>
+                          <div
+                              style={{ flexGrow: 1 }}
+                              className='d-flex align-items-center justify-content-center'>
+                              <img
+                                  src='https://cdn-icons-png.flaticon.com/512/438/438526.png'
+                                  alt=''
+                                  width={"75%"}
+                              />
+                          </div>
+                          <p style={{ fontSize: 20 }}>Cash</p>
+                          {payment === "cash" && (
+                              <Success className='fas fa-check-circle text-success'></Success>
+                          )}
+                      </PaymentItem>
+                      <PaymentItem onClick={() => setPayment("paypal")}>
+                          <div
+                              style={{ flexGrow: 1 }}
+                              className='d-flex align-items-center justify-content-center'>
+                              <img src={paypalImg} alt='' width={"100%"} />
+                          </div>
+                          <p style={{ fontSize: 20 }}>Paypal</p>
+                          {payment === "paypal" && (
+                              <Success className='fas fa-check-circle text-success'></Success>
+                          )}
+                      </PaymentItem>
+                  </div>
+                  <div className='mt-5 container d-flex justify-content-center '>
+                      {payment === "paypal" && (
+                          <Paypal
+                              values={values}
+                              cartItems={cartItems}
+                              cartTotalPrice={cartTotalPrice}
+                              currency={currency}
+                              history={history}
+                              deleteAllFromCart={deleteAllFromCart}
+                              code={code}
+                              discount={discount}
+                          />
+                      )}
+                      {payment === "cash" && (
+                          <>
+                              <div className='place-order mt-25'>
+                                  <button
+                                      className='btn btn-success'
+                                      onClick={() =>
+                                          onPayment(
+                                              {
+                                                  values,
+                                                  cartItems,
+                                                  cartTotalPrice,
+                                                  currency,
+                                                  discount,
+                                                  code,
+                                              },
+                                              {
+                                                  status: false,
+                                                  method: "cash",
+                                              },
+                                              history,
+                                              deleteAllFromCart
+                                          )
+                                      }>
+                                      Hoàn thành
+                                  </button>
+                              </div>
+                          </>
+                      )}
 
-            {payment === "atm" && (
-              <>
-                <div className="place-order mt-25">
-                  <button className="btn btn-primary">Thanh toán</button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </Layout>
-    </Fragment>
+                      {payment === "atm" && (
+                          <>
+                              <div className='place-order mt-25'>
+                                  <button className='btn btn-primary'>
+                                      Thanh toán
+                                  </button>
+                              </div>
+                          </>
+                      )}
+                  </div>
+              </div>
+          </Layout>
+      </Fragment>
   );
 };
 

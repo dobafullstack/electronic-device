@@ -12,6 +12,8 @@ export default function Paypal({
     currency,
     history,
     deleteAllFromCart,
+    code,
+    discount,
 }) {
     const createOrder = (data, actions) => {
         return actions.order.create({
@@ -31,7 +33,7 @@ export default function Paypal({
 
     const onApprove = (data, actions) => {
         onPayment(
-            { values, cartItems, cartTotalPrice, currency },
+            { values, cartItems, cartTotalPrice, currency, code, discount },
             { status: true, method: "paypal" },
             history,
             deleteAllFromCart

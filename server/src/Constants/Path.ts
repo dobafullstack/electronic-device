@@ -48,4 +48,8 @@ export default {
     POST: {
         BASE_URL: '/post',
     },
+    DISCOUNT: {
+        BASE_URL: '/discount',
+        VERIFY: '/verify'
+    },
 };

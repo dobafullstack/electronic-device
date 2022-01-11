@@ -13,7 +13,7 @@ const data = [
         label: 'menu.default',
         to: `${adminRoot}/dashboards/default`,
         // roles: [UserRole.Admin],
-      }
+      },
     ],
   },
   {
@@ -56,6 +56,11 @@ const data = [
             icon: 'simple-icon-credit-card',
             label: 'pages.store.bills',
             to: `${adminRoot}/pages/store/bills`,
+          },
+          {
+            icon: 'simple-icon-trophy',
+            label: 'Discount',
+            to: `${adminRoot}/pages/store/discounts`,
           },
         ],
       },

@@ -19,6 +19,9 @@ const BillPage = React.lazy(() =>
 const SliderPage = React.lazy(() =>
   import(/* webpackChunkName: "product-data-list" */ './Slider')
 );
+const DiscountPage = React.lazy(() =>
+  import(/* webpackChunkName: "product-data-list" */ './Discount')
+);
 
 const PagesStore = ({ match }) => (
   <Suspense fallback={<div className="loading" />}>
@@ -47,6 +50,10 @@ const PagesStore = ({ match }) => (
       <Route
         path={`${match.url}/sliders`}
         render={(props) => <SliderPage {...props} />}
+      />
+      <Route
+        path={`${match.url}/discounts`}
+        render={(props) => <DiscountPage {...props} />}
       />
       <Redirect to="/error" />
     </Switch>

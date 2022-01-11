@@ -76,4 +76,12 @@ export default {
         UPDATE: 'Update post',
         DELETE: 'Delete post',
     },
+    DISCOUNT: {
+        CREATE: 'Create discount',
+        GET_LIST: 'Get list discounts',
+        GET_DETAIL: 'Get detail discount',
+        UPDATE: 'Update discount',
+        DELETE: 'Delete discount',
+        VERIFY: "Verify discount"
+    },
 };

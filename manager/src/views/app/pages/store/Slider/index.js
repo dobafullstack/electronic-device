@@ -22,8 +22,8 @@ export default function ProductPage({ match }) {
           render={(props) => <ListOrder {...props} />}
         />
         <Route
-          path={`${match.url}/detail`}
-          render={(props) => <DetailOrder {...props} />}
+          path={`${match.url}/:sliderId`}
+          render={(props) => <ListOrder {...props} />}
         />
         <Redirect to="/error" />
       </Switch>

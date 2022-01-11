@@ -242,7 +242,7 @@ const TopNav = ({
           </span>
         </div>
 
-        <div className="d-inline-block">
+        {/* <div className="d-inline-block">
           <UncontrolledDropdown className="ml-2">
             <DropdownToggle
               caret
@@ -265,7 +265,7 @@ const TopNav = ({
               })}
             </DropdownMenu>
           </UncontrolledDropdown>
-        </div>
+        </div> */}
       </div>
       <NavLink className="navbar-logo" to={adminRoot}>
         <span className="logo d-none d-xs-block" />
@@ -275,8 +275,6 @@ const TopNav = ({
       <div className="navbar-right">
         {isDarkSwitchActive && <TopnavDarkSwitch />}
         <div className="header-icons d-inline-block align-middle">
-          <TopnavEasyAccess />
-          <TopnavNotifications />
           <button
             className="header-icon btn btn-empty d-none d-sm-inline-block"
             type="button"
@@ -295,15 +293,14 @@ const TopNav = ({
             <DropdownToggle className="p-0" color="empty">
               <span className="name mr-1">{currentUser?.name}</span>
               <span>
-                <img alt="Profile" src="/assets/img/profiles/l-1.jpg" />
+                <img
+                  alt="Profile"
+                  src="https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_960_720.png"
+                />
               </span>
             </DropdownToggle>
             <DropdownMenu className="mt-3" right>
-              <DropdownItem>Account</DropdownItem>
-              <DropdownItem>Features</DropdownItem>
-              <DropdownItem>History</DropdownItem>
-              <DropdownItem>Support</DropdownItem>
-              <DropdownItem divider />
+              {/* <DropdownItem divider /> */}
               <DropdownItem onClick={() => handleLogout()}>
                 Sign out
               </DropdownItem>

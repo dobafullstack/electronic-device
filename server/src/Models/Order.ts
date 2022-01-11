@@ -84,6 +84,10 @@ const OrderSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        discount: {
+            type: Number,
+            default: 0
+        },
         createdAt: Date,
         updatedAt: Date,
     },

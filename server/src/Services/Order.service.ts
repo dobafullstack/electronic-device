@@ -1,5 +1,6 @@
 import Logger from '@Configs/Logger';
 import Result from '@Constants/Result';
+import Discount from '@Models/Discount';
 import Order from '@Models/Order';
 import Product from '@Models/Product';
 import CreateOrderInput from '@Types/Input/CreateOrder';
@@ -8,7 +9,16 @@ import GetActionResult from '@Utils/GetActionResult';
 import _ from 'lodash';
 
 export default class OrderService {
-    public static async CreateOrderService(body: CreateOrderInput): Promise<ApiResponse> {
+    public static async CreateOrderService(body: any): Promise<ApiResponse> {
+        if (body.code) {
+            const discount = await Discount.findOne({ code: body.code });
+
+            if (discount) {
+                discount.active = false;
+                discount.save();
+            }
+        }
+
         const result = await Order.create(body)
             .then((res) => {
                 const updateQuantity = async () => {

@@ -34,6 +34,11 @@ const DataListView = ({
                   {product.category_detail_id.name}
                 </p>
               )}
+              {product.code && (
+                <p className="mb-1 text-muted text-small w-15 w-sm-100">
+                  {product.code}
+                </p>
+              )}
               <p className="mb-1 text-muted text-small w-15 w-sm-100">
                 {formatDate(new Date(Date.parse(product.createdAt)))}
               </p>

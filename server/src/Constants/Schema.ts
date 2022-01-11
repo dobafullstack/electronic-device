@@ -8,5 +8,6 @@ export default {
     PRODUCT_TYPE: 'ProductType',
     ATTRIBUTE: 'Attribute',
     SLIDER: "Slider",
-    POST: "Post"
+    POST: "Post",
+    DISCOUNT: "Discount"
 };

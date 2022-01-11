@@ -11,6 +11,7 @@ import OrderRoute from './Order.routes';
 import BillRoute from './Bill.routes';
 import SliderRoute from './Slider.routes';
 import PostRoute from './Post.routes';
+import DiscountRoute from './Discount.routes';
 import { Strict } from '@Middlewares/Authorization';
 
 const router = (app: Express) => {
@@ -36,6 +37,7 @@ const router = (app: Express) => {
     app.use(Path.BILL.BASE_URL, Authentication, BillRoute); //Bill
     app.use(Path.SLIDER.BASE_URL, SliderRoute); //Slider
     app.use(Path.POST.BASE_URL, PostRoute); //Post
+    app.use(Path.DISCOUNT.BASE_URL, DiscountRoute); //Discount
 };
 
 export default router;
