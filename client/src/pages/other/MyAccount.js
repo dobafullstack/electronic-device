@@ -14,15 +14,15 @@ import AddressUpdateModal from "../../components/modal/AddressUpdateModal";
 import Personal from "../../components/my-account/Personal";
 import ChangePassword from "../../components/my-account/ChangePassword";
 import ChangeAddress from "../../components/my-account/ChangeAddress";
+import MyOrder from "../../components/my-account/MyOrder";
+import getMyOrder from "../../api/orderApi";
 
 const MyAccount = ({ location }) => {
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [orders, setOrders] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [cities, setCities] = useState([]);
   const [selectedDelivery, setSelectedDelivery] = useState("");
@@ -49,9 +49,19 @@ const MyAccount = ({ location }) => {
       .then((res) => setUser(res.result));
     setIsFetching(false);
   };
+  const fetchOrders = async () => {
+    await axiosClient
+      .get("/order/my-order", {
+        headers: {
+          authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => setOrders(res.result));
+  };
 
   useEffect(() => {
     fetchUser();
+    fetchOrders();
   }, []);
 
   useEffect(() => {
@@ -70,7 +80,6 @@ const MyAccount = ({ location }) => {
   }, []);
 
   if (!isLogin) return <Redirect to="/login-register" />;
-
   return !isFetching ? (
     <Fragment>
       <MetaTags>
@@ -110,6 +119,7 @@ const MyAccount = ({ location }) => {
                       isFetching={isFetching}
                       handleShow={handleShow}
                     />
+                    <MyOrder orders={orders} token={token} />
                   </Accordion>
                   <AddressUpdateModal
                     show={show}
