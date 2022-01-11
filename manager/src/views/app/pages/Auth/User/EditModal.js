@@ -51,7 +51,7 @@ export default function ModelEditCategory({
     try {
       const { result, error } = await authApi.updateUser(item, {
         ...values,
-        active: values.active === 'true'
+        active: values.active === 'true',
       });
 
       if (error === null) {
@@ -183,7 +183,7 @@ export default function ModelEditCategory({
                   <p className="text-danger">{errors.active}</p>
                 ) : null}
               </FormGroup>
-              <div className="d-flex justify-content-end" style={{gap: 10}}>
+              <div className="d-flex justify-content-end" style={{ gap: 10 }}>
                 <Button color="primary" type="submit">
                   Save
                 </Button>{' '}

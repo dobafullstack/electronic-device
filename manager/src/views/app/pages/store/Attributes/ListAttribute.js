@@ -11,7 +11,9 @@ const ListAttribute = ({ match }) => {
 
   const deleteItem = async (selectedItem) => {
     try {
-      const { result, error } = await attributeApi.deleteAttribute(selectedItem);
+      const { result, error } = await attributeApi.deleteAttribute(
+        selectedItem
+      );
 
       if (error === null) {
         NotificationManager.success(

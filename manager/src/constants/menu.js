@@ -13,25 +13,7 @@ const data = [
         label: 'menu.default',
         to: `${adminRoot}/dashboards/default`,
         // roles: [UserRole.Admin],
-      },
-      {
-        icon: 'simple-icon-pie-chart',
-        label: 'menu.analytics',
-        to: `${adminRoot}/dashboards/analytics`,
-        // roles: [UserRole.Admin],
-      },
-      {
-        icon: 'simple-icon-basket-loaded',
-        label: 'menu.ecommerce',
-        to: `${adminRoot}/dashboards/ecommerce`,
-        // roles: [UserRole.Editor],
-      },
-      {
-        icon: 'simple-icon-doc',
-        label: 'menu.content',
-        to: `${adminRoot}/dashboards/content`,
-        // roles: [UserRole.Editor],
-      },
+      }
     ],
   },
   {
