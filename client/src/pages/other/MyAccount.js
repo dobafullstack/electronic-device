@@ -16,6 +16,7 @@ import ChangePassword from "../../components/my-account/ChangePassword";
 import ChangeAddress from "../../components/my-account/ChangeAddress";
 import MyOrder from "../../components/my-account/MyOrder";
 import getMyOrder from "../../api/orderApi";
+import LuckyWheel from "../../components/my-account/LuckyWheel";
 
 const MyAccount = ({ location }) => {
   const [user, setUser] = useState({});
@@ -120,6 +121,7 @@ const MyAccount = ({ location }) => {
                       handleShow={handleShow}
                     />
                     <MyOrder orders={orders} token={token} />
+                    <LuckyWheel />
                   </Accordion>
                   <AddressUpdateModal
                     show={show}

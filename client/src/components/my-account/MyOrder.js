@@ -24,6 +24,21 @@ function MyOrder({ orders, token }) {
     );
     window.location.reload();
   };
+
+  const getOrderStatus = (status) => {
+    switch (status) {
+      case "pending":
+        return <div className="color-orange">Đang chờ xử lý</div>;
+      case "delivering":
+        return "Đang giao hàng";
+      case "success":
+        return "Đã giao hàng";
+      case "canceled":
+        return "Đã hủy";
+      default:
+        return "";
+    }
+  };
   return (
     <Card className="single-my-account mb-20">
       <Card.Header className="panel-heading">
@@ -46,7 +61,9 @@ function MyOrder({ orders, token }) {
                     <div className="col-lg-9 col-md-9 d-flex">
                       <div className="entries-info">
                         <p>- Thông tin Đơn hàng</p>
-                        <p>{`Trạng thái: ${item.delivery.status}`}</p>
+                        <p>{`Trạng thái: ${getOrderStatus(
+                          item.delivery.status
+                        )}`}</p>
                         <p>{`${item.delivery.name} (${item.delivery.phone})`}</p>
                         <p>{item.delivery.address}</p>
                         <p></p>
