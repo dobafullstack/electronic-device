@@ -9741,6 +9741,13 @@ react-visibility-sensor@^5.1.1:
   dependencies:
     prop-types "^15.7.2"
 
+react-wheel-of-prizes@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-wheel-of-prizes/-/react-wheel-of-prizes-1.0.9.tgz#3458b68668f5ef1e732949d28608a0af62e9e415"
+  integrity sha512-aqRfC8+RZwRPp3fJMmcefxLpRfV3dEfaLZP0NQhwy7vXpf0zuaxesZ+Ut5yFkWyzTuxI3b/qKVbtBB1Yy6OePw==
+  dependencies:
+    "@babel/runtime" "^7.15.4"
+
 react@16.4.2:
   version "16.4.2"
   resolved "https://registry.npmjs.org/react/-/react-16.4.2.tgz"

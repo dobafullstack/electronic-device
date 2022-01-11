@@ -61,6 +61,9 @@
   .myaccount-info-wrapper {
     padding: 30px 20px;
     background-color: #fff;
+    .lucky-draw {
+        cursor: pointer;
+    }
     .account-info-wrapper {
       border-bottom: 1px solid #eaeaea;
       margin-bottom: 28px;
