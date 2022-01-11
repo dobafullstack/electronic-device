@@ -15,7 +15,7 @@ const Contact = ({ location }) => {
         <title>Tin Học Mặt Trăng | Contact</title>
         <meta
           name="description"
-          content="Contact of flone react minimalist eCommerce template."
+          content="Contact of Ecommerce Project by KTA."
         />
       </MetaTags>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>

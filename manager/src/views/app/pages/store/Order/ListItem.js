@@ -57,6 +57,7 @@ const ListItem = ({
         setTotalPage(getTotalPage(data, selectedPageSize));
         setItems(
           data
+            .reverse()
             .slice(
               (currentPage - 1) * selectedPageSize,
               selectedPageSize * currentPage

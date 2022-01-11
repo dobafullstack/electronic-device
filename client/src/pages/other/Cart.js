@@ -53,7 +53,7 @@ const Cart = ({
         <title>Flone | Cart</title>
         <meta
           name="description"
-          content="Cart page of flone react minimalist eCommerce template."
+          content="Cart page of Ecommerce Project by KTA."
         />
       </MetaTags>
 

@@ -34,7 +34,7 @@ const Wishlist = ({
         <title>Tin Học Mặt Trăng | Wishlist</title>
         <meta
           name="description"
-          content="Wishlist page of flone react minimalist eCommerce template."
+          content="Wishlist page of Ecommerce Project by KTA."
         />
       </MetaTags>
 

@@ -13,7 +13,7 @@ import {
 } from 'reactstrap';
 
 import { NavLink } from 'react-router-dom';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import IntlMessages from 'helpers/IntlMessages';
 import {
@@ -200,6 +200,8 @@ const TopNav = ({
     clickOnMobileMenuAction(_containerClassnames);
   };
 
+  const currentUser = useSelector((state) => state.authUser.currentUser);
+
   const { messages } = intl;
   return (
     <nav className="navbar fixed-top">
@@ -291,7 +293,7 @@ const TopNav = ({
         <div className="user d-inline-block">
           <UncontrolledDropdown className="dropdown-menu-right">
             <DropdownToggle className="p-0" color="empty">
-              <span className="name mr-1">Sarah Kortney</span>
+              <span className="name mr-1">{currentUser?.name}</span>
               <span>
                 <img alt="Profile" src="/assets/img/profiles/l-1.jpg" />
               </span>
