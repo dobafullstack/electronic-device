@@ -8,6 +8,7 @@ const router = Router();
 
 router.get(Path.APP.BASE_URL, DiscountController.GetListDiscountsController);
 router.post(Path.APP.BASE_URL, Authentication, Authorization, DiscountController.CreateDiscountController);
+router.post(Path.DISCOUNT.WHEEL, Authentication, DiscountController.LuckyWheelController);
 router.delete(Path.APP.PARAMS.replace('id', 'discountId'), Authentication, Authorization, DiscountController.DeleteDiscountController);
 router.put(Path.DISCOUNT.VERIFY, DiscountController.VerifyDiscountController);
 

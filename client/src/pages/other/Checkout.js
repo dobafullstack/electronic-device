@@ -66,7 +66,8 @@ const Checkout = ({ location, cartItems, currency }) => {
   }, []);
 
   const onSubmit = (values) => {
-    console.log(state)
+    const discount = state ? state.discount : 0;
+    const code =state ? state.code : undefined
     history.push({
         pathname: "/checkout/payment",
         state: {
@@ -74,8 +75,8 @@ const Checkout = ({ location, cartItems, currency }) => {
             cartItems,
             cartTotalPrice,
             currency,
-            discount: state.discount,
-            code: state.code
+            discount,
+            code
         },
     });
   };
@@ -93,10 +94,10 @@ const Checkout = ({ location, cartItems, currency }) => {
   return (
       <Fragment>
           <MetaTags>
-              <title>Tin Học Mặt Trăng | Checkout</title>
+              <title>Tin Học Mặt Trăng | My Account</title>
               <meta
                   name='description'
-                  content='Checkout page of Ecommerce Project by KTA.'
+                  content='Compare page of Ecommerce Project by KTA.'
               />
           </MetaTags>
           <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>
@@ -242,14 +243,18 @@ const Checkout = ({ location, cartItems, currency }) => {
                                                                   </li>
                                                               </ul>
                                                           </div>
-                                                          { state && state.discount > 0 ? (
+                                                          {state &&
+                                                          state.discount > 0 ? (
                                                               <div className='your-order-bottom'>
                                                                   <ul>
                                                                       <li className='your-order-shipping'>
                                                                           Discount
                                                                       </li>
                                                                       <li>
-                                                                          {state.discount}%
+                                                                          {
+                                                                              state.discount
+                                                                          }
+                                                                          %
                                                                       </li>
                                                                   </ul>
                                                               </div>

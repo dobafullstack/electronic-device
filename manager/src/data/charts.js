@@ -1,3 +1,4 @@
+import lineData from 'helpers/line-data';
 import { ThemeColors } from 'helpers/ThemeColors';
 
 const colors = ThemeColors();
@@ -7,7 +8,7 @@ export const lineChartData = {
   datasets: [
     {
       label: '',
-      data: [54, 63, 60, 60, 60, 68, 70],
+      data: lineData(),
       borderColor: colors.themeColor1,
       pointBackgroundColor: colors.foregroundColor,
       pointBorderColor: colors.themeColor1,

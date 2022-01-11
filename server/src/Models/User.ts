@@ -20,6 +20,8 @@ export interface UserDocument {
             street: string;
         };
     }[];
+    turns: number;
+    rewards: Array<any>;
     avatar: string;
     wishList: [];
     createAt?: Date;
@@ -37,7 +39,7 @@ const UserSchema = new mongoose.Schema(
         role_id: {
             type: String,
             required: true,
-            ref: Schema.ROLE
+            ref: Schema.ROLE,
         },
         email: {
             type: String,
@@ -57,25 +59,32 @@ const UserSchema = new mongoose.Schema(
             required: true,
             unique: true,
         },
-        delivery: {
-            type: [{
-                _id: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    default: new mongoose.Types.ObjectId(),
-                },
-                name: String,
-                address: {
-                    city: String,
-                    district: String,
-                    street: String
-                },
-                phone: String
-            }],
+        turns: Number,
+        rewards: {
+            type: Array,
             default: []
+        },
+        delivery: {
+            type: [
+                {
+                    _id: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        default: new mongoose.Types.ObjectId(),
+                    },
+                    name: String,
+                    address: {
+                        city: String,
+                        district: String,
+                        street: String,
+                    },
+                    phone: String,
+                },
+            ],
+            default: [],
         },
         active: {
             type: Boolean,
-            default: true
+            default: true,
         },
         avatar: {
             type: String,

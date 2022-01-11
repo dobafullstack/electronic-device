@@ -17,7 +17,6 @@ const DiscountSchema = new mongoose.Schema(
         title: {
             type: String,
             required: true,
-            unique: true,
         },
         code: {
             type: String,

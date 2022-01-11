@@ -1,5 +1,7 @@
 import Logger from '@Configs/Logger';
 import Result from '@Constants/Result';
+import Bill from '@Models/Bill';
+import Order from '@Models/Order';
 import User from '@Models/User';
 import LoginInput from '@Types/Input/LoginInput';
 import RegisterInput from '@Types/Input/RegisterInput';

@@ -17,6 +17,7 @@ import ChangeAddress from "../../components/my-account/ChangeAddress";
 import MyOrder from "../../components/my-account/MyOrder";
 import getMyOrder from "../../api/orderApi";
 import LuckyWheel from "../../components/my-account/LuckyWheel";
+import MyReward from "../../components/my-account/Reward";
 
 const MyAccount = ({ location }) => {
   const [user, setUser] = useState({});
@@ -121,7 +122,8 @@ const MyAccount = ({ location }) => {
                       handleShow={handleShow}
                     />
                     <MyOrder orders={orders} token={token} />
-                    <LuckyWheel />
+                    <LuckyWheel user={user}/>
+                    <MyReward user={user} />
                   </Accordion>
                   <AddressUpdateModal
                     show={show}

@@ -3,6 +3,7 @@ import Result from '@Constants/Result';
 import Discount from '@Models/Discount';
 import Order from '@Models/Order';
 import Product from '@Models/Product';
+import User from '@Models/User';
 import CreateOrderInput from '@Types/Input/CreateOrder';
 import ApiResponse from '@Types/ResponseType';
 import GetActionResult from '@Utils/GetActionResult';
@@ -10,12 +11,25 @@ import _ from 'lodash';
 
 export default class OrderService {
     public static async CreateOrderService(body: any): Promise<ApiResponse> {
+        let user: any;
+        
+
+        if (body.userId) {
+            user = await User.findById(body.userId);
+        }
+
         if (body.code) {
             const discount = await Discount.findOne({ code: body.code });
 
             if (discount) {
                 discount.active = false;
                 discount.save();
+            }
+            if (user){
+                const index = user.rewards.findIndex((item: any) => item.code === body.code);
+                if (index !== -1){
+                    user.rewards = user.rewards.filter((item: any) => item.code !== body.code)
+                } 
             }
         }
 
@@ -31,6 +45,18 @@ export default class OrderService {
                         }
                     }
                 };
+
+                if (user) {
+                    let turns = 0;
+
+                    res.productItems.forEach((item) => {
+                        turns += item.quantity;
+                    });
+
+                    user.turns = user.turns + turns;
+                    user.save();
+                }
+
                 updateQuantity().catch((err: any) => Logger.error(err));
                 return GetActionResult(201, null, null, Result.ORDER.CREATE);
             })

@@ -15,6 +15,16 @@ export default class DiscountController {
             res.status(500).json(GetErrorResult(error, Result.DISCOUNT.CREATE));
         }
     }
+    public static async LuckyWheelController(req: Request, res: Response) {
+        try {
+            const result = await DiscountService.LuckyWheelServer(req.body);
+
+            res.status(result.code).json(result);
+        } catch (error: any) {
+            Logger.error(error);
+            res.status(500).json(GetErrorResult(error, Result.DISCOUNT.CREATE));
+        }
+    }
     public static async GetListDiscountsController(req: Request, res: Response) {
         try {
             const result = await DiscountService.GetListDiscountsService();

@@ -5,6 +5,7 @@ import GetActionResult from '@Utils/GetActionResult';
 import Discount from '@Models/Discount';
 import _ from 'lodash';
 import jwt from 'jsonwebtoken';
+import User from '@Models/User';
 
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -15,7 +16,7 @@ function generateString(length: number) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
 
-    return result;
+    return result.trim();
 }
 
 export default class DiscountService {
@@ -32,6 +33,45 @@ export default class DiscountService {
 
         const result = await Discount.create({ ...body, token, code })
             .then(() => GetActionResult(200, null, null, Result.DISCOUNT.CREATE))
+            .catch((err: any) => {
+                Logger.error(err.message);
+                return GetActionResult(400, null, err, Result.DISCOUNT.CREATE);
+            });
+
+        return result;
+    }
+
+    public static async LuckyWheelServer(body: any): Promise<ApiResponse>{
+        
+
+        const token = jwt.sign({}, process.env.SECRET_JWT as string, {
+            expiresIn: '10 days'
+        });
+
+        const code = generateString(6);
+
+        const result = await Discount.create({ ...body, token, code, title: `${body.title}${code}` })
+            .then((res) => {
+                const updateReward = async () => {
+                    if (body.userId) {
+                        const user = await User.findById(body.userId);
+
+                        if (user) {
+                            user.turns = user.turns - 1;
+                            user.rewards = user.rewards.concat({
+                                title: res.title,
+                                discount_value: res.discount_value,
+                                code: res.code,
+                            })
+                            user.save();
+                        }
+                    }
+                }
+
+                updateReward();
+
+                return GetActionResult(200, res, null);
+            })
             .catch((err: any) => {
                 Logger.error(err.message);
                 return GetActionResult(400, null, err, Result.DISCOUNT.CREATE);

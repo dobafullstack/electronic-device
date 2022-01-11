@@ -22,7 +22,7 @@ const Line = ({ data, shadow = false }) => {
             ctx.shadowColor = 'rgba(0,0,0,0.15)';
             ctx.shadowBlur = 10;
             ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 10;
+            // ctx.shadowOffsetY = 10;
             ctx.responsive = true;
             ctx.stroke();
             Chart.controllers.line.prototype.draw.apply(this, arguments);

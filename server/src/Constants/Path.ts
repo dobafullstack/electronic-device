@@ -50,6 +50,7 @@ export default {
     },
     DISCOUNT: {
         BASE_URL: '/discount',
-        VERIFY: '/verify'
+        VERIFY: '/verify',
+        WHEEL: '/lucky_wheel'
     },
 };
