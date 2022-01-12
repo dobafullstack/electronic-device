@@ -59,10 +59,13 @@ const UserSchema = new mongoose.Schema(
             required: true,
             unique: true,
         },
-        turns: Number,
+        turns: {
+            type: Number,
+            default: 0,
+        },
         rewards: {
             type: Array,
-            default: []
+            default: [],
         },
         delivery: {
             type: [
