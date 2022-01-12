@@ -1,50 +1,58 @@
 import React from "react";
 import { Accordion, Card, Table } from "react-bootstrap";
+import { useToasts } from "react-toast-notifications";
 
 function MyReward({ user }) {
-    return (
-        <Card className='single-my-account mb-20'>
-            <Card.Header className='panel-heading'>
-                <Accordion.Toggle variant='link' eventKey='5'>
-                    <h3 className='panel-title'>
-                        <span>6 .</span> My Reward{" "}
-                    </h3>
-                </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey='5'>
-                <Card.Body>
-                    <div className='myaccount-info-wrapper'>
-                        <div className='account-info-wrapper'>
-                            <h4>Lucky Wheel Draw</h4>
-                        </div>
-                        <div className='lucky-draw'>
-                            <Table>
-                                <thead>
-                                    <tr>
-                                        <th>Tên khuyến mãi</th>
-                                        <th>Giá trị</th>
-                                        <th>Code</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {user.rewards.map((item) => (
-                                        <tr>
-                                            <td>
-                                                {item.title.split(" ")[0]}{" "}
-                                                {item.title.split(" ")[1].split("%")[0]}%
-                                            </td>
-                                            <td>{item.discount_value}</td>
-                                            <td>{item.code}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
-                        </div>
-                    </div>
-                </Card.Body>
-            </Accordion.Collapse>
-        </Card>
-    );
+  const { addToast } = useToasts();
+  const handleCopy = (item) => {
+    navigator.clipboard.writeText(item.code);
+    addToast("Copied to clipboard", {
+      appearance: "success",
+    });
+  };
+  return (
+    <Card className="single-my-account mb-20">
+      <Card.Header className="panel-heading">
+        <Accordion.Toggle variant="link" eventKey="5">
+          <h3 className="panel-title">
+            <span>6 .</span> My Reward{" "}
+          </h3>
+        </Accordion.Toggle>
+      </Card.Header>
+      <Accordion.Collapse eventKey="5">
+        <Card.Body>
+          <div className="myaccount-info-wrapper">
+            <div className="account-info-wrapper">
+              <h4>Lucky Wheel Draw</h4>
+            </div>
+            <div className="lucky-draw">
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Tên khuyến mãi</th>
+                    <th>Giá trị</th>
+                    <th>Code</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {user.rewards.map((item) => (
+                    <tr onClick={() => handleCopy(item)}>
+                      <td>
+                        {item.title.split(" ")[0]}{" "}
+                        {item.title.split(" ")[1].split("%")[0]}%
+                      </td>
+                      <td>{item.discount_value}</td>
+                      <td>{item.code}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          </div>
+        </Card.Body>
+      </Accordion.Collapse>
+    </Card>
+  );
 }
 
 export default MyReward;
