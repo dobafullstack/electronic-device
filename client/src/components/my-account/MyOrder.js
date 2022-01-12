@@ -28,7 +28,7 @@ function MyOrder({ orders, token }) {
   const getOrderStatus = (status) => {
     switch (status) {
       case "pending":
-        return <div className="color-orange">Đang chờ xử lý</div>;
+        return "Đang chờ xử lý";
       case "delivering":
         return "Đang giao hàng";
       case "success":
