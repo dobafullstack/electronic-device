@@ -22,7 +22,7 @@ const AddNewProductModal = ({ modalOpen, toggleModal }) => {
     title: '',
     discount_value: '',
     startDate: new Date(),
-    endDate: new Date()
+    endDate: new Date(),
   };
 
   const onSubmit = (values) => {
@@ -37,7 +37,14 @@ const AddNewProductModal = ({ modalOpen, toggleModal }) => {
           expire,
         });
 
-        NotificationManager.success(result, 'Add Discount', 3000, null, null, '');
+        NotificationManager.success(
+          result,
+          'Add Discount',
+          3000,
+          null,
+          null,
+          ''
+        );
         toggleModal();
       } catch (error) {
         if (error.response.data) {

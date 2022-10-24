@@ -63,4 +63,4 @@ export const colors = [
   'greysteel',
 ];
 
-export const SECRET_JWT = 'TMDT2021';
+export const SECRET_JWT = process.env.REACT_APP_SECRET_JWT;

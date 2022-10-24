@@ -39,9 +39,7 @@ const SalesChartCard = ({ data }) => {
   return (
     <Card>
       <CardBody>
-        <CardTitle>
-          Orders
-        </CardTitle>
+        <CardTitle>Orders</CardTitle>
         <div className="dashboard-line-chart">
           <LineChart data={lineChartData} />
         </div>

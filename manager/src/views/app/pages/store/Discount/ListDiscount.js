@@ -7,7 +7,8 @@ import AddNewProductModal from './AddNewProductModal';
 import EditProductModal from './EditProductModal';
 
 export default function ListSlider({ match }) {
-  const fetchApi = () => discountApi.getAllDiscounts().then((res) => res.result);
+  const fetchApi = () =>
+    discountApi.getAllDiscounts().then((res) => res.result);
 
   const deleteItem = async (discountId) => {
     try {
