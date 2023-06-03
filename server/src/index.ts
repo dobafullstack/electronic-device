@@ -1,5 +1,5 @@
 require('dotenv').config();
-import './paths'
+import './paths';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -8,7 +8,7 @@ import Logger from '@Configs/Logger';
 import router from '@Routes/index.routes';
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -39,13 +39,14 @@
     "redux-localstorage-simple": "^2.1.6",
     "redux-multilanguage": "^0.1.2",
     "redux-thunk": "^2.3.0",
+    "react-wheel-of-prizes": "^1.0.9",
     "styled-components": "^5.3.3",
     "swiper": "^5.2.0",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "set PORT=3001 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -68,7 +69,6 @@
     ]
   },
   "devDependencies": {
-    "react-wheel-of-prizes": "^1.0.9",
     "redux-devtools-extension": "^2.13.8",
     "sass": "^1.29.0"
   }

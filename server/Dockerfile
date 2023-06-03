@@ -1,18 +1,22 @@
-FROM node:16.18.0-alpine3.16
-
-ENV MONGODB_URL=mongodb+srv://dobadov3:dobadov3333@cluster0.uuhor.mongodb.net/electronic-device?retryWrites=true&w=majority
-ENV SECRET_JWT=dobadov3333
-ENV PORT=4000
+FROM node:16.18.0-alpine as build
 
 WORKDIR /app
 
-COPY ["package.json", "yarn.lock", "./"]
+COPY package.json .
 
-RUN yarn install
+RUN yarn
 
 COPY . .
 
 RUN yarn build
+
+FROM node:16.18.0-alpine as production
+
+WORKDIR /app
+
+COPY --from=build /app/build ./build
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./package.json
 
 EXPOSE 4000
 
